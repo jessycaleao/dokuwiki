@@ -3,54 +3,156 @@ Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de 
 
 ===== Configurações da VPS =====
 <code>
-Hostname: hostname.domain.tld
-IPv4: CIDR/32
-OS: VersaoDeOSUtilizadaPeloServico
+Hostname: zimbra.ifce.edu.br
+IPv4: 200.17.33.63
+OS: ubuntu-12.04.5-LTS-amd64
 Username: usuariopadrao
-Passwd: 1Password @ Dominios -> dominio.tld -> pasta -> subpasta
-vCPU's: x
-RAM: xxGiB
-HDD: xxGiB
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> zimbra
+vCPU's: 8
+RAM: 16GiB
+HDD: 15+300+300+300+300+300+300GiB
 </code>
 
 ===== Software utilizados pelo serviço =====
 <code>
-listar pacotes c/ build number
+zimbra-apache-8.0.7.GA.6021.UBUNTU12.64
+zimbra-core-8.0.7.GA.6021.UBUNTU12.64
+zimbra-ldap-8.0.7.GA.6021.UBUNTU12.64
+zimbra-logger-8.0.7.GA.6021.UBUNTU12.64
+zimbra-mta-8.0.7.GA.6021.UBUNTU12.64
+zimbra-snmp-8.0.7.GA.6021.UBUNTU12.64
+zimbra-spell-8.0.7.GA.6021.UBUNTU12.64
+zimbra-store-8.0.7.GA.6021.UBUNTU12.64
+libidn11-1.23-2
+libpcre3-8.12-4
+libexpat1-2.0.1-7.2ubuntu1.1
+libgmp3c2-2:4.3.2+dfsg-2ubuntu1
 </code>
 
 ===== Instalação =====
-O xxxxx pode ser instalado via:
+O Zimbra pode ser instalado via apt-get - para resolução de suas dependencias e executando seu instalador:
 <code>
-nononoon
+operador@zimbra:~$ sudo apt-get update; sudo apt-get install libidn11 libpcre3 libexpat1 libgmp3c2
+operador@zimbra:~$ wget https://files.zimbra.com/downloads/8.6.0_GA/zcs-8.6.0_GA_1153.UBUNTU14_64.20141215151116.tgz; tar -xzvf zcs-8.6.0_GA_1153.UBUNTU14_64.20141215151116.tgz
+operador@zimbra:~$ cd z*
+operador@zimbra:~$ sudo ./install.sh
 </code>
+Dando início assim ao //wizzard// de instalação do Zimbra.
 
 ===== Estrutura de diretórios =====
 Listar a estrutura de diretórios aqui:
-  * ''/path/absoluto/para/arquivos'' - Arquivos de configuração
-  * ''/path/absoluto/para/arquivos'' - Arquivos de configuração
-  * ''/path/absoluto/para/arquivos'' - Arquivos de configuração
+  * ''/opt/zimbra/conf'' - Binários e arquivos de configuração do zimbra
+  * ''/opt/disk0'' - Arquivos binários de mensagens armazenadas
+  * ''/opt/disk1'' - Arquivos binários de mensagens armazenadas
+  * ''/opt/disk2'' - Arquivos binários de mensagens armazenadas
+  * ''/opt/disk3'' - Arquivos binários de mensagens armazenadas
+  * ''/opt/disk4'' - Arquivos binários de mensagens armazenadas
+  * ''/var/log'' - Arquivos de log do Zimbra
 
 === Arquivos de configuração ===
-Encontram-se no diretório ''/path/absoluto/para/arquivos'', os arquivos de configuração do serviço
+Encontram-se no diretório ''/opt/zimbra/conf'', os arquivos de configuração do Zimbra
 ==== Operando o serviço ====
 
 === Iniciando o serviço ===
-Inicia-se o serviço do xxxx através do comando:
-<code>commando</code>
+Inicia-se o serviço do Zimbra através do comando:
+<code>operador@zimbra:~$ sudo service zimbra start</code>
 
 === Parando o serviço ===
-Para-se o serviço do xxxx através do comando:
-<code>commando</code>
+Para-se o serviço do Zimbra através do comando:
+<code>operador@zimbra:~$ sudo service zimbra stop<</code>
 
 === Reiniciando o serviço ===
-Reincia-se o serviço do xxxx através do comando:
-<code>commando</code>
+Reincia-se o serviço do Zimbra através do comando:
+<code>operador@zimbra:~$ sudo service zimbra restart<</code>
 ==== Arquivos de configuração ====
-<file conf arquivo.conf>
-// Exemplo de arquivo de configuração
-</file>
-
+Para replicar a configuração atual do Zimbra, pode-ser apontar o seguinte arquivo de configuração 
+<file conf config.16179>
+AVDOMAIN=ifce.edu.br
+AVUSER=admin@ifce.edu.br
+CREATEADMIN=admin@ifce.edu.br
+CREATEDOMAIN=ifce.edu.br
+DOCREATEADMIN=yes
+DOCREATEDOMAIN=yes
+DOTRAINSA=yes
+EXPANDMENU=no
+HOSTNAME=zimbra.ifce.edu.br
+HTTPPORT=80
+HTTPPROXY=FALSE
+HTTPPROXYPORT=8080
+HTTPSPORT=443
+HTTPSPROXYPORT=8443
+IMAPPORT=143
+IMAPPROXYPORT=7143
+IMAPSSLPORT=993
+IMAPSSLPROXYPORT=7993
+JAVAHOME=/opt/zimbra/java
+LDAPBESSEARCHSET=set
+LDAPHOST=zimbra.ifce.edu.br
+LDAPPORT=389
+LDAPREPLICATIONTYPE=master
+LDAPSERVERID=2
+MAILBOXDMEMORY=4019
+MAILPROXY=FALSE
+MODE=https
+MTAAUTHHOST=zimbra.ifce.edu.br
+MYSQLMEMORYPERCENT=30
+POPPORT=110
+POPPROXYPORT=7110
+POPSSLPORT=995
+POPSSLPROXYPORT=7995
+PROXYMODE=https
+REMOVE=no
+RUNARCHIVING=no
+RUNAV=yes
+RUNCBPOLICYD=no
+RUNDKIM=yes
+RUNSA=yes
+RUNVMHA=no
+SMTPDEST=admin@ifce.edu.br
+SMTPHOST=zimbra.ifce.edu.br
+SMTPNOTIFY=yes
+SMTPSOURCE=admin@ifce.edu.br
+SNMPNOTIFY=yes
+SNMPTRAPHOST=zimbra.ifce.edu.br
+SPELLURL=http://zimbra.ifce.edu.br:7780/aspell.php
+STARTSERVERS=yes
+SYSTEMMEMORY=15.7
+TRAINSAHAM=ham.y2fn0fv8@ifce.edu.br
+TRAINSASPAM=spam.jzluum_ll@ifce.edu.br
+UPGRADE=yes
+USESPELL=yes
+VERSIONUPDATECHECKS=TRUE
+VIRUSQUARANTINE=virus-quarantine.hs_wnmhdy@ifce.edu.br
+ZIMBRA_REQ_SECURITY=yes
+ldap_bes_searcher_password=Tgs8ziluMm
+ldap_dit_base_dn_config=cn=zimbra
+ldap_nginx_password=Tgs8ziluMm
+mailboxd_directory=/opt/zimbra/mailboxd
+mailboxd_keystore=/opt/zimbra/mailboxd/etc/keystore
+mailboxd_keystore_password=S8NcUPIq
+mailboxd_server=jetty
+mailboxd_truststore=/opt/zimbra/java/jre/lib/security/cacerts
+mailboxd_truststore_password=changeit
+postfix_mail_owner=postfix
+postfix_setgid_group=postdrop
+ssl_default_digest=sha1
+zimbraClusterType=none
+zimbraFeatureBriefcasesEnabled=Disabled
+zimbraFeatureTasksEnabled=Enabled
+zimbraIPMode=ipv4
+zimbraMailProxy=FALSE
+zimbraMtaMyNetworks=127.0.0.0/8 200.17.33.0/24 [::1]/128 [fe80::]/64
+zimbraPrefTimeZoneId=UTC
+zimbraReverseProxyLookupTarget=TRUE
+zimbraVersionCheckNotificationEmail=admin@ifce.edu.br
+zimbraVersionCheckNotificationEmailFrom=admin@ifce.edu.br
+zimbraVersionCheckSendNotifications=TRUE
+zimbraWebProxy=FALSE
+zimbra_ldap_userdn=uid=zimbra,cn=admins,cn=zimbra
+zimbra_require_interprocess_security=1
+INSTALL_PACKAGES="zimbra-apache zimbra-core zimbra-ldap zimbra-logger zimbra-mta zimbra-snmp zimbra-spell zimbra-store "</file>
 ===== Referências =====
-  * nononononono
+  * [[https://www.zimbra.com/docs/shared/8.0.6/single_server_install/wwhelp/wwhimpl/js/html/wwhelp.htm#href=SingleServerInstall_806OS.ZCS_System_Requirements.html#1086984|zimbra.com]]
+  * [[https://wiki.zimbra.com/wiki/Log_Files|zimbra.com]]
 ===== Assinatura =====
- --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/06 13:42//
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/10 14:25//

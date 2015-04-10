@@ -1,0 +1,242 @@
+
+<h1 class="sectionedit1" id="zimbra">Zimbra</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de correio eletrônico.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Zimbra" [1-191] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: zimbra.ifce.edu.br
+IPv4: 200.17.33.63
+OS: ubuntu-12.04.5-LTS-amd64
+Username: usuariopadrao
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; zimbra
+vCPU&#039;s: 8
+RAM: 16GiB
+HDD: 15+300+300+300+300+300+300GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [192-471] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">zimbra-apache-8.0.7.GA.6021.UBUNTU12.64
+zimbra-core-8.0.7.GA.6021.UBUNTU12.64
+zimbra-ldap-8.0.7.GA.6021.UBUNTU12.64
+zimbra-logger-8.0.7.GA.6021.UBUNTU12.64
+zimbra-mta-8.0.7.GA.6021.UBUNTU12.64
+zimbra-snmp-8.0.7.GA.6021.UBUNTU12.64
+zimbra-spell-8.0.7.GA.6021.UBUNTU12.64
+zimbra-store-8.0.7.GA.6021.UBUNTU12.64
+libidn11-1.23-2
+libpcre3-8.12-4
+libexpat1-2.0.1-7.2ubuntu1.1
+libgmp3c2-2:4.3.2+dfsg-2ubuntu1</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [472-935] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O Zimbra pode ser instalado via apt-get - para resolução de suas dependencias e executando seu instalador:
+</p>
+<pre class="code">operador@zimbra:~$ sudo apt-get update; sudo apt-get install libidn11 libpcre3 libexpat1 libgmp3c2
+operador@zimbra:~$ wget https://files.zimbra.com/downloads/8.6.0_GA/zcs-8.6.0_GA_1153.UBUNTU14_64.20141215151116.tgz; tar -xzvf zcs-8.6.0_GA_1153.UBUNTU14_64.20141215151116.tgz
+operador@zimbra:~$ cd z*
+operador@zimbra:~$ sudo ./install.sh</pre>
+
+<p>
+Dando início assim ao <em>wizzard</em> de instalação do Zimbra.
+</p>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [936-1485] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/opt/zimbra/conf</code> - Binários e arquivos de configuração do zimbra</div>
+</li>
+<li class="level1"><div class="li"> <code>/opt/disk0</code> - Arquivos binários de mensagens armazenadas</div>
+</li>
+<li class="level1"><div class="li"> <code>/opt/disk1</code> - Arquivos binários de mensagens armazenadas</div>
+</li>
+<li class="level1"><div class="li"> <code>/opt/disk2</code> - Arquivos binários de mensagens armazenadas</div>
+</li>
+<li class="level1"><div class="li"> <code>/opt/disk3</code> - Arquivos binários de mensagens armazenadas</div>
+</li>
+<li class="level1"><div class="li"> <code>/opt/disk4</code> - Arquivos binários de mensagens armazenadas</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/log</code> - Arquivos de log do Zimbra</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/opt/zimbra/conf</code>, os arquivos de configuração do Zimbra
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [1486-2133] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do Zimbra através do comando:
+</p>
+<pre class="code">operador@zimbra:~$ sudo service zimbra start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do Zimbra através do comando:
+</p>
+<pre class="code">operador@zimbra:~$ sudo service zimbra stop&lt;</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do Zimbra através do comando:
+</p>
+<pre class="code">operador@zimbra:~$ sudo service zimbra restart&lt;</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [2134-2585] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+
+<p>
+Para replicar a configuração atual do Zimbra, pode-ser apontar o seguinte arquivo de configuração 
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:zimbra&amp;codeblock=6" title="Download Snippet" class="mediafile mf_16179">config.16179</a></dt>
+<dd><pre class="code file conf">AVDOMAIN=ifce.edu.br
+AVUSER=admin@ifce.edu.br
+CREATEADMIN=admin@ifce.edu.br
+CREATEDOMAIN=ifce.edu.br
+DOCREATEADMIN=yes
+DOCREATEDOMAIN=yes
+DOTRAINSA=yes
+EXPANDMENU=no
+HOSTNAME=zimbra.ifce.edu.br
+HTTPPORT=80
+HTTPPROXY=FALSE
+HTTPPROXYPORT=8080
+HTTPSPORT=443
+HTTPSPROXYPORT=8443
+IMAPPORT=143
+IMAPPROXYPORT=7143
+IMAPSSLPORT=993
+IMAPSSLPROXYPORT=7993
+JAVAHOME=/opt/zimbra/java
+LDAPBESSEARCHSET=set
+LDAPHOST=zimbra.ifce.edu.br
+LDAPPORT=389
+LDAPREPLICATIONTYPE=master
+LDAPSERVERID=2
+MAILBOXDMEMORY=4019
+MAILPROXY=FALSE
+MODE=https
+MTAAUTHHOST=zimbra.ifce.edu.br
+MYSQLMEMORYPERCENT=30
+POPPORT=110
+POPPROXYPORT=7110
+POPSSLPORT=995
+POPSSLPROXYPORT=7995
+PROXYMODE=https
+REMOVE=no
+RUNARCHIVING=no
+RUNAV=yes
+RUNCBPOLICYD=no
+RUNDKIM=yes
+RUNSA=yes
+RUNVMHA=no
+SMTPDEST=admin@ifce.edu.br
+SMTPHOST=zimbra.ifce.edu.br
+SMTPNOTIFY=yes
+SMTPSOURCE=admin@ifce.edu.br
+SNMPNOTIFY=yes
+SNMPTRAPHOST=zimbra.ifce.edu.br
+SPELLURL=http://zimbra.ifce.edu.br:7780/aspell.php
+STARTSERVERS=yes
+SYSTEMMEMORY=15.7
+TRAINSAHAM=ham.y2fn0fv8@ifce.edu.br
+TRAINSASPAM=spam.jzluum_ll@ifce.edu.br
+UPGRADE=yes
+USESPELL=yes
+VERSIONUPDATECHECKS=TRUE
+VIRUSQUARANTINE=virus-quarantine.hs_wnmhdy@ifce.edu.br
+ZIMBRA_REQ_SECURITY=yes
+ldap_bes_searcher_password=Tgs8ziluMm
+ldap_dit_base_dn_config=cn=zimbra
+ldap_nginx_password=Tgs8ziluMm
+mailboxd_directory=/opt/zimbra/mailboxd
+mailboxd_keystore=/opt/zimbra/mailboxd/etc/keystore
+mailboxd_keystore_password=S8NcUPIq
+mailboxd_server=jetty
+mailboxd_truststore=/opt/zimbra/java/jre/lib/security/cacerts
+mailboxd_truststore_password=changeit
+postfix_mail_owner=postfix
+postfix_setgid_group=postdrop
+ssl_default_digest=sha1
+zimbraClusterType=none
+zimbraFeatureBriefcasesEnabled=Disabled
+zimbraFeatureTasksEnabled=Enabled
+zimbraIPMode=ipv4
+zimbraMailProxy=FALSE
+zimbraMtaMyNetworks=127.0.0.0/8 200.17.33.0/24 [::1]/128 [fe80::]/64
+zimbraPrefTimeZoneId=UTC
+zimbraReverseProxyLookupTarget=TRUE
+zimbraVersionCheckNotificationEmail=admin@ifce.edu.br
+zimbraVersionCheckNotificationEmailFrom=admin@ifce.edu.br
+zimbraVersionCheckSendNotifications=TRUE
+zimbraWebProxy=FALSE
+zimbra_ldap_userdn=uid=zimbra,cn=admins,cn=zimbra
+zimbra_require_interprocess_security=1
+INSTALL_PACKAGES=&quot;zimbra-apache zimbra-core zimbra-ldap zimbra-logger zimbra-mta zimbra-snmp zimbra-spell zimbra-store &quot;</pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [2586-5020] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="https://www.zimbra.com/docs/shared/8.0.6/single_server_install/wwhelp/wwhimpl/js/html/wwhelp.htm#href=SingleServerInstall_806OS.ZCS_System_Requirements.html#1086984" class="urlextern" title="https://www.zimbra.com/docs/shared/8.0.6/single_server_install/wwhelp/wwhimpl/js/html/wwhelp.htm#href=SingleServerInstall_806OS.ZCS_System_Requirements.html#1086984"  rel="nofollow">zimbra.com</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://wiki.zimbra.com/wiki/Log_Files" class="urlextern" title="https://wiki.zimbra.com/wiki/Log_Files"  rel="nofollow">zimbra.com</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [5021-5287] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Lucas do Amaral Saboya</a> 2015/04/10 14:25</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [5288-] -->

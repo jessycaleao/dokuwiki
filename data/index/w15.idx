@@ -56,3 +56,6 @@ addoutputfilter
 namevirtualhost
 functionalities
 merchantability
+popsslproxyport
+virusquarantine
+zimbramailproxy
