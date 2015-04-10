@@ -1,0 +1,151 @@
+
+<h1 class="sectionedit1" id="domain_name_system">Domain Name System</h1>
+<div class="level1">
+
+<p>
+O Domain Name System ( <abbr title="Domain Name System">DNS</abbr> ) é um sistema de gerenciamento de nomes hierárquico e distribuído para computadores, serviços ou qualquer recurso conectado à Internet ou em uma rede privada. Ele baseia-se em nomes hierárquicos e permite a inscrição de vários dados digitados além do nome do host e seu IP. Em virtude do banco de dados de <abbr title="Domain Name System">DNS</abbr> ser distribuído, seu tamanho é ilimitado e o desempenho não degrada tanto quando se adiciona mais servidores nele. Este tipo de servidor usa como Porta (redes de computadores)porta padrão a <code>53</code>.
+</p>
+
+<p>
+A implementação do <abbr title="Domain Name System">DNS</abbr>-Berkeley, foi desenvolvido originalmente para o sistema operacional Berkeley Software Distribution - BSD UNIX 4.3.
+</p>
+
+<p>
+A implementação do Servidor de <abbr title="Domain Name System">DNS</abbr> Microsoft se tornou parte do sistema operacional Windows NT na versão Server 4.0. O <abbr title="Domain Name System">DNS</abbr> passou a ser o serviço de resolução de nomes padrão a partir do Windows 2000 Server como a maioria das implementações de <abbr title="Domain Name System">DNS</abbr> teve suas raízes nas RFCs <a href="https://tools.ietf.org/html/rfc882" class="urlextern" title="https://tools.ietf.org/html/rfc882"  rel="nofollow">882</a> e <a href="https://tools.ietf.org/html/rfc883" class="urlextern" title="https://tools.ietf.org/html/rfc883"  rel="nofollow">883</a>, e foi atualizado nas RFCs <a href="https://tools.ietf.org/html/rfc1034" class="urlextern" title="https://tools.ietf.org/html/rfc1034"  rel="nofollow">1034</a> e <a href="https://tools.ietf.org/html/rfc1035" class="urlextern" title="https://tools.ietf.org/html/rfc1035"  rel="nofollow">1035</a>.
+</p>
+
+<p>
+O servidor <abbr title="Domain Name System">DNS</abbr> traduz nomes para os endereços IP e endereços IP para nomes respectivos, e permitindo a localização de hosts em um domínio determinado. Num sistema livre o serviço é implementado pelo software Bind, Unbound e NSD.
+</p>
+
+<p>
+O servidor <abbr title="Domain Name System">DNS</abbr> secundário é uma espécie de cópia de segurança do servidor <abbr title="Domain Name System">DNS</abbr> primário. Assim, ele se torna parte necessária para quem que usar a internet de uma forma mais fácil e evita que hackers roubem seus dados pessoais.<a href="http://www.psafe.com/blog/dns-alterado-rouba-dados-usuarios/" class="urlextern" title="http://www.psafe.com/blog/dns-alterado-rouba-dados-usuarios/"  rel="nofollow">DNS: Entenda como se proteger com o analista de segurança da PSafe</a>|
+</p>
+
+<p>
+Existem 13 servidores <abbr title="Domain Name System">DNS</abbr> raiz no mundo todo e sem eles a Internet não funcionaria. Destes, dez estão localizados nos Estados Unidos da América, um na Ásia e dois na Europa.  Para Aumentar a base instalada destes servidores, foram criadas réplicas localizadas por todo o mundo, inclusive no Brasil desde 2003.
+</p>
+
+<p>
+Ou seja, os servidores de diretórios responsáveis por prover informações como nomes e endereços das máquinas são normalmente chamados servidores de nomes. Na Internet, os serviços de nomes usado é o <abbr title="Domain Name System">DNS</abbr>, que apresenta uma arquitetura cliente/servidor, podendo envolver vários servidores <abbr title="Domain Name System">DNS</abbr> na resposta a uma consulta.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Domain Name System" [1-2472] -->
+<h3 class="sectionedit2" id="visao_geral">Visão geral</h3>
+<div class="level3">
+
+<p>
+Um recurso da internet, por exemplo um site da Web, pode ser identificado de duas maneiras: pelo seu nome de domínio<a href="http://tools.ietf.org/html/rfc1034" class="urlextern" title="http://tools.ietf.org/html/rfc1034"  rel="nofollow">RFC 1034</a>, por exemplo, <code><a href="http://www.wikipedia.org" class="urlextern" title="http://www.wikipedia.org"  rel="nofollow">www.wikipedia.org</a></code> ou pelo endereço de IP <a href="http://tools.ietf.org/html/rfc781" class="urlextern" title="http://tools.ietf.org/html/rfc781"  rel="nofollow">RFC 781</a> dos equipamentos que o hospedam (por exemplo, 208.80.152.130 é o IP associado ao domínio <a href="http://www.wikipedia.org" class="urlextern" title="http://www.wikipedia.org"  rel="nofollow">www.wikipedia.org</a> <a href="http://thednsreport.com/?domain=www.wikipedia.org" class="urlextern" title="http://thednsreport.com/?domain=www.wikipedia.org"  rel="nofollow">IP da wikipedia</a>).
+Endereços de IP são usados pela camada de rede para determinar a localização física e virtual do equipamento. Nomes de domínio, porém, são mais mnemônicos para o usuário e empresas. É então necessário um mecanismo para traduzir um nome de domínio em um endereço IP. Esta é a principal função do <abbr title="Domain Name System">DNS</abbr>.
+</p>
+
+<p>
+Ocasionalmente, presume-se que o <abbr title="Domain Name System">DNS</abbr> serve apenas o objetivo de mapear nomes de <code>hosts</code> da Internet a dados e mapear endereços para nomes de <code>host</code>. Isso não é correto, o <abbr title="Domain Name System">DNS</abbr> é um banco de dados hierárquico (ainda que limitado), e pode armazenar quase qualquer tipo de dados, para praticamente qualquer finalidade. <a href="http://www.ietf.org/rfc/rfc2181.txt" class="urlextern" title="http://www.ietf.org/rfc/rfc2181.txt"  rel="nofollow">rfc2181</a>
+</p>
+
+</div>
+<!-- EDIT2 SECTION "Visão geral" [2473-3640] -->
+<h3 class="sectionedit3" id="hierarquia">Hierarquia</h3>
+<div class="level3">
+
+<p>
+Devido ao tamanho da internet, armazenar todos os pares domínio - endereço IP em um único servidor <abbr title="Domain Name System">DNS</abbr> seria inviável, por questões de escalabilidade que incluem:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>Confiabilidade:</code> se o único servidor de <abbr title="Domain Name System">DNS</abbr> falhasse, o serviço se tornaria indisponível para o mundo inteiro.</div>
+</li>
+<li class="level1"><div class="li"> <code>Volume de tráfego:</code> o servidor deveria tratar os pedidos <abbr title="Domain Name System">DNS</abbr> do planeta inteiro.</div>
+</li>
+<li class="level1"><div class="li"> <code>Distância:</code> grande parte dos usuários estaria muito distante do servidor, onde quer que ele fosse instalado, gerando grandes atrasos para resolver pedidos <abbr title="Domain Name System">DNS</abbr>.</div>
+</li>
+<li class="level1"><div class="li"> <code>Manutenção do banco de dados:</code> o banco de dados deveria armazenar uma quantidade de dados enorme e teria que ser atualizado com uma frequência muito alta, toda vez que um domínio fosse associado a um endereço IP. A solução encontrada é fazer do <abbr title="Domain Name System">DNS</abbr> uma base de dados distribuída e modelo hierárquico .</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="os_servidores_dns_se_dividem_nas_seguintes_categorias">Os servidores DNS se dividem nas seguintes categorias:</h4>
+<div class="level4">
+
+<p>
+<strong>Servidores raiz</strong>: No topo da hierarquia estão os 13 servidores raiz. Um <code>&#039;Servidor Raiz</code>&#039; (Root Name Server) é um servidor de nome para a zona raiz do <abbr title="Domain Name System">DNS</abbr> (Domain Name System). A sua função é responder diretamente às requisições de registros da zona raiz e responder a outras requisições retornando uma lista dos servidores de nome designados para o <a href="/doku.php?id=infraestrutura:dominio_de_topo" class="wikilink2" title="infraestrutura:dominio_de_topo" rel="nofollow">domínio de topo</a> apropriado. Os servidores raiz são parte crucial da <a href="/doku.php?id=infraestrutura:internet" class="wikilink2" title="infraestrutura:internet" rel="nofollow">Internet</a> porque eles são o primeiro passo em traduzir nomes para  <a href="/doku.php?id=infraestrutura:endereco_ip" class="wikilink2" title="infraestrutura:endereco_ip" rel="nofollow">endereços IP</a> e são usados para comunicação entre hosts.
+</p>
+
+<p>
+<strong>Servidores de domínio de topo <code>Top-Level Domain</code></strong>: Cada domínio é formado por nomes separados por pontos. O nome mais à direita é chamado de domínio de topo. Exemplos de domínios de topo são <a href="/doku.php?id=infraestrutura:com" class="wikilink2" title="infraestrutura:com" rel="nofollow">.com</a>, <a href="/doku.php?id=infraestrutura:org" class="wikilink2" title="infraestrutura:org" rel="nofollow">.org</a>, <a href="/doku.php?id=infraestrutura:net" class="wikilink2" title="infraestrutura:net" rel="nofollow">.net</a>, <a href="/doku.php?id=infraestrutura:edu" class="wikilink2" title="infraestrutura:edu" rel="nofollow">.edu</a>, <a href="/doku.php?id=infraestrutura:inf" class="wikilink2" title="infraestrutura:inf" rel="nofollow">.inf</a> e <a href="/doku.php?id=infraestrutura:gov" class="wikilink2" title="infraestrutura:gov" rel="nofollow">.gov</a>. Cada servidor de domínio de topo conhece os endereços dos servidores autoritativos que pertencem àquele domínio de topo, ou o endereço de algum servidor <abbr title="Domain Name System">DNS</abbr> intermediário que conhece um servidor autoritativo.
+</p>
+
+<p>
+<strong>Servidores com autoridade</strong>: O servidor com autoridade de um domínio possui os registros originais que associam aquele domínio a seu endereço de IP. Toda vez que um domínio adquire um novo endereço, essas informações devem ser adicionadas a pelo menos dois servidores autoritativos <a href="http://www.techterms.com/definition/nameserver" class="urlextern" title="http://www.techterms.com/definition/nameserver"  rel="nofollow">Name Server Definition</a>. Um deles será o servidor autoritativo principal e o outro, o secundário. Isso é feito para minimizar o risco de, em caso de erros em um servidor <abbr title="Domain Name System">DNS</abbr>, perder todas as informações originais do endereço daquele domínio. Com essas três classes de servidores, já é possível resolver qualquer requisição <abbr title="Domain Name System">DNS</abbr>. Basta fazer uma requisição a um servidor raiz, que retornará o endereço do servidor de topo responsável. Então repete-se a requisição para o servidor de topo, que retornará o endereço do servidor autoritativo ou algum intermediário. Repete-se a requisição aos servidores intermediários (se houver) até obter o endereço do servidor autoritativo, que finalmente retornará o endereço IP do domínio desejado. Repare que essa solução não resolve  um dos problemas de escalabilidade completamente: os servidores raiz tem que ser acessados uma vez para cada requisição que for feita em toda a internet. Esses servidores também podem estar muito longe do cliente que faz a consulta. Além disso, para resolver cada requisição, são precisas várias consultas, uma para cada servidor na hierarquia entre o raiz e o autoritativo. Esta forma de resolver consultas é chamada não-recursiva: cada servidor retorna ao cliente (ou ao servidor local requisitante, como explicado adiante) o endereço do próximo servidor no caminho para o autoritativo, e o cliente ou servidor local fica encarregado de fazer as próximas requisições. Há também o método recursivo: o servidor pode se responsabilizar por fazer a requisição ao próximo servidor, que fará a requisição ao próximo, até chegar ao autoritativo, que retornará o endereço desejado, e esse endereço será retornado para cada servidor no caminho até chegar ao cliente. Esse método faz com que o cliente realize apenas uma consulta e receba diretamente o endereço desejado, porém aumenta a carga dos servidores no caminho. Por isso, servidores podem se recusar a resolver requisições recursivas.
+</p>
+
+</div>
+<!-- EDIT3 SECTION "Hierarquia" [3641-8029] -->
+<h3 class="sectionedit4" id="melhorias_de_performance">Melhorias de Performance</h3>
+<div class="level3">
+
+<p>
+Dois recursos são usados em conjunto para reduzir a quantidade de requisições que os servidores raiz devem tratar e a quantidade de requisições feitas para resolver cada consulta:
+</p>
+
+<p>
+<strong>Cache</strong>: Toda vez que um servidor retorna o resultado de uma requisição para a qual ele não é autoridade (o que pode acontecer no método de resolução recursivo), ele armazena temporariamente aquele registro. Se, dentro do tempo de vida do registro, alguma requisição igual for feita, ele pode retornar o resultado sem a necessidade de uma nova consulta. Note que isso pode provocar inconsistência, já que se um domínio mudar de endereço durante o tempo de vida do <a href="/doku.php?id=infraestrutura:cache" class="wikilink2" title="infraestrutura:cache" rel="nofollow">cache</a>, o registro estará desatualizado. Apenas o servidor autoritativo tem a garantia de ter a informação correta. É possível exigir na mensagem de requisição <abbr title="Domain Name System">DNS</abbr> que a resposta seja dada pelo servidor autoritativo.
+</p>
+
+<p>
+<strong>Servidor Local</strong>: Esse tipo de servidor não pertence a hierarquia <abbr title="Domain Name System">DNS</abbr>, mas é fundamental para o seu bom funcionamento. Em vez de fazer requisições a um servidor raiz, cada cliente faz sua requisição a um servidor local, que geralmente fica muito próximo do cliente fisicamente, por exemplo um <a href="/doku.php?id=infraestrutura:servidor_proxy" class="wikilink2" title="infraestrutura:servidor_proxy" rel="nofollow">Servidor Proxy</a>. Ele se encarrega de resolver a requisição. Com o uso de cache, esses servidores podem ter a resposta pronta, ou ao menos conhecer algum servidor mais próximo ao autoritativo que o raiz (por exemplo, o servidor de topo), reduzindo a carga dos servidores raiz.
+</p>
+
+</div>
+<!-- EDIT4 SECTION "Melhorias de Performance" [8030-9557] -->
+<h3 class="sectionedit5" id="dns_reverso">DNS Reverso</h3>
+<div class="level3">
+
+<p>
+Normalmente o <abbr title="Domain Name System">DNS</abbr> atua resolvendo o nome do domínio de um host qualquer para seu endereço IP correspondente. O <code><abbr title="Domain Name System">DNS</abbr> Reverso</code> resolve o endereço IP, buscando o nome de domínio associado ao host.
+Ou seja, quando temos disponível o endereço IP de um host e não sabemos o endereço do domínio(nome dado à máquina ou outro equipamento que acesse uma rede), tentamos resolver o endereço IP através do <abbr title="Domain Name System">DNS</abbr> reverso que procura qual nome de domínio está associado aquele endereço.
+Os servidores que utilizam o <abbr title="Domain Name System">DNS</abbr> Reverso conseguem verificar a autenticidade de endereços, verificando se o endereço IP atual corresponde ao endereço IP informado pelo servidor <abbr title="Domain Name System">DNS</abbr>. Isto evita que alguém utilize um domínio que não lhe pertence para enviar spam, por exemplo.
+</p>
+
+</div>
+
+<h4 id="obtencao_de_nomes_de_dominio_e_enderecos_ip">Obtenção de nomes de domínio e endereços IP</h4>
+<div class="level4">
+
+<p>
+O espaço de nomes de domínio e endereços IP são recursos críticos para a internet, no sentido que requerem coordenação global. Cada endereço IP deve identificar um único equipamento, de forma que não é possível atribuir endereços IP de maneira descentralizada. Da mesma forma, um nome de domínio deve identificar o conjunto de computadores que o mantém. A organização responsável por atribuir nomes de domínio e endereços IP em nível global é a <a href="https://www.icann.org" class="urlextern" title="https://www.icann.org"  rel="nofollow">ICANN</a>
+</p>
+
+</div>
+<!-- EDIT5 SECTION "DNS Reverso" [9558-10906] -->
+<h3 class="sectionedit6" id="referencias">Referências</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> <a href="ftp://ftp.registro.br/pub/doc/tutorial-dnssec.pdf" class="urlextern" title="ftp://ftp.registro.br/pub/doc/tutorial-dnssec.pdf"  rel="nofollow">Tutorial DNSSEC - Registro.br</a></div>
+</li>
+<li class="level1"><div class="li"> “KUROSE, Jim e ROSS, Keith”. Computer Networking, A Top-Down Aproach, 5ª edição. Addisson-Wesley, 2010. ISBN-13: 978-0-13-607967-5, Cap. 2</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.gwebtools.de/dns-tools" class="urlextern" title="http://www.gwebtools.de/dns-tools"  rel="nofollow">Excelentes ferramentas DNS gratuitas</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.infowester.com/dns.php" class="urlextern" title="http://www.infowester.com/dns.php"  rel="nofollow">O que é DNS (básico)</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://webinsider.uol.com.br/index.php/2007/10/13/o-que-e-dns-e-dnssec-bem-explicadinho/" class="urlextern" title="http://webinsider.uol.com.br/index.php/2007/10/13/o-que-e-dns-e-dnssec-bem-explicadinho/"  rel="nofollow">O que é DNS (e DNSSEC)</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.isc.org Internet Systems Consortium" class="urlextern" title="http://www.isc.org Internet Systems Consortium"  rel="nofollow">Organização responsável pela implementação de um serviço de DNS conhecido como BIND</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.abusar.org.br/dns.html" class="urlextern" title="http://www.abusar.org.br/dns.html"  rel="nofollow">Lista de servidores DNS disponíveis</a></div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="assinatura">Assinatura</h4>
+<div class="level4">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Luca do Amaral Saboya</a> 2015/03/23 14:28</em>
+</p>
+
+</div>
+<!-- EDIT6 SECTION "Referências" [10907-] -->

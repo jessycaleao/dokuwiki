@@ -1,0 +1,435 @@
+
+<h1 class="sectionedit1" id="dns_autoritativo_primario">DNS Autoritativo Primário</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. 
+Atua como servidor de <abbr title="Domain Name System">DNS</abbr> autoritativo primário dos dominios:
+</p>
+<pre class="code">ifce.edu.br
+cefet-ce.br
+cefetce.br
+etfce.br</pre>
+
+</div>
+<!-- EDIT1 SECTION "DNS Autoritativo Primário" [1-290] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: ns1.ifce.edu.br
+IPv4: 200.129.46.60
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; ns1
+vCPU&#039;s: 2
+RAM: 2GiB
+HDD: 8GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [291-534] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">bind9-1:9.9.5.dfsg-3ubuntu0.2
+vim-2:7.4.052-1ubuntu3</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [535-649] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O bind9 pode ser instalado via apt-get com o seguinte comando:
+</p>
+<pre class="code">operador@ns1:~$ sudo apt-get install bind9 bind9-utils</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [650-808] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Todos os arquivos de zona, devem ser colocados em <code>/usr/local/etc/nsd/var/db</code>. O diretório base contém todos os arquivos de configuração de zonas (ex: localhost, mapeamentos reversos, root.servers, etc) e com a seguinte estrutura:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/var/cache/bind</code> - Arquivos de zona</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/bind</code> - Arquivos de configuração</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/etc</code>, os arquivos de configuração do serviço e de suas zonas:
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [809-1305] -->
+<h3 class="sectionedit6" id="nomenclatura_de_arquivos_de_zona">Nomenclatura de arquivos de zona</h3>
+<div class="level3">
+
+<p>
+<strong>Arquivos de zona master:</strong> são nomeados <code>domain.tld.zone</code> (ou <code>db.ifce.edu.br</code>), se for um subdomínio, deverá então ser <code>db.subdominio.domain.tld</code> (ou <code>db.dgti.ifce.edu.br</code>).
+</p>
+
+<p>
+<strong>Root servers:</strong> Se presentes na máquina (<abbr title="Domain Name System">DNS</abbr> Recursivo habilitado), são nomeados <code>root.servers</code>
+</p>
+
+<p>
+<strong>Arquivos de zona reversa</strong> são nomeados a partir do número da subrede a qual se refere adicionado do prefíxo “db.”ex: Um arquivo para a zona <code>23.168.192.IN-ADDR.ARPA</code> deverá se chamar: <code>db.192.168.23</code>
+Esta nomenclatura mais simples é adota a fim de evitar ter de se escrever digitos reversamente às 03:00am ofegante por que sua maquina não resolve queries para o mundo!
+</p>
+
+<p>
+<strong>Arquivos de zona localhost</strong> são nomeados <code>db.localhost</code> e seu reverso nomeado <code>db.localhost.rev</code>
+</p>
+
+</div>
+<!-- EDIT6 SECTION "Nomenclatura de arquivos de zona" [1306-2132] -->
+<h3 class="sectionedit7" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do bind através do comando:
+</p>
+<pre class="code">service bind9 start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do bind através do comando:
+</p>
+<pre class="code">service bind9 stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do bind através do comando:
+</p>
+<pre class="code">service bind9 restart</pre>
+
+</div>
+
+<h4 id="forcano_a_transferencia_de_zonas">Forçano a transferencia de zonas</h4>
+<div class="level4">
+
+<p>
+Força-se a transferência de zonas para servidores <code>Slave</code> através do comando:
+</p>
+<pre class="code">rndc refresh subdominio.dominio.ltd</pre>
+
+</div>
+<!-- EDIT7 SECTION "Operando o serviço" [2133-2681] -->
+<h3 class="sectionedit8" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:bind&amp;codeblock=8" title="Download Snippet" class="mediafile mf_conf">named.conf</a></dt>
+<dd><pre class="code file conf">// This is the primary configuration file for the BIND DNS server named.
+//
+// Please read /usr/share/doc/bind9/README.Debian.gz for information on the 
+// structure of BIND configuration files in Debian, *BEFORE* you customize 
+// this configuration file.
+//
+// If you are just adding zones, please do that in /etc/bind/named.conf.local
+&nbsp;
+include &quot;/etc/bind/named.conf.options&quot;;
+include &quot;/etc/bind/named.conf.local&quot;;
+include &quot;/etc/bind/named.conf.default-zones&quot;;</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:bind&amp;codeblock=9" title="Download Snippet" class="mediafile mf_default-zones">named.conf.default-zones</a></dt>
+<dd><pre class="code file conf">// prime the server with knowledge of the root servers
+zone &quot;.&quot; {
+	type hint;
+	file &quot;/etc/bind/db.root&quot;;
+};
+&nbsp;
+// be authoritative for the localhost forward and reverse zones, and for
+// broadcast zones as per RFC 1912
+&nbsp;
+zone &quot;localhost&quot; {
+	type master;
+	file &quot;/etc/bind/db.local&quot;;
+};
+&nbsp;
+zone &quot;127.in-addr.arpa&quot; {
+	type master;
+	file &quot;/etc/bind/db.127&quot;;
+};
+&nbsp;
+zone &quot;0.in-addr.arpa&quot; {
+	type master;
+	file &quot;/etc/bind/db.0&quot;;
+};
+&nbsp;
+zone &quot;255.in-addr.arpa&quot; {
+	type master;
+	file &quot;/etc/bind/db.255&quot;;
+};</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:bind&amp;codeblock=10" title="Download Snippet" class="mediafile mf_local">named.conf.local</a></dt>
+<dd><pre class="code file conf">zone &quot;otrs.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.otrs.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;listas.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.listas.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;gdeste.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.gdeste.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;lit.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.lit.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;cppd.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.cppd.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;lds.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.lds.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;dgti.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.dgti.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;ifce.edu.br&quot; {
+	type master;
+	file &quot;/var/cache/bind/db/db.ifce.edu.br&quot;;
+	allow-transfer { IFCE-xfer; };
+		};
+&nbsp;
+zone &quot;cefetce.br&quot; {
+	type master;
+	file &quot;/var/cache/bind/db/db.cefetce.br&quot;;
+	allow-transfer { IFCE-xfer; };
+		};
+&nbsp;
+zone &quot;cefet-ce.br&quot; {
+	type master;
+	file &quot;/var/cache/bind/db/db.cefet-ce.br&quot;;
+	allow-transfer { IFCE-xfer; };
+		};
+&nbsp;
+zone &quot;etfce.br&quot; {
+	type master;
+	file &quot;/var/cache/bind/db/db.etfce.br&quot;;
+	allow-transfer { IFCE-xfer; };
+		};
+&nbsp;
+zone &quot;33.17.200.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.200.17.33&quot;;
+		};
+&nbsp;
+zone &quot;32.17.200.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.200.17.32&quot;;
+		};
+&nbsp;
+zone &quot;46.129.200.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.200.129.46&quot;;
+		};
+&nbsp;
+zone &quot;128.129.200.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.200.129.128&quot;;
+		};
+&nbsp;
+zone &quot;48.128.200.in-addr.arpa&quot; { 
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.200.129.48&quot;;
+		};
+&nbsp;
+zone &quot;176.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.176&quot;;
+		};
+&nbsp;
+zone &quot;177.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.177&quot;;
+		};
+&nbsp;
+zone &quot;178.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.178&quot;;
+		};
+&nbsp;
+zone &quot;179.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.179&quot;;
+		};
+&nbsp;
+zone &quot;180.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.180&quot;;
+		};
+&nbsp;
+zone &quot;181.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.181&quot;;
+		};
+&nbsp;
+zone &quot;182.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.182&quot;;
+		};
+&nbsp;
+zone &quot;183.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.183&quot;;
+		};
+&nbsp;
+zone &quot;184.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.184&quot;;
+		};
+&nbsp;
+zone &quot;185.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.185&quot;;
+		};
+&nbsp;
+zone &quot;186.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.186&quot;;
+		};
+&nbsp;
+zone &quot;187.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.187&quot;;
+		};
+&nbsp;
+zone &quot;188.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.188&quot;;
+		};
+&nbsp;
+zone &quot;189.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.189&quot;;
+		};
+&nbsp;
+zone &quot;190.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.190&quot;;
+		};
+&nbsp;
+zone &quot;191.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.191&quot;;
+		};</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:bind&amp;codeblock=11" title="Download Snippet" class="mediafile mf_options">named.conf.options</a></dt>
+<dd><pre class="code file conf">acl IFCE {
+	200.17.33.0/24;
+	200.17.32.0/24;
+	186.225.63.200/29;
+	187.19.201.48/29;
+	201.20.93.170/29;
+	200.129.0.33/32;
+	200.129.0.34/32;
+	200.129.9.0/24;
+	200.129.10.0/24;
+	200.129.11.0/24;
+	200.129.16.0/24;
+	200.129.17.0/24;
+	200.129.18.0/26;
+	200.129.18.64/26;
+	200.129.18.128/26;
+	200.129.24.0/24;
+	200.129.25.0/24;
+	200.129.46.0/24;
+	200.129.48.0/24;
+	201.20.97.248/29;
+	201.20.98.0/29;
+	};
+&nbsp;
+acl IFCE-xfer {
+	200.17.33.7/32;
+        200.129.0.33/32;
+	200.129.46.60/32;
+        };
+&nbsp;
+options {
+	directory &quot;/var/cache/bind&quot;;
+	dnssec-validation auto;
+	auth-nxdomain no;    # conform to RFC1035
+	listen-on-v6 { any; };
+	allow-query { localhost; localnets; };
+	allow-recursion { localhost; localnets; IFCE; };
+	version &quot;Not Today :)&quot;;
+};</pre>
+</dd></dl>
+
+</div>
+<!-- EDIT8 SECTION "Arquivos de configuração" [2682-8466] -->
+<h2 class="sectionedit9" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="https://help.ubuntu.com/lts/serverguide/dns-configuration.html" class="urlextern" title="https://help.ubuntu.com/lts/serverguide/dns-configuration.html"  rel="nofollow">ubuntu.com</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://launchpad.net/ubuntu/+source/bind9" class="urlextern" title="https://launchpad.net/ubuntu/+source/bind9"  rel="nofollow">launchpad.net</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT9 SECTION "Referências" [8467-8638] -->
+<h2 class="sectionedit10" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Luca do Amaral Saboya</a> 2015/03/23 15:59</em>
+</p>
+
+</div>
+<!-- EDIT10 SECTION "Assinatura" [8639-] -->

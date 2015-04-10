@@ -1,0 +1,350 @@
+
+<h1 class="sectionedit1" id="nomenclatura_de_dispositivos_de_rede">Nomenclatura de Dispositivos de Rede</h1>
+<div class="level1">
+
+</div>
+<!-- EDIT1 SECTION "Nomenclatura de Dispositivos de Rede" [1-52] -->
+<h2 class="sectionedit2" id="introducao">Introdução</h2>
+<div class="level2">
+
+<p>
+Este documento define uma convenção formal de nomenclatura para auxiliar na gerência das redes do Instituto Federal do Ceará - IFCE. Nomear dispositivos é uma importante prática para gerência eficaz de uma grande rede de computadores, e deve refletir a função atual do dispositivo em questão, bem como sua posição física e lógica na rede.
+</p>
+
+<p>
+A DGTI desenhou uma hierarquia, utilizando uma camada central, uma camada de distribuição e uma camada de acesso. Dispositivos dentro da rede, cairão logicamente em uma destas três camadas. Funcionalmente, estes dispositvos são descritos como roteadores core, switches de distribuição, roteadores de distribuição ou de acesso e switchets de acesso. O desenho da rede é dado para que um dispositivo membro de uma árvore, atrelado a um roteadore core e é alimentado de um dispositivo em uma posição lógicamente superior nesta árvore.
+</p>
+
+<p>
+Um nome bem formado irá indicar a localização do dispositivo e seu papel nesta hierarquia. Esta convenção traz as mais úteis informações sobre um dispositivo dentro de seu nome enquanto minimiza o tamanho do hostname. Estas recomendações, seguem a convenção de <abbr title="Domain Name System">DNS</abbr>, da hierarquia mais específica para a menos específica.
+</p>
+
+</div>
+<!-- EDIT2 SECTION "Introdução" [53-1315] -->
+<h3 class="sectionedit3" id="hierarquia_do_ifce">Hierarquia do IFCE</h3>
+<div class="level3">
+
+<p>
+A arquitetura de rede do IFCE segue uma hierarquia geral de elementos únicos em cada nível, como descrita a baixo: Nem todas as informações são úteis todas as horas, e podem trazer certa complexidade à convenção de nomes. Elementos mais baixos na hierarquia são facilmente emcapsulados em elementos mais alto, fazendo identificadores únicos em todos os níveis complexos e pesados. Nesta convenção, a árvore, prédios, salas, tipo de dispositivo e interfaces, são considerados siginificantes.
+</p>
+<ul>
+<li class="level1"><div class="li"> Domínio</div>
+</li>
+<li class="level1"><div class="li"> Subdomínio</div>
+</li>
+<li class="level1"><div class="li"> Zona</div>
+</li>
+<li class="level1"><div class="li"> Árvore</div>
+</li>
+<li class="level1"><div class="li"> Prédio</div>
+</li>
+<li class="level1"><div class="li"> Sala </div>
+</li>
+<li class="level1"><div class="li"> Tipo de Dispositivo</div>
+</li>
+<li class="level1"><div class="li"> Interface</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT3 SECTION "Hierarquia do IFCE" [1316-1964] -->
+<h2 class="sectionedit4" id="mnemonicas">Mnemônicas</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT4 SECTION "Mnemônicas" [1965-1990] -->
+<h3 class="sectionedit5" id="interfaces">Interfaces</h3>
+<div class="level3">
+
+<p>
+A convenção para mnemônicas utilizadas para nomes de interface será a abreviação do nome utilizado pelo Cisco IOS. O caractere &#039;/&#039; sera substituido pelo caractere &#039;-&#039;. ex:
+</p>
+
+<p>
+Uma interface de um roteador Fast Ethernet, denominado pelo IOS como “Ethernet0/0/0” seria traduzido para “e0-0-0” no campo referente a interface.
+</p>
+<div class="table sectionedit6"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0">Interface Type </th><th class="col1">Mnemônica </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0"> ATM </td><td class="col1"> atm </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> BRI </td><td class="col1"> bri </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> BVI </td><td class="col1"> bvi </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> Ethernet </td><td class="col1"> E </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> FastEthernet </td><td class="col1"> Fe </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> GigabitEthernet </td><td class="col1"> Ge </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> Group-Async </td><td class="col1"> gro </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"> Hssi </td><td class="col1"> Hs </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"> Loopback </td><td class="col1"> Lo </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"> POS </td><td class="col1"> pos </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"> Port-channel </td><td class="col1"> pc </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"> SRP </td><td class="col1"> srp </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"> Serial </td><td class="col1"> Se </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"> Vlan </td><td class="col1"> Vl</td>
+	</tr>
+</table></div>
+<!-- EDIT6 TABLE [2339-2607] -->
+</div>
+<!-- EDIT5 SECTION "Interfaces" [1991-2608] -->
+<h3 class="sectionedit7" id="dispositivos">Dispositivos</h3>
+<div class="level3">
+
+<p>
+Há vários tipos lógicos de dispositivos utilizados em uma rede. Este mneumonicos são para este uso:
+</p>
+<div class="table sectionedit8"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0 leftalign">Nome do Dispositivo  </th><th class="col1"> Mnemônica </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0"> Access Router </td><td class="col1"> ar </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> Access Switch </td><td class="col1"> as </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> Aggregation Router </td><td class="col1"> gr </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> Aggregation Switch </td><td class="col1"> gs </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> Core Router </td><td class="col1"> cr </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> Core Switch </td><td class="col1"> cs </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> Distribution Router </td><td class="col1"> dr </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"> Distribution Switch </td><td class="col1"> ds </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"> External router </td><td class="col1"> er </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"> Service Router </td><td class="col1"> sr </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"> Service Switch </td><td class="col1"> ss </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"> Virtual Console </td><td class="col1"> vc </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"> Network Service System </td><td class="col1"> ns </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"> Bladesystem Chassi </td><td class="col1"> bc </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"> Bladesystem Blade </td><td class="col1"> bb </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0"> Dell PowerEdge Server </td><td class="col1"> pe </td>
+	</tr>
+</table></div>
+<!-- EDIT8 TABLE [2736-3190] -->
+<p>
+Dispositvos alocados sob a mesma funcão serão numerados: <code>01</code>, <code>02</code>, <code>03</code>, etc. Quando alocando hostnames, o número mais baixo disponível deverá ser utilizado. Ex:
+Se há dois switches de acesso <code>as01</code> e <code>as03</code> em um local em particular, então, o proximo switch de acesso deverá receber o hostname <code>as02</code>. 
+</p>
+
+<p>
+Na ocasião de um dispositvo apresentar defeito e sair de produção/operação, outros dispositivos não deverão ter sua nomenclatura alterada. Ex: 
+Em um ambiente onde encontram-se em produção os switches de acesso <code>as01</code>, <code>as02</code> e <code>as03</code>, e o switch <code>as02</code> apresenta defeito, é removido e não foi colocado outro em seu lugar, os nomes dos dispositivos <code>as01</code> e <code>as03</code> <em class="u">NÃO</em> deverão ser modificados.
+</p>
+
+</div>
+<!-- EDIT7 SECTION "Dispositivos" [2609-3942] -->
+<h3 class="sectionedit9" id="arvore">Árvore</h3>
+<div class="level3">
+
+<p>
+Existem aprocimadamente <code>xx</code> árvores hierárquicas nas redes do IFCE. Estas, baseadas no <a href="http://www.unece.org/fileadmin/DAM/cefact/locode/br.htm" class="urlextern" title="http://www.unece.org/fileadmin/DAM/cefact/locode/br.htm"  rel="nofollow">locode</a> e seus mneumônicos estão listados abaixo:
+</p>
+<div class="table sectionedit10"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0">Campus </th><th class="col1">Mneumônico </th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0"> Reitoria </td><td class="col1"> rei </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> Acaraú </td><td class="col1"> acu </td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"> Aracati </td><td class="col1"> art </td>
+	</tr>
+	<tr class="row4">
+		<td class="col0"> Baturité </td><td class="col1"> btu </td>
+	</tr>
+	<tr class="row5">
+		<td class="col0"> Camocim </td><td class="col1"> cmc </td>
+	</tr>
+	<tr class="row6">
+		<td class="col0"> Canindé </td><td class="col1"> cad </td>
+	</tr>
+	<tr class="row7">
+		<td class="col0"> Caucaia </td><td class="col1"> cuc </td>
+	</tr>
+	<tr class="row8">
+		<td class="col0"> Cedro </td><td class="col1"> ced </td>
+	</tr>
+	<tr class="row9">
+		<td class="col0"> Crateús </td><td class="col1"> cre </td>
+	</tr>
+	<tr class="row10">
+		<td class="col0"> Crato </td><td class="col1"> ctu </td>
+	</tr>
+	<tr class="row11">
+		<td class="col0"> Fortaleza </td><td class="col1"> for </td>
+	</tr>
+	<tr class="row12">
+		<td class="col0"> Guaramiranga </td><td class="col1"> gua </td>
+	</tr>
+	<tr class="row13">
+		<td class="col0"> Iguatu </td><td class="col1"> qig </td>
+	</tr>
+	<tr class="row14">
+		<td class="col0"> Itapipoca </td><td class="col1"> iip </td>
+	</tr>
+	<tr class="row15">
+		<td class="col0"> Jaguaribe </td><td class="col1"> jag </td>
+	</tr>
+	<tr class="row16">
+		<td class="col0"> Jaguaruana </td><td class="col1"> jaa </td>
+	</tr>
+	<tr class="row17">
+		<td class="col0"> Juazeiro do Norte </td><td class="col1"> jdo </td>
+	</tr>
+	<tr class="row18">
+		<td class="col0"> Limoeiro do Norte </td><td class="col1"> ldn </td>
+	</tr>
+	<tr class="row19">
+		<td class="col0"> Maracanaú </td><td class="col1"> mcn </td>
+	</tr>
+	<tr class="row20">
+		<td class="col0"> Morada Nova </td><td class="col1"> mrv </td>
+	</tr>
+	<tr class="row21">
+		<td class="col0"> Quixadá </td><td class="col1"> qxa </td>
+	</tr>
+	<tr class="row22">
+		<td class="col0"> São Gonçalo do Amarante </td><td class="col1"> sde </td>
+	</tr>
+	<tr class="row23">
+		<td class="col0"> Sobral </td><td class="col1"> qbx </td>
+	</tr>
+	<tr class="row24">
+		<td class="col0"> Tabuleiro do Norte </td><td class="col1"> tno </td>
+	</tr>
+	<tr class="row25">
+		<td class="col0"> Tauá </td><td class="col1"> tau </td>
+	</tr>
+	<tr class="row26">
+		<td class="col0"> Tianguá </td><td class="col1"> tgn </td>
+	</tr>
+	<tr class="row27">
+		<td class="col0"> Ubajara </td><td class="col1"> ubj </td>
+	</tr>
+	<tr class="row28">
+		<td class="col0"> Umirim </td><td class="col1"> ubm </td>
+	</tr>
+</table></div>
+<!-- EDIT10 TABLE [4166-4760] -->
+</div>
+<!-- EDIT9 SECTION "Árvore" [3943-4761] -->
+<h3 class="sectionedit11" id="guia_para_construcao_de_nomes">Guia para construção de nomes</h3>
+<div class="level3">
+
+<p>
+A definição formal para dispositivos de rede do IFCE segue os procedimentos abaixo:
+</p>
+
+<p>
+Nomes de dispositvo são construidos a partir de mneumônicos derivados de suas interfaces, tipo de dispositivo, prédio/sala e árvore.
+A interface de loopback <code>loopback0</code> é definida para indentificar um dispositivo gerenciável, e sua descrição será ominitda.
+Covencionalmente, os mneumônicos referentes a edificações farão referência a <code>Sala de Equipamentos</code>, <code>se</code> localizada no prédio. Para outras salas deste prédio, o número/nome da sala deverá ser adicionado ao mneumônico.
+</p>
+
+<p>
+Nomes de dispositivo deverão ser restritos a visão interna de <abbr title="Domain Name System">DNS</abbr> apenas. Exceções a esta regra valem para roteadores externos, de borda e elementos de rede cuja função requira acesso a partir da internet.
+</p>
+
+</div>
+<!-- EDIT11 SECTION "Guia para construção de nomes" [4762-5606] -->
+<h3 class="sectionedit12" id="exemplos">Exemplos</h3>
+<div class="level3">
+
+<p>
+Endereço de Loopback para um roteador <code>core</code> na cidade de Limoeiro do Norte:
+</p>
+<pre class="code">cr01-ldn</pre>
+
+<p>
+Switch de distribuição localizado na cidade de Fortaleza, na Gerencia do Curso de Tecnologia em Processos Químicos: 
+</p>
+<pre class="code">ds01-for-qui</pre>
+
+<p>
+Interface VLAN 1000 do roteador de acesso localizado no Campus Maracanáu, Bloco da Telemática:
+</p>
+<pre class="code">Vl1000-ar01-mcn-tel</pre>
+
+<p>
+Três switches de acesso localizados na sala da Pro-Reitoria de Pesquisa, Pós-Graduação e Inovação:
+</p>
+<pre class="code">as01-rei-prp
+as02-rei-prp
+as03-rei-prp</pre>
+
+</div>
+<!-- EDIT12 SECTION "Exemplos" [5607-6166] -->
+<h3 class="sectionedit13" id="references">References</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.unece.org/fileadmin/DAM/cefact/locode/br.htm" class="urlextern" title="http://www.unece.org/fileadmin/DAM/cefact/locode/br.htm"  rel="nofollow">unece.org</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.td.rutgers.edu/documentation/Reference/Network_Device_Name_Building_Codes/index.php" class="urlextern" title="http://www.td.rutgers.edu/documentation/Reference/Network_Device_Name_Building_Codes/index.php"  rel="nofollow">rutgers.edu</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.zoobey.com/index.php/component/content/article?id=428" class="urlextern" title="http://www.zoobey.com/index.php/component/content/article?id=428"  rel="nofollow">zoobey.com</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT13 SECTION "References" [6167-] -->

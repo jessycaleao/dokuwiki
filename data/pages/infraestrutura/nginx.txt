@@ -1,0 +1,145 @@
+====== NGiNX ======
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor web com Virtual Hosts.
+
+===== Configurações da VPS =====
+<code>
+Hostname: nginx.ifce.edu.br
+IPv4:200.17.33.47
+OS: 14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> nginx
+vCPU's: 8
+RAM: 8GiB
+HDD: 100GiB
+</code>
+
+===== Software utilizados pelo serviço =====
+<code>
+newrelic-php5-4.17.0.83
+newrelic-php5-common-4.17.0.83
+nginx-common-1.4.6-1ubuntu3.1
+nginx-extras-1.4.6-1ubuntu3.1
+php-apc-4.0.2-2build1
+php-pear-5.5.9+dfsg-1ubuntu4.7
+php5-5.5.9+dfsg-1ubuntu4.7
+php5-apcu-4.0.2-2build1
+php5-cli-5.5.9+dfsg-1ubuntu4.7
+php5-common-5.5.9+dfsg-1ubuntu4.7
+php5-curl-5.5.9+dfsg-1ubuntu4.7
+php5-dev-5.5.9+dfsg-1ubuntu4.7
+php5-fpm-5.5.9+dfsg-1ubuntu4.7
+php5-gd-5.5.9+dfsg-1ubuntu4.7
+php5-gmp-5.5.9+dfsg-1ubuntu4.7
+php5-intl-5.5.9+dfsg-1ubuntu4.7
+php5-json-1.3.2-2build1
+php5-ldap-5.5.9+dfsg-1ubuntu4.7
+php5-mcrypt-5.4.6-0ubuntu5
+php5-mysql-5.5.9+dfsg-1ubuntu4.7
+php5-pgsql-5.5.9+dfsg-1ubuntu4.7
+php5-readline-5.5.9+dfsg-1ubuntu4.7
+php5-sybase-5.5.9+dfsg-1ubuntu4.7
+php5-xmlrpc-5.5.9+dfsg-1ubuntu4.7
+pkg-php-tools-1.11
+</code>
+
+===== Importante =====
+O modelo adotado do NGiNX com php5-fpm difere um pouco do modelo implementado no Apache2. O NGiNX age primeiramente como um servidor web convencional com grandes capacidades de ''caching'' de conteúdo estático - O que eventualmente significa consomir mais recursos do que o Apache2, mas apresentando ganho de performace excepcional.
+{{ :infraestrutura:nginx.png| }}
+Estas métricas se dão apenas para conteúdo estático. Ao se deparar com conteúdos dinâmicos, o NGiNX passará a servidor como [[http://pt.wikipedia.org/wiki/Proxy_reverso|proxy reverso]] para o php5-fpm.
+O php5-FPM - //FastCGI Process Manager// é uma implementação alternativa ao PHP FastCGI com algumas funcionalidades adicionais muito úteis para altas cargas de tráfego. Algumas destas funcionalidades são:
+
+  * Gerência de processos avançada com graceful stop/start;
+  * Possibilidade de iniciar workers com uid's/gid's/chroot's/env's, escutando diferentes portas e utilizando php.ini's diferentes;
+  * "Registros de stdout e stderr;
+  * Reinicio emergencial em caso de destruição/remoção de cache's acidental;
+  * Suporte a upload acelerado;
+  * Scripts de ''slowlog'' (não somente registrando seus nomes, seus parâmetros do PHP também, utilizando ''ptrace'' e softwares similares para leitura de processos remotos como ''execute_data'');
+  * Função especial ''fastcgi_finish_request()''para findar requisições e eliminar todos os dados enquanto ainda executa outras tarefas que consumam mais tempo;
+  * Suporte a child spawning Dinâmico/Estático;
+  * Informações básicas de status SAPI (similar ao Apache ''mod_status'');
+  * Arquivos de configuração baseados no ''php.ini'';
+===== Instalação =====
+O NGiNX e o php5-fpm podem ser instalados via apt-get:
+<code>
+operador@nginx:~$ sudo apt-get update; sudo apt-get install newrelic-php5 newrelic-php5-common nginx-common nginx-extras php-apc php-pear php5 php5-apcu php5-cli php5-common php5-curl php5-dev php5-fpm php5-gd php5-gmp php5-intl php5-json php5-ldap php5-mcrypt php5-mysql php5-pgsql php5-readline php5-sybase php5-xmlrpc pkg-php-tools vim 
+</code>
+
+===== Estrutura de diretórios =====
+Listar a estrutura de diretórios aqui:
+  * ''/etc/php5/fpm'' - Arquivos de configuração do php5-fpm
+  * ''/etc/nginx'' - Arquivos de configuração do NGiNX
+  * ''/var/www'' - Fontes dos Virtual Hosts servidos pelo NGiNX
+
+=== Arquivos de configuração ===
+Encontram-se no diretório ''etc/php5/fpm/pool.d'' e ''/etc/nginx/sites-available'', os arquivos de configuração dos Virtual Hosts servidos pelo NGiNX
+==== Operando o serviço ====
+
+=== Iniciando o serviço ===
+Inicia-se o serviço do NGiNX através do comando:
+<code>operador@nginx:~$ sudo service nginx start</code>
+Inicia-se o serviço do php5-fpm através do comando:
+<code>sudo service php5-fpm start</code>
+=== Parando o serviço ===
+Para-se o serviço do NGiNX através do comando:
+<code>operador@nginx:~$ sudo service nginx stop</code>
+Para-se o serviço do php5-fpm através do comando:
+<code>sudo service php5-fpm stop</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do NGiNX através do comando:
+<code>operador@nginx:~$ sudo service nginx restart</code>
+Reincia-se o serviço do php5-fpm através do comando:
+<code>sudo service php5-fpm restart</code>
+==== Arquivos de configuração ====
+Os arquivos de configuração referêntes a cada Virtual Host, encontram-se em:
+  * ''/etc/php5/fpm/pool.d''
+  * ''/etc/nginx/sites-available''
+
+<file conf nginx.conf>
+user www-data;
+worker_processes 4;
+pid /var/run/nginx.pid;
+
+events {
+	worker_connections 768;
+	# multi_accept on;
+}
+
+http {
+	sendfile on;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 65;
+	types_hash_max_size 2048;
+	server_names_hash_bucket_size 1024;
+	variables_hash_bucket_size 1024;
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+	access_log /var/log/nginx/access.log;
+	error_log /var/log/nginx/error.log;
+	gzip on;
+	gzip_disable "msie6";
+	client_max_body_size 500M;
+	include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+}</file>
+
+<file ini php-fpm.conf>
+;;;;;;;;;;;;;;;;;;
+; Global Options ;
+;;;;;;;;;;;;;;;;;;
+
+[global]
+pid = /var/run/php5-fpm.pid
+error_log = /var/log/php5-fpm.log
+
+;;;;;;;;;;;;;;;;;;;;
+; Pool Definitions ; 
+;;;;;;;;;;;;;;;;;;;;
+include=/etc/php5/fpm/pool.d/*.conf</file>
+===== Referências =====
+  * [[http://wiki.nginx.org/PHPFcgiExample|nginx.org]]
+  * [[http://php.net/manual/en/install.fpm.php|php.net]]
+  * [[http://techwatch.keeward.com/geeks-and-nerds/testing-and-benchmarking-nginx/|keeward.com]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/07 07:04//

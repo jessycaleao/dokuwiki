@@ -1,0 +1,25 @@
+<span class="co1"># Change the external_url to the address your users will type in their browser</span>
+external_url <span class="st0">'http://gitlab.ifce.edu.br'</span>
+&nbsp;
+<span class="co1"># LDAP</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_enabled'</span><span class="br0">&#93;</span> = <span class="kw2">true</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_host'</span><span class="br0">&#93;</span> = <span class="st0">&quot;200.17.33.66&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_base'</span><span class="br0">&#93;</span> = <span class="st0">&quot;OU=DGTI,OU=REITORIA,OU=IFCE,DC=adproducao,DC=ifce,DC=edu,DC=br&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_port'</span><span class="br0">&#93;</span> = <span class="st0">&quot;389&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_uid'</span><span class="br0">&#93;</span> = <span class="st0">&quot;sAMAccountName&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_method'</span><span class="br0">&#93;</span> = <span class="st0">&quot;plain&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_bind_dn'</span><span class="br0">&#93;</span> = <span class="st0">&quot;cn=gitlab1,cn=Users,dc=adproducao,dc=ifce,dc=edu,dc=br&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_password'</span><span class="br0">&#93;</span> = <span class="st0">&quot;5PNDi39SU84eeOF&quot;</span>
+<span class="co1">#gitlab_rails['ldap_use_filter']=&quot;OU=DGTI,OU=DIS,OU=REITORIA,OU=IFCE,DC=adproducao,DC=ifce,DC=edu,DC=br&quot;</span>
+&nbsp;
+<span class="co1"># SMTP</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_enable'</span><span class="br0">&#93;</span> = <span class="kw2">true</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_address'</span><span class="br0">&#93;</span> = <span class="st0">&quot;zimbra.ifce.edu.br&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_port'</span><span class="br0">&#93;</span> = <span class="nu0">587</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_user_name'</span><span class="br0">&#93;</span> = <span class="st0">&quot;gitlab.dgti@ifce.edu.br&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_password'</span><span class="br0">&#93;</span> = <span class="st0">&quot;SENHA_DISPONIVEL_NO_1PASSWORD&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_domain'</span><span class="br0">&#93;</span> = <span class="st0">&quot;ifce.edu.br&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_authentication'</span><span class="br0">&#93;</span> = <span class="st0">&quot;plain&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_enable_starttls_auto'</span><span class="br0">&#93;</span> = <span class="kw2">true</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_openssl_verify_mode'</span><span class="br0">&#93;</span>  = <span class="st0">&quot;none&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'gitlab_email_from'</span><span class="br0">&#93;</span> = <span class="st0">'gitlab.dgti@ifce.edu.br'</span>

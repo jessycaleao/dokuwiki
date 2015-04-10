@@ -1,0 +1,129 @@
+====== Point-to-Point Tunnel Protocol - PPTP ======
+Implementação de Virtual Private Networks - VPN's. PPTP tem seu canal de controle sobre TCP e um túnel sobre GRE para encapsulamento de pacotes PPP.
+
+As especificações do PPTP não descrevem obrigatoriedade de criptografia ou autenticação, seu protocolo depende apenas de um túnel ponta-a-ponta para funcionamento. Mas, as implementações mais comuns de túneis PPTP faz uso de criptografia. PPTP foi desenhado para conectividade acima de segurança. Não deve-se trafegar informações sigilosas pelo menos em vista dos riscos de segurança[1][2][3]. 
+
+Estas especificações podem ser encontradas no RFC2637[4], publicado em Julho de 1999. PPTP não foi proposto como um padrão pelo Internet Engineering Task Force - IETF.
+===== Configurações do VPS =====
+<code>
+Hostname: pptp.ifce.edu.br
+IPv4: 200.17.33.31
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> pptp
+vCPU's: 2
+RAM: 2GiB
+HDD: 20GiB
+</code>
+
+===== Software utilizados pelo serviço =====
+<code>
+vim-2:7.4.052-1ubuntu3-all
+pptpd-1.3.4+27+gddb30f8-1ubuntu1-amd64
+iptables-1.4.21-1ubuntu1-amd64
+</code>
+
+==== Instalação ====
+A instalação do PPTPd, o daemon do serviço PPTP, pode ser feita via apt-get da seguinte forma:
+<code>
+operador@pptp:~$ sudo apt-get install pptpd
+</code>
+==== Estrutura de diretórios ====
+Todos os arquivos de configuração do PPTP encontram-se dentro de ''/etc/'':
+<code>
+/etc/pptpd.conf 
+/etc/ppp/chap-secrets 
+/etc/ppp/pptpd-options 
+</code>
+
+=== Arquivos de configuração ===
+<file conf pptpd.conf>
+# TAG: option
+option /etc/ppp/pptpd-options
+# TAG: logwtmp
+logwtmp
+# TAG: localip
+localip 192.168.50.1
+# TAG: remoteip
+remoteip 192.168.50.190-240
+</file>
+
+<file conf pptpd-options>
+# Authentication
+name pptpd
+refuse-pap
+refuse-chap
+refuse-mschap
+require-mschap-v2
+require-mppe-128
+# Network and Routing
+ms-dns 200.17.33.7
+ms-dns 200.17.33.89
+proxyarp
+nodefaultroute
+# Miscellaneous
+lock
+nobsdcomp
+novj
+novjccomp
+nologfd
+</file>
+
+<file conf chap-secrets>
+# Secrets for authentication using CHAP
+# client          server  secret                  IP addresses
+NOME_DE_USUARIO   pptpd   SENHA_DE_ACESSO         *
+NOME_DE_USUARIO2  pptpd   SENHA_DE_ACESSO2        CIDR
+</file>
+
+=== Habilitando roteamento de pacotes pelo kernel do servidor ===
+Edite o arquivo ''sysctl.conf'' e descomente a linha:
+<code>net.ipv4.ip_forward=1</code>
+Em sequida recarrege o arquivo sysctl.conf:
+<code>sudo sysctl -p</code>
+
+Agora, precisamos criar o NAT para a rede ppp e a interface de rede do servidor:
+<code>
+sudo iptables --append INPUT --source 192.168.0.0/16 --in-interface ppp0 -j ACCEPT
+sudo iptables --append FORWARD --in-interface eth0 -j ACCEPT
+sudo iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
+sudo iptables --table nat --append POSTROUTING --out-interface ppp0 -j MASQUERADE
+sudo iptables-save
+</code>
+
+==== Operando o serviço ====
+
+=== Iniciando o serviço ===
+Reincia-se o serviço do PPTPd através do comando:
+<code>sudo service pptpd start</code>
+
+=== Parando o serviço ===
+Reincia-se o serviço do PPTPd através do comando:
+<code>sudo service pptpd stop</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do PPTPd através do comando:
+<code>sudo service pptpd restart</code>
+
+===== Configurando Clientes PTPP =====
+Do lado do cliente, poucas configurações se fazem necessárias:
+
+  * [[infraestrutura:pptp:clientewindows|Windows 8.1]]
+  * [[infraestrutura:pptp:clienteosx|OS X]]
+  * [[infraestrutura:pptp:clientegnome|Gnome3 (Ubuntu, Fedora, *BSD)]]
+  * [[infraestrutura:pptp:clienteunity|Unity (Ubuntu)]]
+
+
+
+
+
+===== Referências =====
+  * [[http://tools.ietf.org/html/rfc2637|ietf.org]]
+  * [[http://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol|Wikipedia.org]]
+  * [1][[https://www.bestvpn.com/blog/4147/pptp-vs-l2tp-vs-openvpn-vs-sstp-vs-ikev2/|bestvpn.com]]
+  * [2][[https://www.schneier.com/pptp.html|schneier.com]]
+  * [3][[https://github.com/moxie0/chapcrack|chapcrak@github]]
+  * [4][[http://tools.ietf.org/html/rfc2637|RFC 2637]]
+
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Luca do Amaral Saboya]] 2015/03/21 10:26//

@@ -1,0 +1,16 @@
+====== Repositórios de código(Controle de versões) ======
+Em sistemas de controle de versão, um repositório é uma estrutura de dados persistida em disco que armazena metadados para um conjunto de arquivos e pastas. Dependendo do sistema de controle de versão em uso, pode ser distribuído (Eg: Git / Mercurial) ou cetralizado (Eg: Subversion e Perforce), toda a suíte de informações dentro do repositório poderão ser duplicadas para o sistema de cada usuário ou centralizado em um único serviço. Alguns destes metadados contidos em um repositório inclui entre outras coisas:
+  * Um registro histórico de mudanças a um repositório
+  * Um conjunto de mudanças submetidas
+  * Um conjunto de referencias a mudanças submetidas. 
+
+===== Plataformas utilizadas na infraestrutura do IFCE =====
+  * [[infraestrutura:gitlab|Gitlab]]
+  * [[infraestrutura:gforge|GForge]]
+
+
+
+===== Referências =====
+  * [[https://en.wikipedia.org/wiki/Repository_(revision_control)|wikipedia.org]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/06 11:07//

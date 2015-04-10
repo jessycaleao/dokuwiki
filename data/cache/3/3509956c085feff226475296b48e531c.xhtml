@@ -1,0 +1,455 @@
+
+<h1 class="sectionedit1" id="gforge">gForge</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de repositórios de código. O GForge é um fork livre do software de colaboração e gerência de projetos baseados na web criado para o SourceForge, o Savane. O gForge é licenciado sob a licença GNU/<abbr title="GNU General Public License">GPL</abbr> e provê hospedagem de projetos, controle de versão (CVS/SVN/GIT/Mercurial), bug-tracking e troca de mensagens entre colaboradores dos projetos.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "gForge" [1-520] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: gofrge.ifce.edu.br
+IPv4: 200.17.33.21
+OS: CentOS-release-6.6-amd64
+Username: root
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; gforge
+vCPU&#039;s: 2
+RAM: 2GiB
+HDD: 80GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [521-766] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+
+<p>
+Além dos fontes do gForge, disponiveis em seu repositório oficial, faz-se nescessária a instalação dos seguintes pacotes:
+</p>
+<pre class="code">php-gd-5.3.3-40.el6_6.x86_64
+php-5.3.3-40.el6_6.x86_64
+php-ldap-5.3.3-40.el6_6.x86_64
+php-eaccelerator-0.9.6.1-6.el6.x86_64
+php-common-5.3.3-40.el6_6.x86_64
+php-cli-5.3.3-40.el6_6.x86_64
+php-pgsql-5.3.3-40.el6_6.x86_64
+php-xml-5.3.3-40.el6_6.x86_64
+php-process-5.3.3-40.el6_6.x86_64
+php-pdo-5.3.3-40.el6_6.x86_64
+php-pear-1.9.4-4.el6.noarch
+php-mbstring-5.3.3-40.el6_6.x86_64
+postfix-2.6.6-6.el6_5.x86_64
+mailman-2.1.12-18.el6.x86_64</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [767-1389] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O gForge e suas dependencias podem ser instalados via yum:
+Baixando as dependências:
+</p>
+<pre class="code">[root@gforge ~]# yum install php-gd php php-ldap php-eaccelerator php-common php-cli php-pgsql php-xml php-process php-pdo php-pe php-mbstring postfix mailman unzip</pre>
+
+<p>
+Baixando os fontes do gForge:
+</p>
+<pre class="code">[root@gforge ~]# cd /opt/
+[root@gforge ~]# wget https://gforgegroup.com/releases/gforge-as-current.zip
+[root@gforge ~]# unzip gforge-as-current.zip
+[root@gforge ~]# rm -f gforge-as-current.zip 
+[root@gforge ~]# mv gforge-as-* gforge</pre>
+
+<p>
+Executando o instalador do gForge:
+</p>
+<pre class="code">[root@gforge ~]# cd /opt/gforge/
+[root@gforge ~]# chmod +x install_gforge; ./install_gforge
+[root@gforge ~]# crontab ./crontab.in
+[root@gforge ~]# service postfix start
+[root@gforge ~]# chkconfig --level 345 postfix on
+[root@gforge ~]# /usr/lib/mailman/bin/newlist mailman
+[root@gforge ~]# service mailman start
+[root@gforge ~]# cd /opt/gforge &amp;&amp; php /opt/gforge/bin/create_config_cache.php
+[root@gforge ~]# php /opt/gforge/bin/create_config_cache.php</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [1390-2460] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/opt/gforge</code> - Arquivos fonte do gForge</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/gforge/s</code> - Arquivos de configuração do gForge</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/opt/gforge</code>, os arquivos de configuração do gforge
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [2461-2765] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do xxxx através do comando:
+</p>
+<pre class="code">service httpd start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do xxxx através do comando:
+</p>
+<pre class="code">service httpd stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do xxxx através do comando:
+</p>
+<pre class="code">service httpd restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [2766-3134] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:gforge&amp;codeblock=8" title="Download Snippet" class="mediafile mf_conf">gforge.conf</a></dt>
+<dd><pre class="code file php"><span class="kw2">&lt;?php</span>
+<span class="co1">//where gforge php code will be</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'libDir'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/opt/gforge'</span><span class="sy0">;</span>
+<span class="co1">//where gforge config will be</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'etcDir'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/etc/gforge'</span><span class="sy0">;</span>
+<span class="co1">//where gforge data will be</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'varDir'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/var/lib/gforge'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//homedir prefix</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'homeDir'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/home'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//availability of the users tab</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'usersTabAvailable'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//where language and config caches will be</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cacheDir'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'varDir'</span><span class="br0">&#93;</span><span class="sy0">.</span><span class="st_h">'/caches'</span><span class="sy0">;</span>
+<span class="co1">//where the gforge filesystem will store files</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'filesPath'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'varDir'</span><span class="br0">&#93;</span><span class="sy0">.</span><span class="st_h">'/filesystem'</span><span class="sy0">;</span>
+<span class="co1">//where the plugins will exist</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'pluginsPath'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'libDir'</span><span class="br0">&#93;</span><span class="sy0">.</span><span class="st_h">'/plugins'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//session defaults</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'defaultLanguage'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'en'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'defaultLanguageId'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'1'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sessionTimeout'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">60</span><span class="sy0">*</span><span class="nu0">60</span><span class="sy0">*</span><span class="nu0">24</span><span class="sy0">*</span><span class="nu0">7</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sessionKey'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'I9M2SailaDmgGI3Y12is9dPjPeLof3AXbnY4ygoIULYAu2yv4R'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'defaultTheme'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'gforge5'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'defaultThemeId'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'1'</span><span class="sy0">;</span>
+<span class="co1">//Default time zone for new registered users</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'defaultTimeZone'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'UTC'</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'apacheUser'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'apache'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'apacheGroup'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'apache'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'name'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'gForge'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'hostName'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'gforge.ifce.edu.br'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'use_ssl'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'dbtype'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'postgres'</span><span class="sy0">;</span> <span class="co1">// postgres | mysql | oracle</span>
+&nbsp;
+<span class="co1">// Whether to use a full &quot;from&quot; address on emails sent by the server</span>
+<span class="co1">// (qmail may have problems with full addresses. If it doesn't like the addresses,</span>
+<span class="co1">// set this to true)</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'simpleFromEmail'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//only site admin register projects?</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'projectRegRestricted'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//trove configuration</span>
+<span class="co1">//enter the trove_cat_id of the root elements</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveDevStatus'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">6</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveLicense'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">13</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveOS'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">199</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveSpokenLanguage'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">274</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveProgrammingLanguage'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">160</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveTopic'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">18</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveIntendedAudience'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">1</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'extraTroveRootCategories'</span><span class="br0">&#93;</span><span class="sy0">=</span><a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//licensing enforcement</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseType'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'advanced'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseMaxUsers'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseMaxMembers'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseMaxProjects'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseExpire'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseKey'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'da59598327230c408c7f4b74dc46ba5f47ce0310'</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sendmailPath'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/usr/sbin/postfix'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'trueTypeDir'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/usr/share/fonts/TrueType/'</span><span class="sy0">;</span> <span class="co1">// must end with &quot;/&quot;</span>
+&nbsp;
+<span class="co1">// ldap authentication</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'usesLdap'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Whether to use more than one SCM server</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'splitScmServers'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// New users need to be approved?</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'approveUsers'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//text indexing path to &quot;pdftotext&quot; command</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'pdftotextPath'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/usr/bin/'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Path to the doxygen code indexer</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'doxygenPath'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'/usr/bin'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//text indexing path to &quot;wvText&quot; command</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'wvTextPath'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/usr/bin/'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//NIS - if the machine has accounts created with NIS</span>
+<span class="co1">//if so, local users and passwords will not be created in /etc, </span>
+<span class="co1">//but /etc/groups will be created</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'usesNis'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//redirect downloads - all downloads will be redirected</span>
+<span class="co1">//to a separate vhost which will free up the php process and save memory</span>
+<span class="co1">//the download vhost should have /var/lib/gforge/filesystem as the / directory</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'redirectDownloads'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'redirectDownloadHost'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'http://download.gforgedomain.com'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//used to validate usernames - rules may vary by organization</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'usernameregex'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'^[a-z0-9_.-]{3,15}$'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//used to validate passwords - rules my vary by organization</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'passwordregex'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'^.{6,30}$'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//additional ftp directories</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'ftp_upload'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'ftp_upload_dir'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'/var/tmp/uploads/'</span><span class="sy0">;</span> <span class="co1">// must end with &quot;/&quot;</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'projectsVHostDir'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'/home/groups/'</span><span class="sy0">;</span> <span class="co1">// must end with &quot;/&quot;</span>
+&nbsp;
+<span class="co1">//mandate that everyone must login except when viewing homepage</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'forceAllLogin'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Export/Import configuration</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'exportProjects'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'varDir'</span><span class="br0">&#93;</span> <span class="sy0">.</span> <span class="st_h">'/exportProjects'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//option to display a click-thru license on project registration page</span>
+<span class="co1">//the text for this license should be in /etc/gforge/PROJECT_LICENSE</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'projectRegClickLicense'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//option to display a click-thru license on user registration page</span>
+<span class="co1">//the text for this license should be in /etc/gforge/USER_LICENSE</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'userRegClickLicense'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//single sign-on options</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'useSSO'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+<span class="co1">//the name of the variable in $_SERVER</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'SSOServerVar'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'REMOTE_USER'</span><span class="sy0">;</span>
+<span class="co1">//in some cases, the server var is like an email address </span>
+<span class="co1">//and you need only the first part</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'SSOServerVarSplitChar'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">''</span><span class="sy0">;</span>
+<span class="co1">//in some cases, SiteMinder does not present the HTTP_SM_USER var</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'SSOServerVarAlwaysPresent'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">true</span><span class="sy0">;</span>
+<span class="co1">//the SSOServerVar can be in either user.unix_name or user.external_id</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'SSOIDMatchesUnixName'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">true</span><span class="sy0">;</span>
+<span class="co1">//in many SSO configurations, no password is stored in the database</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'SSORequireStoredPassword'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'include_js_css'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">true</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this value prevents search engines from indexing SCM full structure</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'indexSCM'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Enable captcha on user registration form</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'useCaptcha'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Whether the system uses an external NSS (Name Service Switch) that interacts with GForge (e.g. nss-pgsql)</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'useNSS'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Enable site wide project join requests</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'allowProjectJoinRequests'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">true</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Show developers on each project summary page, default true</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'showDevelopersOnProjectSummary'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">true</span><span class="sy0">;</span>
+<span class="sy1">?&gt;</span></pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:gforge&amp;codeblock=9" title="Download Snippet" class="mediafile mf_conf">httpd.conf</a></dt>
+<dd><pre class="code file conf">LoadModule dav_module         modules/mod_dav.so
+LoadModule dav_svn_module     modules/mod_dav_svn.so
+LoadModule authz_svn_module   modules/mod_authz_svn.so
+#Uncomment this to load MAG, comment out the previous line (authz_svn module)
+#and make sure the authz_snv_module is not loaded in /etc/httpd/conf.d/subversion.conf
+&nbsp;
+#LoadModule auth_gforge_module modules/mod_auth_gforge.so
+&nbsp;
+# For Git repositories
+SetEnv GIT_PROJECT_ROOT &quot;/gitroot&quot;
+SetEnv GIT_HTTP_EXPORT_ALL
+&nbsp;
+&lt;VirtualHost _default_:80&gt;
+	ServerName	gforge.ifce.edu.br
+	DocumentRoot	/opt/gforge/www
+	ErrorDocument 404 /404.php
+&nbsp;
+	&lt;Directory &quot;/opt/gforge/www&quot;&gt;
+		Options	Indexes FollowSymLinks Multiviews
+		Order	allow,deny
+		allow from all
+	&lt;/Directory&gt;
+&nbsp;
+	&lt;Location &quot;/gf&quot;&gt;
+		ForceType application/x-httpd-php
+	&lt;/Location&gt;
+&nbsp;
+	#
+	#       mailman settings - may have to adjust
+	#
+	ScriptAlias	/mailman	/usr/lib/mailman/cgi-bin
+	RewriteEngine on
+	RewriteRule ^/pipermail / [R=permanent]
+#	Alias	/pipermail	/var/lib/mailman/archives/public
+&nbsp;
+	&lt;Directory &quot;/usr/lib/mailman/cgi-bin&quot;&gt;
+		Options	Indexes FollowSymLinks Multiviews
+		Order	allow,deny
+		allow from all
+	&lt;/Directory&gt;
+&nbsp;
+	&lt;Directory &quot;/var/lib/mailman/archives/public&quot;&gt;
+		Options	Indexes FollowSymLinks Multiviews
+		Order	allow,deny
+		allow from all
+	&lt;/Directory&gt;
+&nbsp;
+	#
+	#	SVN Repository
+	#
+	&lt;Location /svn&gt;
+		ErrorDocument 404 default
+		DAV svn
+		SVNParentPath /var/lib/gforge/svnroot
+		#Uncomment the following lines to use MAG
+		#GforgeSysPath /var/lib/gforge
+		#GforgeGroupsRoot /svnroot
+      #Auth_PG_cache_passwords On
+&nbsp;
+		# how to authenticate a user
+		# comment out the following line when using MAG
+		AuthzSVNAccessFile /var/lib/gforge/svnroot-access
+		AuthType Basic
+		AuthName &quot;Document repository&quot;
+		# comment out the following line when using MAG
+		AuthUserFile /var/lib/gforge/svnroot-authfile
+		SVNIndexXSLT &quot;/svnindex.xsl&quot;
+&nbsp;
+		# only authenticated users may access the repository
+		Require valid-user
+	&lt;/Location&gt;
+&nbsp;
+&nbsp;
+	# Git Repositories
+	ScriptAlias /git/ &quot;/usr/bin/git-http-backend/&quot;
+	&lt;LocationMatch &quot;^/git/.*/git-receive-pack$&quot;&gt;
+		ErrorDocument 404 default
+		AuthType Basic
+		AuthName &quot;Git repositories&quot;
+		AuthUserFile /var/lib/gforge/svnroot-authfile
+		Require valid-user
+	&lt;/LocationMatch&gt;
+&nbsp;
+	&lt;Location /git&gt;
+		Options ExecCGI FollowSymLinks Indexes
+		ErrorDocument 404 default
+		AuthType Basic
+		AuthName &quot;Git Repository&quot;
+		AuthUserFile /var/lib/gforge/svnroot-authfile
+		Require valid-user
+	&lt;/Location&gt;
+&nbsp;
+&nbsp;
+	php_value	include_path  &quot;.:/opt/gforge/lib/external:/opt/gforge/lib:/opt/gforge&quot;
+&nbsp;
+&nbsp;
+&lt;/VirtualHost&gt;</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:gforge&amp;codeblock=10" title="Download Snippet" class="mediafile mf_php">gforge5-db-conf.php</a></dt>
+<dd><pre class="code file php"><span class="kw2">&lt;?php</span>
+<span class="co1">// This file generated by Propel convert-props target on Mon Nov  7 22:43:12 2005</span>
+<span class="co1">// from XML runtime conf file /usr/share/pear/data/propel_generator/projects/gforge5/runtime-conf.xml</span>
+<span class="kw1">return</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a> <span class="br0">&#40;</span>
+  <span class="st_h">'log'</span> <span class="sy0">=&gt;</span> 
+  <a href="http://www.php.net/array"><span class="kw3">array</span></a> <span class="br0">&#40;</span>
+    <span class="st_h">'ident'</span> <span class="sy0">=&gt;</span> <span class="st_h">'propel-gforge5'</span><span class="sy0">,</span>
+    <span class="st_h">'level'</span> <span class="sy0">=&gt;</span> <span class="st_h">'7'</span><span class="sy0">,</span>
+  <span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="st_h">'propel'</span> <span class="sy0">=&gt;</span> 
+  <a href="http://www.php.net/array"><span class="kw3">array</span></a> <span class="br0">&#40;</span>
+    <span class="st_h">'datasources'</span> <span class="sy0">=&gt;</span> 
+    <a href="http://www.php.net/array"><span class="kw3">array</span></a> <span class="br0">&#40;</span>
+      <span class="st_h">'gf5'</span> <span class="sy0">=&gt;</span> 
+      <a href="http://www.php.net/array"><span class="kw3">array</span></a> <span class="br0">&#40;</span>
+        <span class="st_h">'adapter'</span> <span class="sy0">=&gt;</span> <span class="st_h">'pgsql'</span><span class="sy0">,</span>
+        <span class="st_h">'connection'</span> <span class="sy0">=&gt;</span> 
+        <a href="http://www.php.net/array"><span class="kw3">array</span></a> <span class="br0">&#40;</span>
+          <span class="st_h">'phptype'</span> <span class="sy0">=&gt;</span> <span class="st_h">'pgsql'</span><span class="sy0">,</span>
+          <span class="st_h">'hostspec'</span> <span class="sy0">=&gt;</span> <span class="st_h">''</span><span class="sy0">,</span>
+          <span class="st_h">'database'</span> <span class="sy0">=&gt;</span> <span class="st_h">'gforge'</span><span class="sy0">,</span>
+          <span class="st_h">'username'</span> <span class="sy0">=&gt;</span> <span class="st_h">'gforge'</span><span class="sy0">,</span>
+          <span class="st_h">'password'</span> <span class="sy0">=&gt;</span> <span class="st_h">''</span><span class="sy0">,</span>
+        <span class="br0">&#41;</span><span class="sy0">,</span>
+      <span class="br0">&#41;</span><span class="sy0">,</span>
+      <span class="st_h">'default'</span> <span class="sy0">=&gt;</span> <span class="st_h">'gf5'</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="br0">&#41;</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [3135-11653] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="https://gforge.com/gf/project/gforge5/wiki/?pagename=GForge+Knowledge+Base" class="urlextern" title="https://gforge.com/gf/project/gforge5/wiki/?pagename=GForge+Knowledge+Base"  rel="nofollow">gforge.com</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://gforge.com/gf/project/gforge5/wiki/?pagename=GForge+Advanced+Server+Manual" class="urlextern" title="https://gforge.com/gf/project/gforge5/wiki/?pagename=GForge+Advanced+Server+Manual"  rel="nofollow">gforge.com</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/GForge" class="urlextern" title="http://en.wikipedia.org/wiki/GForge"  rel="nofollow">wikipedia.org</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [11654-11932] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Lucas do Amaral Saboya</a> 2015/04/06 12:14</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [11933-] -->

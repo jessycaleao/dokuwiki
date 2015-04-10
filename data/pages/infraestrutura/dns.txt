@@ -1,0 +1,62 @@
+====== Domain Name System ======
+
+O Domain Name System ( DNS ) é um sistema de gerenciamento de nomes hierárquico e distribuído para computadores, serviços ou qualquer recurso conectado à Internet ou em uma rede privada. Ele baseia-se em nomes hierárquicos e permite a inscrição de vários dados digitados além do nome do host e seu IP. Em virtude do banco de dados de DNS ser distribuído, seu tamanho é ilimitado e o desempenho não degrada tanto quando se adiciona mais servidores nele. Este tipo de servidor usa como Porta (redes de computadores)porta padrão a ''53''.
+
+A implementação do DNS-Berkeley, foi desenvolvido originalmente para o sistema operacional Berkeley Software Distribution - BSD UNIX 4.3.
+ 
+A implementação do Servidor de DNS Microsoft se tornou parte do sistema operacional Windows NT na versão Server 4.0. O DNS passou a ser o serviço de resolução de nomes padrão a partir do Windows 2000 Server como a maioria das implementações de DNS teve suas raízes nas RFCs [[https://tools.ietf.org/html/rfc882|882]] e [[https://tools.ietf.org/html/rfc883|883]], e foi atualizado nas RFCs [[https://tools.ietf.org/html/rfc1034|1034]] e [[https://tools.ietf.org/html/rfc1035|1035]].
+
+O servidor DNS traduz nomes para os endereços IP e endereços IP para nomes respectivos, e permitindo a localização de hosts em um domínio determinado. Num sistema livre o serviço é implementado pelo software Bind, Unbound e NSD.
+
+O servidor DNS secundário é uma espécie de cópia de segurança do servidor DNS primário. Assim, ele se torna parte necessária para quem que usar a internet de uma forma mais fácil e evita que hackers roubem seus dados pessoais.[[http://www.psafe.com/blog/dns-alterado-rouba-dados-usuarios/|DNS: Entenda como se proteger com o analista de segurança da PSafe]]|
+
+Existem 13 servidores DNS raiz no mundo todo e sem eles a Internet não funcionaria. Destes, dez estão localizados nos Estados Unidos da América, um na Ásia e dois na Europa.  Para Aumentar a base instalada destes servidores, foram criadas réplicas localizadas por todo o mundo, inclusive no Brasil desde 2003.
+
+Ou seja, os servidores de diretórios responsáveis por prover informações como nomes e endereços das máquinas são normalmente chamados servidores de nomes. Na Internet, os serviços de nomes usado é o DNS, que apresenta uma arquitetura cliente/servidor, podendo envolver vários servidores DNS na resposta a uma consulta.
+
+==== Visão geral ====
+Um recurso da internet, por exemplo um site da Web, pode ser identificado de duas maneiras: pelo seu nome de domínio[[http://tools.ietf.org/html/rfc1034|RFC 1034]], por exemplo, ''www.wikipedia.org'' ou pelo endereço de IP [[http://tools.ietf.org/html/rfc781|RFC 781]] dos equipamentos que o hospedam (por exemplo, 208.80.152.130 é o IP associado ao domínio www.wikipedia.org [[http://thednsreport.com/?domain=www.wikipedia.org|IP da wikipedia]]).
+Endereços de IP são usados pela camada de rede para determinar a localização física e virtual do equipamento. Nomes de domínio, porém, são mais mnemônicos para o usuário e empresas. É então necessário um mecanismo para traduzir um nome de domínio em um endereço IP. Esta é a principal função do DNS.
+
+Ocasionalmente, presume-se que o DNS serve apenas o objetivo de mapear nomes de ''hosts'' da Internet a dados e mapear endereços para nomes de ''host''. Isso não é correto, o DNS é um banco de dados hierárquico (ainda que limitado), e pode armazenar quase qualquer tipo de dados, para praticamente qualquer finalidade. [[http://www.ietf.org/rfc/rfc2181.txt|rfc2181]]
+
+==== Hierarquia ====
+Devido ao tamanho da internet, armazenar todos os pares domínio - endereço IP em um único servidor DNS seria inviável, por questões de escalabilidade que incluem:
+  * ''Confiabilidade:'' se o único servidor de DNS falhasse, o serviço se tornaria indisponível para o mundo inteiro.
+  * ''Volume de tráfego:'' o servidor deveria tratar os pedidos DNS do planeta inteiro.
+  * ''Distância:'' grande parte dos usuários estaria muito distante do servidor, onde quer que ele fosse instalado, gerando grandes atrasos para resolver pedidos DNS.
+  * ''Manutenção do banco de dados:'' o banco de dados deveria armazenar uma quantidade de dados enorme e teria que ser atualizado com uma frequência muito alta, toda vez que um domínio fosse associado a um endereço IP. A solução encontrada é fazer do DNS uma base de dados distribuída e modelo hierárquico .
+
+
+=== Os servidores DNS se dividem nas seguintes categorias:===
+**Servidores raiz**: No topo da hierarquia estão os 13 servidores raiz. Um '''Servidor Raiz''' (Root Name Server) é um servidor de nome para a zona raiz do DNS (Domain Name System). A sua função é responder diretamente às requisições de registros da zona raiz e responder a outras requisições retornando uma lista dos servidores de nome designados para o [[domínio de topo]] apropriado. Os servidores raiz são parte crucial da [[Internet]] porque eles são o primeiro passo em traduzir nomes para  [[Endereço IP|endereços IP]] e são usados para comunicação entre hosts.
+
+**Servidores de domínio de topo ''Top-Level Domain''**: Cada domínio é formado por nomes separados por pontos. O nome mais à direita é chamado de domínio de topo. Exemplos de domínios de topo são [[.com]], [[.org]], [[.net]], [[.edu]], [[.inf]] e [[.gov]]. Cada servidor de domínio de topo conhece os endereços dos servidores autoritativos que pertencem àquele domínio de topo, ou o endereço de algum servidor DNS intermediário que conhece um servidor autoritativo.
+
+**Servidores com autoridade**: O servidor com autoridade de um domínio possui os registros originais que associam aquele domínio a seu endereço de IP. Toda vez que um domínio adquire um novo endereço, essas informações devem ser adicionadas a pelo menos dois servidores autoritativos [[http://www.techterms.com/definition/nameserver|Name Server Definition]]. Um deles será o servidor autoritativo principal e o outro, o secundário. Isso é feito para minimizar o risco de, em caso de erros em um servidor DNS, perder todas as informações originais do endereço daquele domínio. Com essas três classes de servidores, já é possível resolver qualquer requisição DNS. Basta fazer uma requisição a um servidor raiz, que retornará o endereço do servidor de topo responsável. Então repete-se a requisição para o servidor de topo, que retornará o endereço do servidor autoritativo ou algum intermediário. Repete-se a requisição aos servidores intermediários (se houver) até obter o endereço do servidor autoritativo, que finalmente retornará o endereço IP do domínio desejado. Repare que essa solução não resolve  um dos problemas de escalabilidade completamente: os servidores raiz tem que ser acessados uma vez para cada requisição que for feita em toda a internet. Esses servidores também podem estar muito longe do cliente que faz a consulta. Além disso, para resolver cada requisição, são precisas várias consultas, uma para cada servidor na hierarquia entre o raiz e o autoritativo. Esta forma de resolver consultas é chamada não-recursiva: cada servidor retorna ao cliente (ou ao servidor local requisitante, como explicado adiante) o endereço do próximo servidor no caminho para o autoritativo, e o cliente ou servidor local fica encarregado de fazer as próximas requisições. Há também o método recursivo: o servidor pode se responsabilizar por fazer a requisição ao próximo servidor, que fará a requisição ao próximo, até chegar ao autoritativo, que retornará o endereço desejado, e esse endereço será retornado para cada servidor no caminho até chegar ao cliente. Esse método faz com que o cliente realize apenas uma consulta e receba diretamente o endereço desejado, porém aumenta a carga dos servidores no caminho. Por isso, servidores podem se recusar a resolver requisições recursivas.
+
+==== Melhorias de Performance ====
+Dois recursos são usados em conjunto para reduzir a quantidade de requisições que os servidores raiz devem tratar e a quantidade de requisições feitas para resolver cada consulta:
+
+**Cache**: Toda vez que um servidor retorna o resultado de uma requisição para a qual ele não é autoridade (o que pode acontecer no método de resolução recursivo), ele armazena temporariamente aquele registro. Se, dentro do tempo de vida do registro, alguma requisição igual for feita, ele pode retornar o resultado sem a necessidade de uma nova consulta. Note que isso pode provocar inconsistência, já que se um domínio mudar de endereço durante o tempo de vida do [[cache]], o registro estará desatualizado. Apenas o servidor autoritativo tem a garantia de ter a informação correta. É possível exigir na mensagem de requisição DNS que a resposta seja dada pelo servidor autoritativo.
+
+**Servidor Local**: Esse tipo de servidor não pertence a hierarquia DNS, mas é fundamental para o seu bom funcionamento. Em vez de fazer requisições a um servidor raiz, cada cliente faz sua requisição a um servidor local, que geralmente fica muito próximo do cliente fisicamente, por exemplo um [[Servidor proxy|Servidor Proxy]]. Ele se encarrega de resolver a requisição. Com o uso de cache, esses servidores podem ter a resposta pronta, ou ao menos conhecer algum servidor mais próximo ao autoritativo que o raiz (por exemplo, o servidor de topo), reduzindo a carga dos servidores raiz.
+
+==== DNS Reverso ====
+Normalmente o DNS atua resolvendo o nome do domínio de um host qualquer para seu endereço IP correspondente. O ''DNS Reverso'' resolve o endereço IP, buscando o nome de domínio associado ao host.
+Ou seja, quando temos disponível o endereço IP de um host e não sabemos o endereço do domínio(nome dado à máquina ou outro equipamento que acesse uma rede), tentamos resolver o endereço IP através do DNS reverso que procura qual nome de domínio está associado aquele endereço.
+Os servidores que utilizam o DNS Reverso conseguem verificar a autenticidade de endereços, verificando se o endereço IP atual corresponde ao endereço IP informado pelo servidor DNS. Isto evita que alguém utilize um domínio que não lhe pertence para enviar spam, por exemplo.
+
+=== Obtenção de nomes de domínio e endereços IP ===
+O espaço de nomes de domínio e endereços IP são recursos críticos para a internet, no sentido que requerem coordenação global. Cada endereço IP deve identificar um único equipamento, de forma que não é possível atribuir endereços IP de maneira descentralizada. Da mesma forma, um nome de domínio deve identificar o conjunto de computadores que o mantém. A organização responsável por atribuir nomes de domínio e endereços IP em nível global é a [[https://www.icann.org|ICANN]]
+
+==== Referências  ====
+  * [[ftp://ftp.registro.br/pub/doc/tutorial-dnssec.pdf|Tutorial DNSSEC - Registro.br]]
+  * “KUROSE, Jim e ROSS, Keith”. Computer Networking, A Top-Down Aproach, 5ª edição. Addisson-Wesley, 2010. ISBN-13: 978-0-13-607967-5, Cap. 2
+  * [[http://www.gwebtools.de/dns-tools|Excelentes ferramentas DNS gratuitas]]
+  * [[http://www.infowester.com/dns.php|O que é DNS (básico)]]
+  * [[http://webinsider.uol.com.br/index.php/2007/10/13/o-que-e-dns-e-dnssec-bem-explicadinho/|O que é DNS (e DNSSEC)]]
+  * [[http://www.isc.org Internet Systems Consortium|Organização responsável pela implementação de um serviço de DNS conhecido como BIND]]
+  * [[http://www.abusar.org.br/dns.html|Lista de servidores DNS disponíveis]]
+=== Assinatura ===
+ --- //[[lucas.saboya@gmail.com|Luca do Amaral Saboya]] 2015/03/23 14:28//

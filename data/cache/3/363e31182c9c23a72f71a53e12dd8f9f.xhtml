@@ -1,0 +1,206 @@
+
+<h1 class="sectionedit1" id="mysql">MySQL</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de banco de dados MySQL.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "MySQL" [1-191] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: mysql.ifce.edu.br
+IPv4: 200.17.33.32
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; mysql
+vCPU&#039;s: 6
+RAM: 6GiB
+HDD: 10+100GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [192-443] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">libdbd-mysql-perl-4.025-1
+libmysqlclient18:amd64-5.5.41-0ubuntu0.14.04.1
+mysql-client-5.5-5.5.41-0ubuntu0.14.04.1
+mysql-client-core-5.5-5.5.41-0ubuntu0.14.04.1
+mysql-common-5.5.41-0ubuntu0.14.04.1
+mysql-server-5.5.41-0ubuntu0.14.04.1
+mysql-server-5.5-5.5.41-0ubuntu0.14.04.1
+mysql-server-core-5.5-5.5.41-0ubuntu0.14.04.1</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [444-826] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O mysql pode ser instalado via apt-get:
+</p>
+<pre class="code">operador@mysql:~$ sudo apt-get update; sudo apt-get install libdbd-mysql-perl libmysqlclient18:amd64 mysql-client-5.5 mysql-client-core-5.5 mysql-common mysql-server mysql-server-5.5 mysql-server-core-5.5</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [827-1112] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/etc/mysql</code> - Arquivos de configuração do MySQL</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/log/mysql</code> - Arquivos de log do MySQL</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/lib/mysql/</code> - Arquivos binários dos bancos de dados</div>
+</li>
+<li class="level1"><div class="li"> <code>/usr/lib/mysql</code> - Arquivos binários dos plugins do MySQL</div>
+</li>
+<li class="level1"><div class="li"> <code>/usr/bin/mysql</code> - Arquivos binários do daemon do MySQL</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/etc/mysql</code>, os arquivos de configuração do MySQL
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [1113-1607] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do MySQL através do comando:
+</p>
+<pre class="code">operador@mysql:~$ sudo service mysql start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do MySQL através do comando:
+</p>
+<pre class="code">operador@mysql:~$ sudo service mysql stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do MySQL através do comando:
+</p>
+<pre class="code">operador@mysql:~$ sudo service mysql restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [1608-2048] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:mysql&amp;codeblock=6" title="Download Snippet" class="mediafile mf_cnf">mysqld_safe_syslog.cnf</a></dt>
+<dd><pre class="code file conf">[mysqld_safe]
+syslog</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:mysql&amp;codeblock=7" title="Download Snippet" class="mediafile mf_conf">my.conf</a></dt>
+<dd><pre class="code file conf">#
+# The MySQL database server configuration file.
+#
+[client]
+port		= 3306
+socket		= /var/run/mysqld/mysqld.sock
+&nbsp;
+[mysqld_safe]
+socket		= /var/run/mysqld/mysqld.sock
+nice		= 0
+&nbsp;
+[mysqld]
+user            = mysql
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+port            = 3306
+basedir         = /usr
+datadir         = /var/lib/mysql
+tmpdir          = /tmp
+lc-messages-dir = /usr/share/mysql
+skip-external-locking
+bind-address            = 200.17.33.32
+key_buffer              = 16M
+max_allowed_packet      = 1024M
+thread_stack            = 192K
+thread_cache_size       = 8
+myisam-recover         = BACKUP
+max_connections        = 1200
+max_connect_errors      = 500
+query_cache_limit       = 1M
+query_cache_size        = 16M
+&nbsp;
+# * Logging and Replication
+log_error = /var/log/mysql/error.log
+expire_logs_days	= 10
+max_binlog_size         = 100M
+# * InnoDB
+[mysqldump]
+quick
+quote-names
+max_allowed_packet	= 16M
+&nbsp;
+[mysql]
+&nbsp;
+[isamchk]
+key_buffer		= 16M
+&nbsp;
+!includedir /etc/mysql/conf.d/
+operador@mysql:~$ </pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:mysql&amp;codeblock=8" title="Download Snippet" class="mediafile mf_conf">debian.conf</a></dt>
+<dd><pre class="code file conf"># Automatically generated for Debian scripts. DO NOT TOUCH!
+[client]
+host     = localhost
+user     = debian-sys-maint
+password = DISPONIVEL_NO_1PASSWORD
+socket   = /var/run/mysqld/mysqld.sock
+[mysql_upgrade]
+host     = localhost
+user     = debian-sys-maint
+password = DISPONIVEL_NO_1PASSWORD
+socket   = /var/run/mysqld/mysqld.sock
+basedir  = /usr</pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [2049-3602] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="https://dev.mysql.com/doc/refman/4.1/en/installation-layouts.html" class="urlextern" title="https://dev.mysql.com/doc/refman/4.1/en/installation-layouts.html"  rel="nofollow">mysql.com</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [3603-3711] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Lucas do Amaral Saboya</a> 2015/04/08 06:25</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [3712-] -->

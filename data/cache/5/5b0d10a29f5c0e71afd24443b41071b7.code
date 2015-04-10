@@ -1,0 +1,4 @@
+DB_Host         mysql.ifce.edu.br
+DB_Database     cacti
+DB_User         cacti
+DB_Pass         senha-encontra-se-no-1password

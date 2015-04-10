@@ -1,0 +1,12 @@
+<span class="co0">;;;;;;;;;;;;;;;;;;</span>
+<span class="co0">; Global Options ;</span>
+<span class="co0">;;;;;;;;;;;;;;;;;;</span>
+&nbsp;
+<span class="re0"><span class="br0">&#91;</span>global<span class="br0">&#93;</span></span>
+<span class="re1">pid</span> <span class="sy0">=</span><span class="re2"> /var/run/php5-fpm.pid</span>
+<span class="re1">error_log</span> <span class="sy0">=</span><span class="re2"> /var/log/php5-fpm.log</span>
+&nbsp;
+<span class="co0">;;;;;;;;;;;;;;;;;;;;</span>
+<span class="co0">; Pool Definitions ; </span>
+<span class="co0">;;;;;;;;;;;;;;;;;;;;</span>
+<span class="re1">include</span><span class="sy0">=</span><span class="re2">/etc/php5/fpm/pool.d/*.conf</span>

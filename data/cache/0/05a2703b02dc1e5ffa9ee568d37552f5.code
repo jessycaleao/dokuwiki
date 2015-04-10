@@ -1,0 +1,53 @@
+# Global configuration
+#
+&nbsp;
+ServerRoot &quot;/etc/apache2&quot;
+Mutex file:${APACHE_LOCK_DIR} default
+PidFile ${APACHE_PID_FILE}
+Timeout 300
+KeepAlive On
+MaxKeepAliveRequests 100
+KeepAliveTimeout 5
+User ${APACHE_RUN_USER}
+Group ${APACHE_RUN_GROUP}
+HostnameLookups Off
+ErrorLog ${APACHE_LOG_DIR}/error.log
+LogLevel warn
+&nbsp;
+# Include module configuration:
+IncludeOptional mods-enabled/*.load
+IncludeOptional mods-enabled/*.conf
+&nbsp;
+# Include list of ports to listen on
+Include ports.conf
+&nbsp;
+&lt;Directory /&gt;
+        Options FollowSymLinks
+        AllowOverride None
+        Require all denied
+&lt;/Directory&gt;
+&nbsp;
+&lt;Directory /usr/share&gt;
+        AllowOverride None
+        Require all granted
+&lt;/Directory&gt;
+&nbsp;
+&lt;Directory /var/www/&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+&lt;/Directory&gt;
+&nbsp;
+AccessFileName .htaccess
+&lt;FilesMatch &quot;^\.ht&quot;&gt;
+        Require all denied
+&lt;/FilesMatch&gt;
+&nbsp;
+LogFormat &quot;%v:%p %h %l %u %t \&quot;%r\&quot; %&gt;s %O \&quot;%{Referer}i\&quot; \&quot;%{User-Agent}i\&quot;&quot; vhost_combined
+LogFormat &quot;%h %l %u %t \&quot;%r\&quot; %&gt;s %O \&quot;%{Referer}i\&quot; \&quot;%{User-Agent}i\&quot;&quot; combined
+LogFormat &quot;%h %l %u %t \&quot;%r\&quot; %&gt;s %O&quot; common
+LogFormat &quot;%{Referer}i -&gt; %U&quot; referer
+LogFormat &quot;%{User-agent}i&quot; agent
+&nbsp;
+IncludeOptional conf-enabled/*.conf
+IncludeOptional sites-enabled/*.conf

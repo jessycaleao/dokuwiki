@@ -1,0 +1,54 @@
+zone:
+name: &quot;ifce.edu.br&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/slave.ifce.edu.br.zone&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;cefetce.br&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/slave.cefetce.br.zone&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;cefet-ce.br&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/slave.cefet-ce.br.zone&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;etfce.br&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/slave.etfce.br.zone&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;otrs.ifce.edu.br&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/slave.otrs.ifce.edu.br.zone&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;listas.ifce.edu.br&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/slave.listas.ifce.edu.br.zone&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;gdeste.ifce.edu.br&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/slave.gdeste.ifce.edu.br.zone&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;lit.ifce.edu.br&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/slave.lit.ifce.edu.br.zone&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;cppd.ifce.edu.br&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/slave.cppd.ifce.edu.br.zone&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;lds.ifce.edu.br&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/slave.lds.ifce.edu.br.zone&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;dgti.ifce.edu.br&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/slave.dgti.ifce.edu.br.zone&quot;
+include-pattern: &quot;secundario&quot;

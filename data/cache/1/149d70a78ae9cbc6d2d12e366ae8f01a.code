@@ -1,0 +1,8 @@
+# TAG: option
+option /etc/ppp/pptpd-options
+# TAG: logwtmp
+logwtmp
+# TAG: localip
+localip 192.168.50.1
+# TAG: remoteip
+remoteip 192.168.50.190-240

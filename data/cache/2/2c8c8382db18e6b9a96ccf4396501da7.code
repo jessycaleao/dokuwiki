@@ -1,0 +1,155 @@
+<span class="kw2">&lt;?php</span>
+<span class="co1">//where gforge php code will be</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'libDir'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/opt/gforge'</span><span class="sy0">;</span>
+<span class="co1">//where gforge config will be</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'etcDir'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/etc/gforge'</span><span class="sy0">;</span>
+<span class="co1">//where gforge data will be</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'varDir'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/var/lib/gforge'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//homedir prefix</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'homeDir'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/home'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//availability of the users tab</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'usersTabAvailable'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//where language and config caches will be</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cacheDir'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'varDir'</span><span class="br0">&#93;</span><span class="sy0">.</span><span class="st_h">'/caches'</span><span class="sy0">;</span>
+<span class="co1">//where the gforge filesystem will store files</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'filesPath'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'varDir'</span><span class="br0">&#93;</span><span class="sy0">.</span><span class="st_h">'/filesystem'</span><span class="sy0">;</span>
+<span class="co1">//where the plugins will exist</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'pluginsPath'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'libDir'</span><span class="br0">&#93;</span><span class="sy0">.</span><span class="st_h">'/plugins'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//session defaults</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'defaultLanguage'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'en'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'defaultLanguageId'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'1'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sessionTimeout'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">60</span><span class="sy0">*</span><span class="nu0">60</span><span class="sy0">*</span><span class="nu0">24</span><span class="sy0">*</span><span class="nu0">7</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sessionKey'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'I9M2SailaDmgGI3Y12is9dPjPeLof3AXbnY4ygoIULYAu2yv4R'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'defaultTheme'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'gforge5'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'defaultThemeId'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'1'</span><span class="sy0">;</span>
+<span class="co1">//Default time zone for new registered users</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'defaultTimeZone'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'UTC'</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'apacheUser'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'apache'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'apacheGroup'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'apache'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'name'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'gForge'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'hostName'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'gforge.ifce.edu.br'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'use_ssl'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'dbtype'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'postgres'</span><span class="sy0">;</span> <span class="co1">// postgres | mysql | oracle</span>
+&nbsp;
+<span class="co1">// Whether to use a full &quot;from&quot; address on emails sent by the server</span>
+<span class="co1">// (qmail may have problems with full addresses. If it doesn't like the addresses,</span>
+<span class="co1">// set this to true)</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'simpleFromEmail'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//only site admin register projects?</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'projectRegRestricted'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//trove configuration</span>
+<span class="co1">//enter the trove_cat_id of the root elements</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveDevStatus'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">6</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveLicense'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">13</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveOS'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">199</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveSpokenLanguage'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">274</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveProgrammingLanguage'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">160</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveTopic'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">18</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'troveIntendedAudience'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">1</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'extraTroveRootCategories'</span><span class="br0">&#93;</span><span class="sy0">=</span><a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//licensing enforcement</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseType'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'advanced'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseMaxUsers'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseMaxMembers'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseMaxProjects'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseExpire'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'licenseKey'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'da59598327230c408c7f4b74dc46ba5f47ce0310'</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sendmailPath'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/usr/sbin/postfix'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'trueTypeDir'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/usr/share/fonts/TrueType/'</span><span class="sy0">;</span> <span class="co1">// must end with &quot;/&quot;</span>
+&nbsp;
+<span class="co1">// ldap authentication</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'usesLdap'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Whether to use more than one SCM server</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'splitScmServers'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// New users need to be approved?</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'approveUsers'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//text indexing path to &quot;pdftotext&quot; command</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'pdftotextPath'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/usr/bin/'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Path to the doxygen code indexer</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'doxygenPath'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'/usr/bin'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//text indexing path to &quot;wvText&quot; command</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'wvTextPath'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'/usr/bin/'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//NIS - if the machine has accounts created with NIS</span>
+<span class="co1">//if so, local users and passwords will not be created in /etc, </span>
+<span class="co1">//but /etc/groups will be created</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'usesNis'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//redirect downloads - all downloads will be redirected</span>
+<span class="co1">//to a separate vhost which will free up the php process and save memory</span>
+<span class="co1">//the download vhost should have /var/lib/gforge/filesystem as the / directory</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'redirectDownloads'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'redirectDownloadHost'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'http://download.gforgedomain.com'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//used to validate usernames - rules may vary by organization</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'usernameregex'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'^[a-z0-9_.-]{3,15}$'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//used to validate passwords - rules my vary by organization</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'passwordregex'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'^.{6,30}$'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//additional ftp directories</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'ftp_upload'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'ftp_upload_dir'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'/var/tmp/uploads/'</span><span class="sy0">;</span> <span class="co1">// must end with &quot;/&quot;</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'projectsVHostDir'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'/home/groups/'</span><span class="sy0">;</span> <span class="co1">// must end with &quot;/&quot;</span>
+&nbsp;
+<span class="co1">//mandate that everyone must login except when viewing homepage</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'forceAllLogin'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Export/Import configuration</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'exportProjects'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'varDir'</span><span class="br0">&#93;</span> <span class="sy0">.</span> <span class="st_h">'/exportProjects'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//option to display a click-thru license on project registration page</span>
+<span class="co1">//the text for this license should be in /etc/gforge/PROJECT_LICENSE</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'projectRegClickLicense'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//option to display a click-thru license on user registration page</span>
+<span class="co1">//the text for this license should be in /etc/gforge/USER_LICENSE</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'userRegClickLicense'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//single sign-on options</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'useSSO'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+<span class="co1">//the name of the variable in $_SERVER</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'SSOServerVar'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">'REMOTE_USER'</span><span class="sy0">;</span>
+<span class="co1">//in some cases, the server var is like an email address </span>
+<span class="co1">//and you need only the first part</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'SSOServerVarSplitChar'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="st_h">''</span><span class="sy0">;</span>
+<span class="co1">//in some cases, SiteMinder does not present the HTTP_SM_USER var</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'SSOServerVarAlwaysPresent'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">true</span><span class="sy0">;</span>
+<span class="co1">//the SSOServerVar can be in either user.unix_name or user.external_id</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'SSOIDMatchesUnixName'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">true</span><span class="sy0">;</span>
+<span class="co1">//in many SSO configurations, no password is stored in the database</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'SSORequireStoredPassword'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'include_js_css'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">true</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this value prevents search engines from indexing SCM full structure</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'indexSCM'</span><span class="br0">&#93;</span><span class="sy0">=</span><span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Enable captcha on user registration form</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'useCaptcha'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Whether the system uses an external NSS (Name Service Switch) that interacts with GForge (e.g. nss-pgsql)</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'useNSS'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Enable site wide project join requests</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'allowProjectJoinRequests'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">true</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Show developers on each project summary page, default true</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'showDevelopersOnProjectSummary'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">true</span><span class="sy0">;</span>
+<span class="sy1">?&gt;</span>

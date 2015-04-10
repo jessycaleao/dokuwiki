@@ -1,0 +1,15 @@
+a:2:{s:7:"current";a:9:{s:4:"date";a:2:{s:7:"created";i:1428089595;s:8:"modified";i:1428092605;}s:7:"creator";s:22:"Lucas do Amaral Saboya";s:4:"user";s:6:"lucazz";s:11:"last_change";a:7:{s:4:"date";i:1428092605;s:2:"ip";s:12:"192.168.0.10";s:4:"type";s:1:"E";s:2:"id";s:22:"infraestrutura:freenas";s:4:"user";s:6:"lucazz";s:3:"sum";s:15:"[Referências] ";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:6:"lucazz";s:22:"Lucas do Amaral Saboya";}s:5:"title";s:7:"FreeNAS";s:11:"description";a:2:{s:15:"tableofcontents";a:9:{i:0;a:4:{s:3:"hid";s:7:"freenas";s:5:"title";s:7:"FreeNAS";s:4:"type";s:2:"ul";s:5:"level";i:1;}i:1;a:4:{s:3:"hid";s:20:"configuracoes_da_vps";s:5:"title";s:22:"Configurações da VPS";s:4:"type";s:2:"ul";s:5:"level";i:2;}i:2;a:4:{s:3:"hid";s:32:"software_utilizados_pelo_servico";s:5:"title";s:33:"Software utilizados pelo serviço";s:4:"type";s:2:"ul";s:5:"level";i:2;}i:3;a:4:{s:3:"hid";s:10:"instalacao";s:5:"title";s:12:"Instalação";s:4:"type";s:2:"ul";s:5:"level";i:2;}i:4;a:4:{s:3:"hid";s:30:"interface_de_administracao_web";s:5:"title";s:32:"Interface de Administração web";s:4:"type";s:2:"ul";s:5:"level";i:2;}i:5;a:4:{s:3:"hid";s:23:"operando_o_servico_cifs";s:5:"title";s:24:"Operando o serviço CIFS";s:4:"type";s:2:"ul";s:5:"level";i:3;}i:6;a:4:{s:3:"hid";s:24:"arquivos_de_configuracao";s:5:"title";s:26:"Arquivos de configuração";s:4:"type";s:2:"ul";s:5:"level";i:3;}i:7;a:4:{s:3:"hid";s:11:"referencias";s:5:"title";s:12:"Referências";s:4:"type";s:2:"ul";s:5:"level";i:2;}i:8;a:4:{s:3:"hid";s:10:"assinatura";s:5:"title";s:10:"Assinatura";s:4:"type";s:2:"ul";s:5:"level";i:2;}}s:8:"abstract";s:460:"FreeNAS
+
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de arquivos para setores do Campus Fortaleza e Reitoria.
+
+Configurações da VPS
+
+
+Hostname: hostname.domain.tld
+IPv4: CIDR/32
+OS: FreeNAS-9.3-STABLE-201412091831-amd64
+Username: root
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> FreeNAS
+vCPU's: 4
+RAM: 4GiB
+HDD: 4GiB(root)+3x500GiB(zfs)";}s:8:"relation";a:2:{s:5:"media";a:3:{s:32:"infraestrutura:output_eo1ndu.gif";b:1;s:55:"infraestrutura:screen_shot_2015-04-03_at_4.47.48_pm.png";b:1;s:55:"infraestrutura:screen_shot_2015-04-03_at_4.48.59_pm.png";b:1;}s:10:"firstimage";s:32:"infraestrutura:output_eo1ndu.gif";}s:8:"internal";a:2:{s:5:"cache";b:1;s:3:"toc";b:1;}}s:10:"persistent";a:5:{s:4:"date";a:2:{s:7:"created";i:1428089595;s:8:"modified";i:1428092605;}s:7:"creator";s:22:"Lucas do Amaral Saboya";s:4:"user";s:6:"lucazz";s:11:"last_change";a:7:{s:4:"date";i:1428092605;s:2:"ip";s:12:"192.168.0.10";s:4:"type";s:1:"E";s:2:"id";s:22:"infraestrutura:freenas";s:4:"user";s:6:"lucazz";s:3:"sum";s:15:"[Referências] ";s:5:"extra";s:0:"";}s:11:"contributor";a:1:{s:6:"lucazz";s:22:"Lucas do Amaral Saboya";}}}

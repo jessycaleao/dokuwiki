@@ -1,0 +1,91 @@
+====== Gitlab ======
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de repositórios de código. Gitlab é um repositório Git integrado com um motor de wiki e feramentas de rastreio de problemas baseado na web. O Gitlab é similar ao GitHub, porém fazendo uso de software livre e disponiblizado sob a mesma liçenca - ao contrário do GitHub. O gitlab foi escrito em Ruby pelos ucranianos Dmitriy Zaporozhets e Sytse Sijbrandij.
+
+
+
+===== Configurações da VPS =====
+<code>
+Hostname: gitlab.ifce.edu.br
+IPv4: 200.17.33.22
+OS: 14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> gitlab
+vCPU's: 4
+RAM: 4GiB
+HDD: 120GiB
+</code>
+
+===== Software utilizados pelo serviço =====
+<code>
+openssh-server-1:6.6p1-2ubuntu2
+sendmail-base-8.14.4-4.1ubuntu1
+sendmail-bin-8.14.4-4.1ubuntu1
+sendmail-cf-8.14.4-4.1ubuntu1
+</code>
+
+===== Instalação =====
+O Gitlab pode ser instalado via dpkg e suas dependências resolvidas via apt-get:
+Resolvendo as dependências do Gitlab:
+<code>
+operador@gitlab:~$ sudo apt-get update; sudo apt-get upgrade -y
+operador@gitlab:~$ sudo apt-get install openssh-server sendmail-base sendmail-bin sendmail-cf
+</code>
+Obtendo o pacote do Gitlab e instalando-o:
+<code>
+operador@gitlab:~$ wget https://downloads-packages.s3.amazonaws.com/ubuntu-14.04/gitlab_7.9.2-omnibus-1_amd64.deb
+operador@gitlab:~$ sudo dpkg -i gitlab_7.9.2-omnibus-1_amd64.deb
+operador@gitlab:~$ sudo gitlab-ctl reconfigure
+</code>
+===== Estrutura de diretórios =====
+Listar a estrutura de diretórios aqui:
+  * ''/opt/gitlab'' - Arquivos fonte do Gitlab
+  * ''/etc/gitlab'' - Arquivos de configuração do Gitlab
+  * 
+=== Arquivos de configuração ===
+Encontram-se no diretório ''/etc/gitlab'', os arquivos de configuração do Gitlab
+==== Operando o serviço ====
+
+=== Iniciando o serviço ===
+Inicia-se o serviço do Gitlab através do comando:
+<code>operador@gitlab:~$/opt/gitlab/bin/./gitlab-ctl start</code>
+
+=== Parando o serviço ===
+Para-se o serviço do Gitlab através do comando:
+<code>operador@gitlab:~$/opt/gitlab/bin/./gitlab-ctl stop</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do Gitlab através do comando:
+<code>operador@gitlab:~$/opt/gitlab/bin/./gitlab-ctl restart</code>
+==== Arquivos de configuração ====
+<file ruby gitlab.rb>
+# Change the external_url to the address your users will type in their browser
+external_url 'http://gitlab.ifce.edu.br'
+
+# LDAP
+gitlab_rails['ldap_enabled'] = true
+gitlab_rails['ldap_host'] = "200.17.33.66"
+gitlab_rails['ldap_base'] = "OU=DGTI,OU=REITORIA,OU=IFCE,DC=adproducao,DC=ifce,DC=edu,DC=br"
+gitlab_rails['ldap_port'] = "389"
+gitlab_rails['ldap_uid'] = "sAMAccountName"
+gitlab_rails['ldap_method'] = "plain"
+gitlab_rails['ldap_bind_dn'] = "cn=gitlab1,cn=Users,dc=adproducao,dc=ifce,dc=edu,dc=br"
+gitlab_rails['ldap_password'] = "5PNDi39SU84eeOF"
+#gitlab_rails['ldap_use_filter']="OU=DGTI,OU=DIS,OU=REITORIA,OU=IFCE,DC=adproducao,DC=ifce,DC=edu,DC=br"
+
+# SMTP
+gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "zimbra.ifce.edu.br"
+gitlab_rails['smtp_port'] = 587
+gitlab_rails['smtp_user_name'] = "gitlab.dgti@ifce.edu.br"
+gitlab_rails['smtp_password'] = "SENHA_DISPONIVEL_NO_1PASSWORD"
+gitlab_rails['smtp_domain'] = "ifce.edu.br"
+gitlab_rails['smtp_authentication'] = "plain"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_openssl_verify_mode']  = "none"
+gitlab_rails['gitlab_email_from'] = 'gitlab.dgti@ifce.edu.br'
+</file>
+
+===== Referências =====
+  * [[https://about.gitlab.com/downloads/|gitlab.com]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/06 12:27//

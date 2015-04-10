@@ -1,0 +1,21 @@
+====== Monitoramento ======
+Monitorar é observar, analisar e ficar atento aos possíveis sinais de que algo não está normal. Em tecnologia da informação, “não está normal” pode indicar indisponibilidade de um ou mais partes de um sistema ou mesmo uma lentidão ou diminuição na qualidade de serviços percebida pelo cliente. Estar pronto para ação, ou mesmo agir antes de algo acontecer, são resultados de um bom ambiente de monitoramento de redes, servidores e serviços. Além disso, os dados históricos coletados por um bom sistema de monitoramento fornecem informações para que compras e upgrades sejam feitos de forma racional (Capacity Planning).
+
+As ferramentas de monitoramento permitem que métricas sejam apresentadas de forma visual com gráficos e mapas. Informações como consumo de banda, CPU, memória, ou tempo de consultas do banco de dados, podem ser rapidamente visualizadas, tanto com dados instantâneos como para dados históricos. Um bom sistema de monitoramento de redes permite a criação de alertas para eventos de anormalidade e também permitem correlacionar sintomas com itens de infraestrutura.
+
+Outra característica de um bom sistema de monitoramento é que ele deve ser suficiente para atender as mais diversas equipes, ambientes e necessidades, de modo a evitar que múltiplas ferramentas sejam usadas, dificultando correlações e tornando o ambiente ainda mais complexo.
+
+O que monitorar? Exemplos são:
+  * Qualidade de links, conectividade de redes;
+  * Utilização de banda;
+  * Saúde e uso de ativos de rede (roteadores , switches, access points CISCO, Juniper);
+  * Diversos sistemas operacionais como Windows, Linux, AIX, Solaris, HP/UX;
+  * Serviços em execução como Apache HTTPD, SSH, FTP, CIFS, Mensageria;
+  * Servidores de aplicações Java como Weblogic, Websphere, JBoss, Tomcat e Jetty;
+  * Servidores de aplicações .NET;
+  * Parâmetros de performance de serviços(tempo em banco, tempo em rede).
+
+===== Referências =====
+  * [[http://www.4linux.com.br/o-que-e-monitoramento|4linux.com]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Luca do Amaral Saboya]] 2015/03/23 17:46//

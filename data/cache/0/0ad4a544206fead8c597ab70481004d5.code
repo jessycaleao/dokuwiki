@@ -1,0 +1,45 @@
+# --
+# Kernel/Config.pm - Config file for OTRS kernel
+package Kernel::Config;
+use warnings;
+use utf8;
+&nbsp;
+BEGIN {
+        if (-f '/etc/otrs/database.pm') {
+                require '/etc/otrs/database.pm';
+                if ($dbtype eq 'pgsql') {
+                        $dbport ||= '5432';
+                        our $dsn = &quot;DBI:Pg:dbname&quot;;
+                }
+                else {
+                        $dbport ||= '3306';
+                        our $dsn = &quot;DBI:mysql:database&quot;;
+                }
+        }
+}
+&nbsp;
+sub Load {
+    my $Self = shift;
+&nbsp;
+    # ---------------------------------------------------- #
+    # database settings                                    #
+    # ---------------------------------------------------- #
+    $Self-&gt;{DatabaseHost} = $dbserver || 'mysql.ifce.edu.br';
+    $Self-&gt;{Database} = $dbname || 'otrs2';
+    $Self-&gt;{DatabaseUser} = $dbuser || 'otrs2';
+    $Self-&gt;{DatabasePw} = $dbpass || 'DISPONIVEL_NO_1PASSWORD';
+    $Self-&gt;{DatabaseDSN} = &quot;$dsn=$Self-&gt;{Database};host=$Self-&gt;{DatabaseHost};port=$dbport;&quot;;
+    # ---------------------------------------------------- #
+    # fs root directory
+    # ---------------------------------------------------- #
+    $Self-&gt;{Home} = '/usr/share/otrs';
+    # switch off the web based installer for the Debian package
+    $Self-&gt;{SecureMode} = 1;
+}
+&nbsp;
+use base qw(Kernel::Config::Defaults);
+&nbsp;
+# -----------------------------------------------------#
+&nbsp;
+1;
+~    

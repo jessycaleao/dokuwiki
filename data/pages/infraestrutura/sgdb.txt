@@ -1,0 +1,18 @@
+====== Sistema de gerenciamento de banco de dados ======
+Um Sistema de Gerenciamento de Banco de Dados (SGBD) - do inglês Data Base Management System (DBMS) - é o conjunto de programas de computador (softwares) responsáveis pelo gerenciamento de uma base de dados. Seu principal objetivo é retirar da aplicação cliente a responsabilidade de gerenciar o acesso, a manipulação e a organização dos dados. O SGBD disponibiliza uma interface para que seus clientes possam incluir, alterar ou consultar dados previamente armazenados. Em bancos de dados relacionais a interface é constituída pelas APIs (Application Programming Interface) ou drivers do SGBD, que executam comandos na linguagem SQL (Structured Query Language).
+==== Tipos de listas de email ====
+Um modelo de SGBD define como os dados serão armazenados no banco de dados. Os quatro modelos mais conhecidos são:
+  * [[http://pt.wikipedia.org/wiki/Modelo_hier%C3%A1rquico|Hierárquico]]
+  * [[http://pt.wikipedia.org/wiki/Banco_de_dados_relacional|Relacional]]
+  * [[http://pt.wikipedia.org/wiki/Banco_de_dados_orientado_a_objetos|Orientado á objetos]]
+  * [[http://pt.wikipedia.org/wiki/Base_de_dados_em_rede|Distribuído]]
+===== Sistema de gerenciamento de banco de dados =====
+  * [[infraestrutura:mysql|MySQL]]
+  * [[infraestrutura:pgsql|PgSQL]]
+  * [[infraestrutura:mssql|MSSQL]]
+===== Referências =====
+  * [[http://pt.wikipedia.org/wiki/Sistema_de_gerenciamento_de_banco_de_dados|wikipedia.org]]
+  * [[https://iscteige.wordpress.com/sistemas-de-informacao/sgbd/|iscteige.wordpress.com]]
+  * [[https://tools.ietf.org/html/rfc1697|RFC1697]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/07 10:50//

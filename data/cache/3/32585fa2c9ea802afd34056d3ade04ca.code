@@ -1,0 +1,30 @@
+;;;;;;;;;;;;;;;;;;;;;
+; FPM Configuration ;
+;;;;;;;;;;;;;;;;;;;;;
+&nbsp;
+; All relative paths in this configuration file are relative to PHP's install
+; prefix (/usr). This prefix can be dynamically changed by using the
+; '-p' argument from the command line.
+&nbsp;
+; Include one or more files. If glob(3) exists, it is used to include a bunch of
+; files from a glob(3) pattern. This directive can be used everywhere in the
+; file.
+; Relative path can also be used. They will be prefixed by:
+;  - the global prefix if it's been set (-p argument)
+;  - /usr otherwise
+;include=/etc/php5/fpm/*.conf
+&nbsp;
+;;;;;;;;;;;;;;;;;;
+; Global Options ;
+;;;;;;;;;;;;;;;;;;
+&nbsp;
+[global]
+pid = /var/run/php5-fpm.pid
+error_log = /var/log/php5-fpm.log
+emergency_restart_threshold = 0
+emergency_restart_interval = 0
+&nbsp;
+;;;;;;;;;;;;;;;;;;;;
+; Pool Definitions ; 
+;;;;;;;;;;;;;;;;;;;;
+include=/etc/php5/fpm/pool.d/*.conf

@@ -1,0 +1,64 @@
+====== NFS ======
+Network File System (NFS) é um protocolo de sistema de arquivos distribuídos originalmente desenvolvido pela Sun Microsystems em 1984, permitindo um usuário em um computador cliente, acessar arquivos pela rede da mesma forma que o faz para arquivos armazenados em seu disco local. NFS, como muitos protocolos é construído com o sistema Open Network Computing Remote Procedure Call (ONC RPC). O NFS é um padrão aberto definido nas RFC's [[http://tools.ietf.org/html/rfc1094|1094]], [[http://tools.ietf.org/html/rfc1813|1813]] e [[http://tools.ietf.org/html/rfc3530|3530]] permitindo qualquer um implementa-lo. Utilizamos o NFS na arquitetura da Diretoria de Ensino a Distância para receber todo o conteúdo submetido por alunos ao AVA de maneira rápida e escalável. O cluster PHP-FPM e o proxy reverso NGiNX, fazem uso deste compartilhamento NFS em seu filesystem de maneira transparente.
+
+===== Configurações da VPS =====
+<code>
+Hostname: ul-virtual.ifce.edu.br
+IPv4: 200.17.33.55
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> ul-virtual
+vCPU's: 2
+RAM: 4GiB
+HDD: 2x100GiB (LVM)
+</code>
+
+===== Software utilizados pelo serviço =====
+<code>
+nfs-kernel-server-1:1.2.8-6ubuntu1.1
+nfs-common-1:1.2.8-6ubuntu1.1
+vim-2:7.4.052-1ubuntu3
+</code>
+
+===== Instalação =====
+O NFS pode ser instalado via apt-get:
+<code>
+sudo apt-get install nfs-kernel-server nfs-common
+</code>
+
+===== Estrutura de diretórios =====
+Listar a estrutura de diretórios aqui:
+  * ''/etc/exports '' - Arquivos de configuração do NFS
+  * ''/opt/moodledata'' - Diretório onde encontram-se os arquivos servidos pelo NFS
+
+=== Arquivos de configuração ===
+Encontram-se no diretório ''/etc'', os arquivos de configuração do serviço
+
+==== Operando o serviço ====
+
+=== Iniciando o serviço ===
+Inicia-se o serviço do NFS através do comando:
+<code>sudo service nfs-kernel-server start</code>
+
+=== Parando o serviço ===
+Para-se o serviço do NFS através do comando:
+<code>sudo service nfs-kernel-server stop</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do NFS através do comando:
+<code>sudo service nfs-kernel-server restart</code>
+
+==== Arquivos de configuração ====
+<file conf exports>
+# /etc/exports: the access control list for filesystems which may be exported
+#		to NFS clients.  See exports(5).
+#
+/opt/moodledata		200.17.33.50(rw,sync,no_subtree_check,no_root_squash)
+</file>
+
+===== Referências =====
+  * [[http://tools.ietf.org/html/rfc1094|RFC1094]]
+  * [[http://tools.ietf.org/html/rfc1813|RFC1813]]
+  * [[http://tools.ietf.org/html/rfc3530|RFC3530]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/03/24 14:24//

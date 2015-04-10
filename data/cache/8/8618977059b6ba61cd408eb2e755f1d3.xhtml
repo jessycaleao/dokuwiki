@@ -1,0 +1,209 @@
+
+<h1 class="sectionedit1" id="postgresql">PostgreSQL</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de banco de dados PostgreSQL.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "PostgreSQL" [1-201] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: pgsql.ifce.edu.br
+IPv4: 200.17.33.33
+OS: ubuntu-12.04.5-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; pgsql
+vCPU&#039;s: 6
+RAM: 10GiB
+HDD: 250GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [202-451] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">postgresql-9.1+129ubuntu1
+postgresql-9.1-9.1.15-0ubuntu0.12.04
+postgresql-client-9.1-9.1.15-0ubuntu0.12.04
+postgresql-client-common-129ubuntu1
+postgresql-common-129ubuntu1</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [452-685] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O PostgreSQL pode ser instalado via apt-get:
+</p>
+<pre class="code">operador@postgresql:~$ sudo apt-get update; sudo apt-get install postgresql postgresql-9.1 postgresql-client-9.1 postgresql-client-common postgresql-common</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [686-927] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/etc/postgresql/9.1/main/</code> - Arquivos de configuração do serviço PostgreSQL</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/postgresql-common/</code> - Arquivos de configuração do cliente <code>psql</code></div>
+</li>
+<li class="level1"><div class="li"> <code>/var/lib/postgresql/9.1/main</code> - Arquivos binários e de banco do PostreSQL</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/log/postgresql</code> - Arquivos de log do PostgreSQL</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/etc/postgresql/9.1/main/</code>, os arquivos de configuração do serviço
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [928-1449] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do PostgreSQL através do comando:
+</p>
+<pre class="code">operador@postgresql:~$ sudo service postgresql start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do PostgreSQL através do comando:
+</p>
+<pre class="code">operador@postgresql:~$ sudo service postgresql stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do PostgreSQL através do comando:
+</p>
+<pre class="code">operador@postgresql:~$ sudo service postgresql restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [1450-1935] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:pgsql&amp;codeblock=6" title="Download Snippet" class="mediafile mf_conf">pg_hba.conf</a></dt>
+<dd><pre class="code file conf"># PostgreSQL Client Authentication Configuration File
+# ===================================================
+#
+# Database administrative login by Unix domain socket
+local   all             postgres                                trust
+&nbsp;
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+&nbsp;
+# &quot;local&quot; is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+host	all		all		10.0.0.0/8		md5
+host	all		all		200.17.33.0/24		md5
+host    all             all             201.20.97.250/30        md5
+host 	all		all		200.129.11.0/24		md5
+host	all		all		200.129.16.0/23		md5
+# IPv6 local connections:
+host    all             all             ::1/128                 md5</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:pgsql&amp;codeblock=7" title="Download Snippet" class="mediafile mf_conf">postgresql.conf</a></dt>
+<dd><pre class="code file conf"># -----------------------------
+# PostgreSQL configuration file
+# -----------------------------
+#------------------------------------------------------------------------------
+# FILE LOCATIONS
+#------------------------------------------------------------------------------
+data_directory = '/var/lib/postgresql/9.1/main'		# use data in another directory
+hba_file = '/etc/postgresql/9.1/main/pg_hba.conf'	# host-based authentication file
+ident_file = '/etc/postgresql/9.1/main/pg_ident.conf'	# ident configuration file
+external_pid_file = '/var/run/postgresql/9.1-main.pid'		# write an extra PID file
+&nbsp;
+#------------------------------------------------------------------------------
+# CONNECTIONS AND AUTHENTICATION
+#------------------------------------------------------------------------------
+# - Connection Settings -
+listen_addresses = '*'			# what IP address(es) to listen on;
+port = 5432				# (change requires restart)
+max_connections = 5000		# (change requires restart)
+unix_socket_directory = '/var/run/postgresql'		# (change requires restart)
+# - Security and Authentication -
+authentication_timeout = 1min		# 1s-600s
+ssl = true				# (change requires restart)
+ssl_ciphers = 'ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH'	# allowed SSL ciphers
+ssl_renegotiation_limit = 512MB	# amount of data between renegotiations
+password_encryption = on
+db_user_namespace = off
+&nbsp;
+#------------------------------------------------------------------------------
+# RESOURCE USAGE (except WAL)
+#------------------------------------------------------------------------------
+# - Memory -
+shared_buffers = 1024MB			# min 128kB
+temp_buffers = 512MB			# min 800kB
+work_mem = 5GB				# min 64kB
+&nbsp;
+#------------------------------------------------------------------------------
+# ERROR REPORTING AND LOGGING
+#------------------------------------------------------------------------------
+log_line_prefix = '%t '			# special values:
+&nbsp;
+#------------------------------------------------------------------------------
+# CLIENT CONNECTION DEFAULTS
+#------------------------------------------------------------------------------
+datestyle = 'iso, mdy'
+lc_messages = 'en_US.UTF-8'			# locale for system error message
+lc_monetary = 'en_US.UTF-8'			# locale for monetary formatting
+lc_numeric = 'en_US.UTF-8'			# locale for number formatting
+lc_time = 'en_US.UTF-8'				# locale for time formatting
+default_text_search_config = 'pg_catalog.english'
+&nbsp;
+#------------------------------------------------------------------------------
+# VERSION/PLATFORM COMPATIBILITY
+#------------------------------------------------------------------------------
+escape_string_warning = off
+standard_conforming_strings = off</pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [1936-5530] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.postgresql.org/docs/9.1/interactive/index.html" class="urlextern" title="http://www.postgresql.org/docs/9.1/interactive/index.html"  rel="nofollow">postgresql.org</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [5531-5636] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Lucas do Amaral Saboya</a> 2015/04/08 06:38</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [5637-] -->

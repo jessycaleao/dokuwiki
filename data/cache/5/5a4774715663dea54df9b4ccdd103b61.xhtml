@@ -1,0 +1,194 @@
+
+<h1 class="sectionedit1" id="owncloud">ownCloud</h1>
+<div class="level1">
+
+<p>
+ownCloud é um serviço de sincronia de dados via <code>WEBDAV</code> que provê, clientes multiplataforma, interface web para gerência de configurações e de arquivos e controle de acesso. Utilizamos o ownCloud na arquitetura da Diretoria de Ensino a Distância para publicar as aulas geradas pelos diagramadores WEB de maneira rápida e escalável. O Moodle, faz uso do ownCloud como um repositório onde os arquivos submetidos via ownCloud, serão acessados pelos alunos de maneira transparente.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "ownCloud" [1-516] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: dl-virtual.ifce.edu.br
+IPv4: 200.17.33.49
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; dl-virtual
+vCPU&#039;s: 2
+RAM: 4GiB
+HDD: 500GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [517-775] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">owncloud-7.0.4-3
+vim-2:7.4.052-1ubuntu3
+apache2-2.4.7-1ubuntu4.4
+php-aws-sdk-2.5.2-1
+php-dompdf-0.6.0~beta3+dfsg0-1
+php-pear-5.5.9+dfsg-1ubuntu4.7
+php-phpdocx-3.0+dfsg-1
+php-xml-parser-1.3.4-6
+php5-5.5.9+dfsg-1ubuntu4.7
+php5-apcu-4.0.2-2build1
+php5-cli-5.5.9+dfsg-1ubuntu4.7
+php5-common-5.5.9+dfsg-1ubuntu4.7
+php5-curl-5.5.9+dfsg-1ubuntu4.7
+php5-gd-5.5.9+dfsg-1ubuntu4.7
+php5-imagick-3.1.2-1build1
+php5-intl-5.5.9+dfsg-1ubuntu4.7
+php5-json-1.3.2-2build1
+php5-ldap-5.5.9+dfsg-1ubuntu4.5
+php5-mcrypt-5.4.6-0ubuntu5
+php5-mysql-5.5.9+dfsg-1ubuntu4.7
+php5-mysqlnd-5.3.10-1ubuntu3.9
+php5-oauth-1.2.3-1build1
+php5-pgsql-5.5.9+dfsg-1ubuntu4.7
+php5-readline-5.5.9+dfsg-1ubuntu4.7
+php5-sqlite-5.5.9+dfsg-1ubuntu4.7
+php5-tidy-5.5.9+dfsg-1ubuntu4.5
+php5-xsl-5.5.9+dfsg-1ubuntu4.5
+mysql-server (mysql.ifce.edu.br)</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [776-1638] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O ownCloud pode ser instalado via apt-get, com a adição de seu repositório oficial:
+</p>
+<pre class="code">wget http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_12.04/Release.key
+sudo apt-key add - &lt; Release.keyecho &#039;deb http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_12.04/ /&#039; | sudo tee -a /etc/apt/sources.list.d/owncloud.list
+sudo apt-get update
+sudo apt-get install vim apache2 owncloud php-aws-sdk php-dompdf php-pear php-phpdocx php-xml-parser php5 php5-apcu php5-cli php5-common php5-curl php5-gd php5-imagick php5-intl php5-json php5-ldap php5-mcrypt php5-mysql php5-mysqlnd php5-oauth php5-pgsql php5-readline php5-sqlite php5-tidy php5-xsl</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [1639-2360] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/var/www/owncloud</code> - Arquivos da interface web servidor pelo Apache2;</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/lib/owncloud/data</code> - Arquivos submetidos pelos clientes;</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/owncloud/</code> - Arquivos de configuração do serviço ownCloud;</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/log/owncloud.log</code> - Arquivo de log do serviço;</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/logrotate.d/owncloud</code> - Arquivo de configuração do logrotate para os logs gerados pelo serviço;</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/etc/owncloud/</code>, os arquivos de configuração do serviço e symlinks para arquivos de configuração da interface web.
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [2361-3014] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+<p>
+Por ser baseado em WEBDAV, o owncloud não necessita de daemon especifico rodando. Ele é uma aplicação web, por tanto, opera-se o serviço do Apache2. 
+</p>
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Incia-se o serviço do Apache2 através do comando:
+</p>
+<pre class="code">sudo service apache2 start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do Apache2 através do comando:
+</p>
+<pre class="code">sudo service apache2 stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do Apache2 através do comando:
+</p>
+<pre class="code">sudo service apache2 restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [3015-3567] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+
+<p>
+Arquivo de configuração do ownCloud web client:
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:owncloud&amp;codeblock=6" title="Download Snippet" class="mediafile mf_conf">owncloud.conf</a></dt>
+<dd><pre class="code file php"><span class="kw2">&lt;?php</span>
+<span class="re0">$CONFIG</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a> <span class="br0">&#40;</span>
+  <span class="st_h">'instanceid'</span> <span class="sy0">=&gt;</span> <span class="st_h">'oc49cfc91e57'</span><span class="sy0">,</span>
+  <span class="st_h">'passwordsalt'</span> <span class="sy0">=&gt;</span> <span class="st_h">'045ef77e6ef54eeb135a165a03a868'</span><span class="sy0">,</span>
+  <span class="st_h">'datadirectory'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/usr/share/owncloud/data'</span><span class="sy0">,</span>
+  <span class="st_h">'dbtype'</span> <span class="sy0">=&gt;</span> <span class="st_h">'sqlite3'</span><span class="sy0">,</span>
+  <span class="st_h">'version'</span> <span class="sy0">=&gt;</span> <span class="st_h">'6.0.0.16'</span><span class="sy0">,</span>
+  <span class="st_h">'appstoreenabled'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span>
+  <span class="st_h">'apps_paths'</span> <span class="sy0">=&gt;</span> 
+  <a href="http://www.php.net/array"><span class="kw3">array</span></a> <span class="br0">&#40;</span>
+    <span class="nu0">0</span> <span class="sy0">=&gt;</span> 
+    <a href="http://www.php.net/array"><span class="kw3">array</span></a> <span class="br0">&#40;</span>
+      <span class="st_h">'path'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/usr/share/owncloud/apps'</span><span class="sy0">,</span>
+      <span class="st_h">'url'</span> <span class="sy0">=&gt;</span> <span class="st_h">'/apps'</span><span class="sy0">,</span>
+      <span class="st_h">'writable'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span>
+    <span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="br0">&#41;</span><span class="sy0">,</span>
+  <span class="st_h">'dbname'</span> <span class="sy0">=&gt;</span> <span class="st_h">'dl-virtual'</span><span class="sy0">,</span>
+  <span class="st_h">'dbhost'</span> <span class="sy0">=&gt;</span> <span class="st_h">'mysql.ifce.edu.br'</span><span class="sy0">,</span>
+  <span class="st_h">'dbtableprefix'</span> <span class="sy0">=&gt;</span> <span class="st_h">'oc_'</span><span class="sy0">,</span>
+  <span class="st_h">'dbuser'</span> <span class="sy0">=&gt;</span> <span class="st_h">'dl-virtual'</span><span class="sy0">,</span>
+  <span class="st_h">'dbpassword'</span> <span class="sy0">=&gt;</span> <span class="st_h">'senha_disponivel_no_1password'</span><span class="sy0">,</span>
+  <span class="st_h">'installed'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+  <span class="st_h">'maxZipInputSize'</span> <span class="sy0">=&gt;</span> <span class="nu0">0</span><span class="sy0">,</span>
+  <span class="st_h">'allowZipDownload'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [3568-4341] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="https://doc.owncloud.org/server/8.0/admin_manual/" class="urlextern" title="https://doc.owncloud.org/server/8.0/admin_manual/"  rel="nofollow">owncloud.org</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [4342-4437] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Luca do Amaral Saboya</a> 2015/03/24 13:50</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [4438-] -->

@@ -1,0 +1,242 @@
+
+<h1 class="sectionedit1" id="point-to-point_tunnel_protocol_-_pptp">Point-to-Point Tunnel Protocol - PPTP</h1>
+<div class="level1">
+
+<p>
+Implementação de Virtual Private Networks - VPN&#039;s. PPTP tem seu canal de controle sobre TCP e um túnel sobre GRE para encapsulamento de pacotes PPP.
+</p>
+
+<p>
+As especificações do PPTP não descrevem obrigatoriedade de criptografia ou autenticação, seu protocolo depende apenas de um túnel ponta-a-ponta para funcionamento. Mas, as implementações mais comuns de túneis PPTP faz uso de criptografia. PPTP foi desenhado para conectividade acima de segurança. Não deve-se trafegar informações sigilosas pelo menos em vista dos riscos de segurança[1][2][3]. 
+</p>
+
+<p>
+Estas especificações podem ser encontradas no RFC2637[4], publicado em Julho de 1999. PPTP não foi proposto como um padrão pelo Internet Engineering Task Force - IETF.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Point-to-Point Tunnel Protocol - PPTP" [1-787] -->
+<h2 class="sectionedit2" id="configuracoes_do_vps">Configurações do VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: pptp.ifce.edu.br
+IPv4: 200.17.33.31
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; pptp
+vCPU&#039;s: 2
+RAM: 2GiB
+HDD: 20GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações do VPS" [788-1033] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">vim-2:7.4.052-1ubuntu3-all
+pptpd-1.3.4+27+gddb30f8-1ubuntu1-amd64
+iptables-1.4.21-1ubuntu1-amd64</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [1034-1192] -->
+<h3 class="sectionedit4" id="instalacao">Instalação</h3>
+<div class="level3">
+
+<p>
+A instalação do PPTPd, o daemon do serviço PPTP, pode ser feita via apt-get da seguinte forma:
+</p>
+<pre class="code">operador@pptp:~$ sudo apt-get install pptpd</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [1193-1372] -->
+<h3 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h3>
+<div class="level3">
+
+<p>
+Todos os arquivos de configuração do PPTP encontram-se dentro de <code>/etc/</code>:
+</p>
+<pre class="code">/etc/pptpd.conf 
+/etc/ppp/chap-secrets 
+/etc/ppp/pptpd-options </pre>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:pptp&amp;codeblock=4" title="Download Snippet" class="mediafile mf_conf">pptpd.conf</a></dt>
+<dd><pre class="code file conf"># TAG: option
+option /etc/ppp/pptpd-options
+# TAG: logwtmp
+logwtmp
+# TAG: localip
+localip 192.168.50.1
+# TAG: remoteip
+remoteip 192.168.50.190-240</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:pptp&amp;codeblock=5" title="Download Snippet" class="mediafile mf_">pptpd-options</a></dt>
+<dd><pre class="code file conf"># Authentication
+name pptpd
+refuse-pap
+refuse-chap
+refuse-mschap
+require-mschap-v2
+require-mppe-128
+# Network and Routing
+ms-dns 200.17.33.7
+ms-dns 200.17.33.89
+proxyarp
+nodefaultroute
+# Miscellaneous
+lock
+nobsdcomp
+novj
+novjccomp
+nologfd</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:pptp&amp;codeblock=6" title="Download Snippet" class="mediafile mf_">chap-secrets</a></dt>
+<dd><pre class="code file conf"># Secrets for authentication using CHAP
+# client          server  secret                  IP addresses
+NOME_DE_USUARIO   pptpd   SENHA_DE_ACESSO         *
+NOME_DE_USUARIO2  pptpd   SENHA_DE_ACESSO2        CIDR</pre>
+</dd></dl>
+
+</div>
+
+<h4 id="habilitando_roteamento_de_pacotes_pelo_kernel_do_servidor">Habilitando roteamento de pacotes pelo kernel do servidor</h4>
+<div class="level4">
+
+<p>
+Edite o arquivo <code>sysctl.conf</code> e descomente a linha:
+</p>
+<pre class="code">net.ipv4.ip_forward=1</pre>
+
+<p>
+Em sequida recarrege o arquivo sysctl.conf:
+</p>
+<pre class="code">sudo sysctl -p</pre>
+
+<p>
+Agora, precisamos criar o NAT para a rede ppp e a interface de rede do servidor:
+</p>
+<pre class="code">sudo iptables --append INPUT --source 192.168.0.0/16 --in-interface ppp0 -j ACCEPT
+sudo iptables --append FORWARD --in-interface eth0 -j ACCEPT
+sudo iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
+sudo iptables --table nat --append POSTROUTING --out-interface ppp0 -j MASQUERADE
+sudo iptables-save</pre>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [1373-2949] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do PPTPd através do comando:
+</p>
+<pre class="code">sudo service pptpd start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do PPTPd através do comando:
+</p>
+<pre class="code">sudo service pptpd stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do PPTPd através do comando:
+</p>
+<pre class="code">sudo service pptpd restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [2950-3341] -->
+<h2 class="sectionedit7" id="configurando_clientes_ptpp">Configurando Clientes PTPP</h2>
+<div class="level2">
+
+<p>
+Do lado do cliente, poucas configurações se fazem necessárias:
+</p>
+
+</div>
+<!-- EDIT7 SECTION "Configurando Clientes PTPP" [3342-3446] -->
+<h3 class="sectionedit8" id="windows_81">Windows 8.1</h3>
+<div class="level3">
+
+<p>
+Na tela inicial do Windows (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.04_am.png" class="media" title="infraestrutura:screen_shot_2015-03-21_at_11.41.04_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=c8bdd7&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.04_am.png" class="mediacenter" alt="" width="200" /></a>
+Digite <code>Painel de Controle</code>ou <code>Control Panel</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.08_am.png" class="media" title="infraestrutura:screen_shot_2015-03-21_at_11.41.08_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=b5f731&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.08_am.png" class="mediacenter" alt="" width="200" /></a>
+No Painel de controle, selecione a opção <code>Rede e Internet</code> ou <code>Network and Internet</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.20_am.png" class="media" title="infraestrutura:screen_shot_2015-03-21_at_11.41.20_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=6da542&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.20_am.png" class="mediacenter" alt="" width="200" /></a>
+Na seção Rede e Internet, Selecione <code>Central de rede e compartilhamento</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.23_am.png" class="media" title="infraestrutura:screen_shot_2015-03-21_at_11.41.23_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=2c8f48&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.23_am.png" class="mediacenter" alt="" width="200" /></a>
+Dentro da central de rede compartilhamento, selecione a opção <code>Configurar uma nova conexão ou rede</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.37_am.png" class="media" title="infraestrutura:screen_shot_2015-03-21_at_11.41.37_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=ff4105&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.37_am.png" class="mediacenter" alt="" width="200" /></a>
+No wizzard de configuração de novas conexões, selecione a opção <code>Conectar-se a um Local de Trabalho</code>(Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.42_am.png" class="media" title="infraestrutura:screen_shot_2015-03-21_at_11.41.42_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=f46c86&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.42_am.png" class="mediacenter" alt="" width="200" /></a>
+Clique em <code>Usar minha conexão com a Internet (VPN)</code> Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.52_am.png" class="media" title="infraestrutura:screen_shot_2015-03-21_at_11.41.52_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=2843bb&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.52_am.png" class="mediacenter" alt="" width="200" /></a>
+No próximo passo, entre com o nome <code>pptp.ifce.edu.br</code> na caixa de texto <code>Endereço na Internet</code>. Do mesmo modo, entre com o nome <code>VPN PPTP IFCE</code> na caixa de texto <code>Nome do destino</code>. Deixe o restante das opções conforme o exemplo abaixo. Em seguida, pressione o botão <code>
+Criar</code>. Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.42.51_am.png" class="media" title="infraestrutura:screen_shot_2015-03-21_at_11.42.51_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=335a4d&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.42.51_am.png" class="mediacenter" alt="" width="200" /></a>
+Após criada a conexão pptp, precisamos agora configurar quais protocolos poderão ser usandos na conexão. Para isto, retorne a <code>Central de rede e compartilhamento</code> e clique em <code>Alterar as configurações do adaptador</code> Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.30_am.png" class="media" title="infraestrutura:screen_shot_2015-03-21_at_11.41.30_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=a2204d&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.41.30_am.png" class="mediacenter" alt="" width="200" /></a>
+Selecione com o botão direito do mouse, a conexão que criamos anteriormente <code>VPN PPTP IFCE</code>:
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.43.03_am.png" class="media" title="infraestrutura:screen_shot_2015-03-21_at_11.43.03_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=ea520e&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.43.03_am.png" class="mediacenter" alt="" width="200" /></a>
+E clique em <code>Propriedades</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.43.05_am.png" class="media" title="infraestrutura:screen_shot_2015-03-21_at_11.43.05_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=8814e2&amp;media=infraestrutura:screen_shot_2015-03-21_at_11.43.05_am.png" class="mediacenter" alt="" width="200" /></a>
+Nas propriedades da conexão pptp que criamos, clique na terceira aba, <code>Segurança</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp&amp;media=infraestrutura:screen_shot_2015-03-10_at_2.17.11_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-10_at_2.17.11_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=dc0b38&amp;media=infraestrutura:screen_shot_2015-03-10_at_2.17.11_pm.png" class="mediacenter" alt="" width="200" /></a>
+Nesta seção, especifique:
+No tipo de VPN: <code>Protocolo PPTP (Point to Point Tunnelling Protocol)</code>
+Em encriptação de dados, especifique <code>Encriptação opcional (lig. efetuada mesmo sem encriptação)</code>
+Marque a opção <code>Permitir estes protocolos</code> e selecione os seguintes protocolos:
+</p>
+<pre class="code">PAP
+CHAP
+MS-CHAP v2</pre>
+
+</div>
+<!-- EDIT8 SECTION "Windows 8.1" [3447-6110] -->
+<h3 class="sectionedit9" id="linux">Linux</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT9 SECTION "Linux" [6111-6126] -->
+<h3 class="sectionedit10" id="mac">Mac</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT10 SECTION "Mac" [6127-6140] -->
+<h2 class="sectionedit11" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="http://tools.ietf.org/html/rfc2637" class="urlextern" title="http://tools.ietf.org/html/rfc2637"  rel="nofollow">ietf.org</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol" class="urlextern" title="http://en.wikipedia.org/wiki/Point-to-Point_Tunneling_Protocol"  rel="nofollow">Wikipedia.org</a></div>
+</li>
+<li class="level1"><div class="li"> [1]<a href="https://www.bestvpn.com/blog/4147/pptp-vs-l2tp-vs-openvpn-vs-sstp-vs-ikev2/" class="urlextern" title="https://www.bestvpn.com/blog/4147/pptp-vs-l2tp-vs-openvpn-vs-sstp-vs-ikev2/"  rel="nofollow">bestvpn.com</a></div>
+</li>
+<li class="level1"><div class="li"> [2]<a href="https://www.schneier.com/pptp.html" class="urlextern" title="https://www.schneier.com/pptp.html"  rel="nofollow">schneier.com</a></div>
+</li>
+<li class="level1"><div class="li"> [3]<a href="https://github.com/moxie0/chapcrack" class="urlextern" title="https://github.com/moxie0/chapcrack"  rel="nofollow">chapcrak@github</a></div>
+</li>
+<li class="level1"><div class="li"> [4]<a href="http://tools.ietf.org/html/rfc2637" class="urlextern" title="http://tools.ietf.org/html/rfc2637"  rel="nofollow">RFC 2637</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT11 SECTION "Referências" [6141-] -->

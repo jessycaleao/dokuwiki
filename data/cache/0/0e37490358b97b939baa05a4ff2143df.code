@@ -1,0 +1,42 @@
+<span class="kw2">&lt;?php</span>
+<span class="coMULTI">/*
+ Debian note:
+ This file is based on and replaces the include/config.php file normaly
+ found in the cacti source. Most cacti configuration is done via the
+ web-interface and stored in a mysql database, however, some things need
+ to be defined or can be overwritten here.
+&nbsp;
+ Database access settings are automatically generated from 
+ /etc/dbconfig-common/cacti.conf by /usr/sbin/dbconfig-generate-include
+&nbsp;
+ By default this file is managed via ucf, so you shouldn't have to
+ worry about manual changes being silently discarded.  *However*,
+ you'll probably also want to edit the configuration file mentioned
+ above too.
+*/</span>
+&nbsp;
+<span class="coMULTI">/* make sure these values refect your actual database/host/user/password */</span>
+<span class="re0">$database_type</span> <span class="sy0">=</span> <span class="st0">&quot;mysql&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_default</span> <span class="sy0">=</span> <span class="st0">&quot;cacti&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_hostname</span> <span class="sy0">=</span> <span class="st0">&quot;mysql.ifce.edu.br&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_username</span> <span class="sy0">=</span> <span class="st0">&quot;cacti&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_password</span> <span class="sy0">=</span> <span class="st0">&quot;senha-encontra-se-no-1password&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_port</span> <span class="sy0">=</span> <span class="st0">&quot;3306&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_ssl</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="coMULTI">/*
+   Edit this to point to the default URL of your Cacti install
+   ex: if your cacti install as at http://serverip/cacti/ this
+   would be set to /cacti/
+&nbsp;
+   Debian addition:
+   If used together with a http deamon, it should be configured
+   consistently. Using an empty path makes all links relative.
+*/</span>
+<span class="co1">//$url_path = &quot;/cacti/&quot;;</span>
+&nbsp;
+<span class="coMULTI">/* Default session name - Session name must contain alpha characters */</span>
+<span class="co1">//$cacti_session_name = &quot;Cacti&quot;;</span>
+<span class="re0">$plugins</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$plugins</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'weathermap'</span><span class="sy0">;</span>
+<span class="sy1">?&gt;</span>

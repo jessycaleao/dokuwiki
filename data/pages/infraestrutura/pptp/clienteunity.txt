@@ -1,0 +1,31 @@
+ ==== Unity ====
+Na tela inicial do Unity, clique no ícone referente ao gerenciador de conexões de rede ''NetworkManager'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_5.14.45_pm.png?200 |}}
+
+Posicione o cursor sobre ''Conexões VPN'' ou ''VPN Connections'' -> ''Configurar VPN'' ou ''Configure VPN'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_5.16.55_pm.png?200 |}}
+
+Na nova janela criada para gerência de conexões de rede, clique em ''Adicionar'' ou ''Add'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_5.17.03_pm.png?200 |}}
+
+No primeiro campo, defina  ''Point-to-Point Tunneling Protocol (PPTP)''. Se no seu utilitário de configuração, esta opção não estiver disponível, instale o com o comando (Clique para ampliar):
+<code>
+sudo apt-get install network-manager-pptp
+</code>
+{{ :infraestrutura:screen_shot_2015-03-23_at_5.17.08_pm.png?200 |}}
+
+Na seção geral, defina no campo ''Gateway'': pptp.ifce.edu.br e na seção ''Optional'', defina as credenciais que recebeu da DGTI e em seguida clique em ''Advanced'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_5.17.32_pm.png?200 |}}
+
+Na seção ''Security and Compression'', marque a opção ''Use Point-to-Point encryption (MPPE)''e em seguida clique em ''ok'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_5.17.35_pm.png?200 |}}
+
+De volta as configuraçõs principais da conexão que acabamos de criar, apenas clique em ''Save'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_5.17.37_pm.png?200 |}}
+
+Agora, de volta ao ícone do gerenciador de redes ''Network Manager'', navegue com o mouse até  ''VPN Connections'' -> ''VPN IFCE (PPT)''(Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_5.17.42_pm.png?200 |}}
+{{ :infraestrutura:screen_shot_2015-03-23_at_5.17.46_pm.png?200 |}}
+
+Para desconectar da VPN, de volta ao ícone do gerenciador de redes ''Network Manager'', navegue com o mouse até  ''VPN Connections'' -> ''Disconnect VPN'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_5.18.00_pm.png?200 |}}

@@ -1,0 +1,740 @@
+
+<h1 class="sectionedit1" id="apache">Apache</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor web.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Apache" [1-172] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: www.ifce.edu.br
+IPv4: 200.17.33.2
+OS: CentOS-release-6.6-amd64
+Username: root
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; www
+vCPU&#039;s: 6
+RAM: 8GiB
+HDD: 240GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [173-412] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">httpd-2.2.15-39.el6.centos.x86_64
+httpd-tools-2.2.15-39.el6.centos.x86_64
+php-gd-5.3.3-40.el6_6.x86_64
+php-mysql-5.3.3-40.el6_6.x86_64
+php-mbstring-5.3.3-40.el6_6.x86_64
+php-pear-1.9.4-4.el6.noarch
+php-pear-Cache-Lite-1.7.12-1.el6.noarch
+php-pear-DB-1.7.13-3.el6.noarch
+php-pdo-5.3.3-40.el6_6.x86_64
+php-xml-5.3.3-40.el6_6.x86_64
+php-snmp-5.3.3-40.el6_6.x86_64
+php-5.3.3-40.el6_6.x86_64
+php-odbc-5.3.3-40.el6_6.x86_64
+php-pear-CAS-1.3.3-1.el6.noarch
+php-ldap-5.3.3-40.el6_6.x86_64
+php-bcmath-5.3.3-40.el6_6.x86_64
+php-mssql-5.3.3-3.el6.x86_64
+php-pgsql-5.3.3-40.el6_6.x86_64
+php-xmlrpc-5.3.3-40.el6_6.x86_64
+php-mcrypt-5.3.3-3.el6.x86_64
+php-pear-Date-1.4.7-5.el6.noarch
+php-common-5.3.3-40.el6_6.x86_64
+php-cli-5.3.3-40.el6_6.x86_64</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [413-1208] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O Apach2 pode ser instalado via yum:
+</p>
+<pre class="code">[root@www ~]# yum update -y; yum install httpd httpd-tools php-gd php-mysql php-mbstring php-pear php-pear-Cache-Lite php-pear-DB php-pdo php-xml php-snmp php php-odbc php-pear-CAS php-ldap php-bcmath php-mssql php-pgsql php-xmlrpc php-mcrypt php-pear-Date php-common php-cli</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [1209-1562] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/etc/httpd/&#039; - Arquivos de configuração do Apache
+  * </code>/etc/php.ini&#039; - Arquivo de configuração do PHP</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/www/html/</code> - Fontes do site principal (<a href="http://www.ifce.edu.br" class="urlextern" title="http://www.ifce.edu.br"  rel="nofollow">www.ifce.edu.br</a>)</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/www/sites/</code> - Fontes dos demais sites a serem servidos</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/log/http/</code> - Arquivos de log do Apache &amp; PHP</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/etc</code> e <code>/etc/httpd</code>, os arquivos de configuração do Apache e do PHP
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [1563-2083] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do Apache através do comando:
+</p>
+<pre class="code">[root@www ~]# service httpd start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do Apache através do comando:
+</p>
+<pre class="code">[root@www ~]# service httpd stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do Apache através do comando:
+</p>
+<pre class="code">[root@www ~]# service httpd restart</pre>
+
+</div>
+
+<h4 id="adicionando_um_novo_virtualhost">Adicionando um novo VirtualHost</h4>
+<div class="level4">
+
+<p>
+Nosso colaborador Lucas do Amaral Saboya escreveu um shellscript para automatizar a criação de novos VirtualHosts. Para utiliza-lo basta utilizar o seguinte comando:
+</p>
+<pre class="code">[root@www ~]# site</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [2084-2742] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:apache&amp;codeblock=7" title="Download Snippet" class="mediafile mf_ini">php.ini</a></dt>
+<dd><pre class="code file ini"><span class="re0"><span class="br0">&#91;</span>PHP<span class="br0">&#93;</span></span>
+<span class="re1">engine</span> <span class="sy0">=</span><span class="re2"> On</span>
+<span class="re1">short_open_tag</span> <span class="sy0">=</span><span class="re2"> On</span>
+<span class="re1">asp_tags</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">precision</span> <span class="sy0">=</span><span class="re2"> 14</span>
+<span class="re1">y2k_compliance</span> <span class="sy0">=</span><span class="re2"> On</span>
+<span class="re1">output_buffering</span> <span class="sy0">=</span><span class="re2"> 4096</span>
+zlib.output_compression <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">implicit_flush</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">unserialize_callback_func</span> <span class="sy0">=</span>
+<span class="re1">serialize_precision</span> <span class="sy0">=</span><span class="re2"> 100</span>
+<span class="re1">allow_call_time_pass_reference</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">safe_mode</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">safe_mode_gid</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">safe_mode_include_dir</span> <span class="sy0">=</span>
+<span class="re1">safe_mode_exec_dir</span> <span class="sy0">=</span>
+<span class="re1">safe_mode_allowed_env_vars</span> <span class="sy0">=</span><span class="re2"> PHP_</span>
+<span class="re1">safe_mode_protected_env_vars</span> <span class="sy0">=</span><span class="re2"> LD_LIBRARY_PATH</span>
+<span class="re1">disable_functions</span> <span class="sy0">=</span>
+<span class="re1">disable_classes</span> <span class="sy0">=</span>
+&nbsp;
+<span class="co0">;;;;;;;;;;;;;;;;;</span>
+<span class="co0">; Miscellaneous ;</span>
+<span class="co0">;;;;;;;;;;;;;;;;;</span>
+<span class="re1">expose_php</span> <span class="sy0">=</span><span class="re2"> On</span>
+&nbsp;
+<span class="co0">;;;;;;;;;;;;;;;;;;;</span>
+<span class="co0">; Resource Limits ;</span>
+<span class="co0">;;;;;;;;;;;;;;;;;;;</span>
+<span class="re1">max_execution_time</span> <span class="sy0">=</span><span class="re2"> 600     </span>
+<span class="re1">max_input_time</span> <span class="sy0">=</span><span class="re2"> 600</span>
+<span class="re1">memory_limit</span> <span class="sy0">=</span><span class="re2"> 256M</span>
+&nbsp;
+<span class="co0">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span class="co0">; Error handling and logging ;</span>
+<span class="co0">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span class="re1">error_reporting</span> <span class="sy0">=</span><span class="re2"> E_ALL &amp; ~E_NOTICE</span>
+<span class="re1">display_errors</span> <span class="sy0">=</span><span class="re2"> On</span>
+<span class="re1">display_startup_errors</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">log_errors</span> <span class="sy0">=</span><span class="re2"> On</span>
+<span class="re1">log_errors_max_len</span> <span class="sy0">=</span><span class="re2"> 1024</span>
+<span class="re1">ignore_repeated_errors</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">ignore_repeated_source</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">report_memleaks</span> <span class="sy0">=</span><span class="re2"> On</span>
+<span class="re1">track_errors</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">html_errors</span> <span class="sy0">=</span><span class="re2"> Off</span>
+&nbsp;
+<span class="co0">;;;;;;;;;;;;;;;;;</span>
+<span class="co0">; Data Handling ;</span>
+<span class="co0">;;;;;;;;;;;;;;;;;</span>
+<span class="re1">variables_order</span> <span class="sy0">=</span> <span class="st0">&quot;GPCS&quot;</span>
+<span class="re1">request_order</span> <span class="sy0">=</span> <span class="st0">&quot;GP&quot;</span>
+<span class="re1">register_globals</span> <span class="sy0">=</span><span class="re2"> On</span>
+<span class="re1">register_long_arrays</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">register_argc_argv</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">auto_globals_jit</span> <span class="sy0">=</span><span class="re2"> On</span>
+<span class="re1">post_max_size</span> <span class="sy0">=</span><span class="re2"> 5120M</span>
+<span class="re1">magic_quotes_gpc</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">magic_quotes_runtime</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">magic_quotes_sybase</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">auto_prepend_file</span> <span class="sy0">=</span>
+<span class="re1">auto_append_file</span> <span class="sy0">=</span>
+<span class="re1">default_mimetype</span> <span class="sy0">=</span> <span class="st0">&quot;text/html&quot;</span>
+&nbsp;
+<span class="co0">;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span class="co0">; Paths and Directories ;</span>
+<span class="co0">;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span class="re1">doc_root</span> <span class="sy0">=</span>
+<span class="re1">user_dir</span> <span class="sy0">=</span>
+<span class="re1">enable_dl</span> <span class="sy0">=</span><span class="re2"> Off</span>
+&nbsp;
+<span class="co0">;;;;;;;;;;;;;;;;</span>
+<span class="co0">; File Uploads ;</span>
+<span class="co0">;;;;;;;;;;;;;;;;</span>
+<span class="re1">file_uploads</span> <span class="sy0">=</span><span class="re2"> On</span>
+<span class="re1">upload_max_filesize</span> <span class="sy0">=</span><span class="re2"> 5120M</span>
+&nbsp;
+<span class="co0">;;;;;;;;;;;;;;;;;;</span>
+<span class="co0">; Fopen wrappers ;</span>
+<span class="co0">;;;;;;;;;;;;;;;;;;</span>
+<span class="re1">allow_url_fopen</span> <span class="sy0">=</span><span class="re2"> On</span>
+<span class="re1">allow_url_include</span> <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re1">default_socket_timeout</span> <span class="sy0">=</span><span class="re2"> 60</span>
+&nbsp;
+<span class="co0">;;;;;;;;;;;;;;;;;;;</span>
+<span class="co0">; Module Settings ;</span>
+<span class="co0">;;;;;;;;;;;;;;;;;;;</span>
+<span class="re0"><span class="br0">&#91;</span>Date<span class="br0">&#93;</span></span>
+date.timezone <span class="sy0">=</span> <span class="st0">&quot;America/Fortaleza&quot;</span>
+&nbsp;
+<span class="re0"><span class="br0">&#91;</span>filter<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>iconv<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>intl<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>sqlite<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>sqlite3<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>Pcre<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>Pdo<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>Phar<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>Syslog<span class="br0">&#93;</span></span>
+<span class="re1">define_syslog_variables</span>  <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re0"><span class="br0">&#91;</span>mail function<span class="br0">&#93;</span></span>
+<span class="re1">SMTP</span> <span class="sy0">=</span><span class="re2"> mail.ifce.edu.br</span>
+<span class="re1">smtp_port</span> <span class="sy0">=</span><span class="re2"> 25</span>
+<span class="re1">sendmail_from</span> <span class="sy0">=</span><span class="re2"> root@ifce.edu.br</span>
+<span class="re1">sendmail_path</span> <span class="sy0">=</span><span class="re2"> /usr/sbin/sendmail -t -i</span>
+mail.add_x_header <span class="sy0">=</span><span class="re2"> On</span>
+<span class="re0"><span class="br0">&#91;</span>SQL<span class="br0">&#93;</span></span>
+sql.safe_mode <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re0"><span class="br0">&#91;</span>ODBC<span class="br0">&#93;</span></span>
+odbc.allow_persistent <span class="sy0">=</span><span class="re2"> On</span>
+odbc.check_persistent <span class="sy0">=</span><span class="re2"> On</span>
+odbc.max_persistent <span class="sy0">=</span><span class="re2"> -1</span>
+odbc.max_links <span class="sy0">=</span><span class="re2"> -1</span>
+odbc.defaultlrl <span class="sy0">=</span><span class="re2"> 4096</span>
+odbc.defaultbinmode <span class="sy0">=</span><span class="re2"> 1</span>
+<span class="re0"><span class="br0">&#91;</span>MySQL<span class="br0">&#93;</span></span>
+mysql.allow_persistent <span class="sy0">=</span><span class="re2"> On</span>
+mysql.max_persistent <span class="sy0">=</span><span class="re2"> -1</span>
+mysql.max_links <span class="sy0">=</span><span class="re2"> -1</span>
+mysql.default_port <span class="sy0">=</span>
+mysql.default_socket <span class="sy0">=</span>
+mysql.default_host <span class="sy0">=</span>
+mysql.default_user <span class="sy0">=</span>
+mysql.default_password <span class="sy0">=</span>
+mysql.connect_timeout <span class="sy0">=</span><span class="re2"> 60</span>
+mysql.trace_mode <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re0"><span class="br0">&#91;</span>MySQLi<span class="br0">&#93;</span></span>
+mysqli.max_links <span class="sy0">=</span><span class="re2"> -1</span>
+mysqli.default_port <span class="sy0">=</span><span class="re2"> 3306</span>
+mysqli.default_socket <span class="sy0">=</span>
+mysqli.default_host <span class="sy0">=</span>
+mysqli.default_user <span class="sy0">=</span>
+mysqli.default_pw <span class="sy0">=</span>
+mysqli.reconnect <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re0"><span class="br0">&#91;</span>PostgresSQL<span class="br0">&#93;</span></span>
+pgsql.allow_persistent <span class="sy0">=</span><span class="re2"> On</span>
+pgsql.auto_reset_persistent <span class="sy0">=</span><span class="re2"> Off</span>
+pgsql.max_persistent <span class="sy0">=</span><span class="re2"> -1</span>
+pgsql.max_links <span class="sy0">=</span><span class="re2"> -1</span>
+pgsql.ignore_notice <span class="sy0">=</span><span class="re2"> 0</span>
+pgsql.log_notice <span class="sy0">=</span><span class="re2"> 0</span>
+<span class="re0"><span class="br0">&#91;</span>Sybase-CT<span class="br0">&#93;</span></span>
+sybct.allow_persistent <span class="sy0">=</span><span class="re2"> On</span>
+sybct.max_persistent <span class="sy0">=</span><span class="re2"> -1</span>
+sybct.max_links <span class="sy0">=</span><span class="re2"> -1</span>
+sybct.min_server_severity <span class="sy0">=</span><span class="re2"> 10</span>
+sybct.min_client_severity <span class="sy0">=</span><span class="re2"> 10</span>
+<span class="re0"><span class="br0">&#91;</span>bcmath<span class="br0">&#93;</span></span>
+bcmath.scale <span class="sy0">=</span><span class="re2"> 0</span>
+<span class="re0"><span class="br0">&#91;</span>browscap<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>Session<span class="br0">&#93;</span></span>
+session.save_handler <span class="sy0">=</span><span class="re2"> files</span>
+session.save_path <span class="sy0">=</span> <span class="st0">&quot;/var/lib/php/session&quot;</span>
+session.use_cookies <span class="sy0">=</span><span class="re2"> 1</span>
+session.use_only_cookies <span class="sy0">=</span><span class="re2"> 1</span>
+session.name <span class="sy0">=</span><span class="re2"> PHPSESSID</span>
+session.auto_start <span class="sy0">=</span><span class="re2"> 0</span>
+session.cookie_lifetime <span class="sy0">=</span><span class="re2"> 0</span>
+session.cookie_path <span class="sy0">=</span><span class="re2"> /</span>
+session.cookie_domain <span class="sy0">=</span>
+session.cookie_httponly <span class="sy0">=</span> 
+session.serialize_handler <span class="sy0">=</span><span class="re2"> php</span>
+session.gc_probability <span class="sy0">=</span><span class="re2"> 1</span>
+session.gc_divisor <span class="sy0">=</span><span class="re2"> 1000</span>
+session.gc_maxlifetime <span class="sy0">=</span><span class="re2"> 1440</span>
+session.bug_compat_42 <span class="sy0">=</span><span class="re2"> Off</span>
+session.bug_compat_warn <span class="sy0">=</span><span class="re2"> Off</span>
+session.referer_check <span class="sy0">=</span>
+session.entropy_length <span class="sy0">=</span><span class="re2"> 0</span>
+session.entropy_file <span class="sy0">=</span>
+session.cache_limiter <span class="sy0">=</span><span class="re2"> nocache</span>
+session.cache_expire <span class="sy0">=</span><span class="re2"> 180</span>
+session.use_trans_sid <span class="sy0">=</span><span class="re2"> 0</span>
+session.hash_function <span class="sy0">=</span><span class="re2"> 0</span>
+session.hash_bits_per_character <span class="sy0">=</span><span class="re2"> 5</span>
+url_rewriter.tags <span class="sy0">=</span> <span class="st0">&quot;a=href,area=href,frame=src,input=src,form=fakeentry&quot;</span>
+<span class="re0"><span class="br0">&#91;</span>MSSQL<span class="br0">&#93;</span></span>
+mssql.allow_persistent <span class="sy0">=</span><span class="re2"> On</span>
+mssql.max_persistent <span class="sy0">=</span><span class="re2"> -1</span>
+mssql.max_links <span class="sy0">=</span><span class="re2"> -1</span>
+mssql.min_error_severity <span class="sy0">=</span><span class="re2"> 10</span>
+mssql.min_message_severity <span class="sy0">=</span><span class="re2"> 10</span>
+mssql.compatability_mode <span class="sy0">=</span><span class="re2"> Off</span>
+mssql.secure_connection <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re0"><span class="br0">&#91;</span>Assertion<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>COM<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>mbstring<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>gd<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>exif<span class="br0">&#93;</span></span>
+<span class="re0"><span class="br0">&#91;</span>Tidy<span class="br0">&#93;</span></span>
+tidy.clean_output <span class="sy0">=</span><span class="re2"> Off</span>
+<span class="re0"><span class="br0">&#91;</span>soap<span class="br0">&#93;</span></span>
+soap.wsdl_cache_enabled<span class="sy0">=</span><span class="re2">1</span>
+soap.wsdl_cache_dir<span class="sy0">=</span><span class="st0">&quot;/tmp&quot;</span>
+soap.wsdl_cache_ttl<span class="sy0">=</span><span class="re2">86400</span>
+<span class="re0"><span class="br0">&#91;</span>sysvshm<span class="br0">&#93;</span></span></pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:apache&amp;codeblock=8" title="Download Snippet" class="mediafile mf_conf">httpd.conf</a></dt>
+<dd><pre class="code file conf">### Section 1: Global Environment
+#
+ServerTokens OS
+ServerRoot &quot;/etc/httpd&quot;
+PidFile run/httpd.pid
+Timeout 120
+KeepAlive Off
+MaxKeepAliveRequests 100
+KeepAliveTimeout 15
+&nbsp;
+##
+## Server-Pool Size Regulation (MPM specific)
+## 
+&lt;IfModule prefork.c&gt;
+StartServers       8
+MinSpareServers    5
+MaxSpareServers   20
+ServerLimit      256
+MaxClients       256
+MaxRequestsPerChild  2000
+&lt;/IfModule&gt;
+#
+&lt;IfModule worker.c&gt;
+StartServers         4
+MaxClients         300
+MinSpareThreads     25
+MaxSpareThreads     75 
+ThreadsPerChild     25
+MaxRequestsPerChild  0
+&lt;/IfModule&gt;
+&nbsp;
+# Listen: Allows you to bind Apache to specific IP addresses and/or
+# ports, in addition to the default. See also the &lt;VirtualHost&gt;
+# directive.
+Listen 80
+&nbsp;
+LoadModule auth_basic_module modules/mod_auth_basic.so
+LoadModule auth_digest_module modules/mod_auth_digest.so
+LoadModule authn_file_module modules/mod_authn_file.so
+LoadModule authn_alias_module modules/mod_authn_alias.so
+LoadModule authn_anon_module modules/mod_authn_anon.so
+LoadModule authn_dbm_module modules/mod_authn_dbm.so
+LoadModule authn_default_module modules/mod_authn_default.so
+LoadModule authz_host_module modules/mod_authz_host.so
+LoadModule authz_user_module modules/mod_authz_user.so
+LoadModule authz_owner_module modules/mod_authz_owner.so
+LoadModule authz_groupfile_module modules/mod_authz_groupfile.so
+LoadModule authz_dbm_module modules/mod_authz_dbm.so
+LoadModule authz_default_module modules/mod_authz_default.so
+LoadModule ldap_module modules/mod_ldap.so
+LoadModule authnz_ldap_module modules/mod_authnz_ldap.so
+LoadModule include_module modules/mod_include.so
+LoadModule log_config_module modules/mod_log_config.so
+LoadModule logio_module modules/mod_logio.so
+LoadModule env_module modules/mod_env.so
+LoadModule ext_filter_module modules/mod_ext_filter.so
+LoadModule mime_magic_module modules/mod_mime_magic.so
+LoadModule expires_module modules/mod_expires.so
+LoadModule deflate_module modules/mod_deflate.so
+LoadModule headers_module modules/mod_headers.so
+LoadModule usertrack_module modules/mod_usertrack.so
+LoadModule setenvif_module modules/mod_setenvif.so
+LoadModule mime_module modules/mod_mime.so
+LoadModule dav_module modules/mod_dav.so
+LoadModule status_module modules/mod_status.so
+LoadModule autoindex_module modules/mod_autoindex.so
+LoadModule info_module modules/mod_info.so
+LoadModule dav_fs_module modules/mod_dav_fs.so
+LoadModule vhost_alias_module modules/mod_vhost_alias.so
+LoadModule negotiation_module modules/mod_negotiation.so
+LoadModule dir_module modules/mod_dir.so
+LoadModule actions_module modules/mod_actions.so
+LoadModule speling_module modules/mod_speling.so
+LoadModule userdir_module modules/mod_userdir.so
+LoadModule alias_module modules/mod_alias.so
+LoadModule substitute_module modules/mod_substitute.so
+LoadModule rewrite_module modules/mod_rewrite.so
+#LoadModule proxy_module modules/mod_proxy.so
+#LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+#LoadModule proxy_ftp_module modules/mod_proxy_ftp.so
+#LoadModule proxy_http_module modules/mod_proxy_http.so
+#LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
+#LoadModule proxy_connect_module modules/mod_proxy_connect.so
+LoadModule cache_module modules/mod_cache.so
+LoadModule suexec_module modules/mod_suexec.so
+LoadModule disk_cache_module modules/mod_disk_cache.so
+LoadModule cgi_module modules/mod_cgi.so
+LoadModule version_module modules/mod_version.so
+&nbsp;
+&nbsp;
+# Load config files from the config directory &quot;/etc/httpd/conf.d&quot;.
+#
+Include conf.d/*.conf
+#
+User apache
+Group apache
+&nbsp;
+### Section 2: 'Main' server configuration
+#
+ServerAdmin root@ifce.edu.br
+ServerName webserver.ifce.edu.br:80
+UseCanonicalName Off
+DocumentRoot &quot;/var/www/html&quot;
+&nbsp;
+&lt;Directory /&gt;
+Options Indexes FollowSymLinks
+AllowOverride all
+Order deny,allow
+Allow from all
+&lt;/Directory&gt;
+&nbsp;
+&lt;Directory &quot;/var/www/html&quot;&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+&lt;/Directory&gt;
+&nbsp;
+&lt;Directory &quot;/var/www/sites/*/html&quot;&gt;
+	Options Indexes FollowSymLinks
+	AllowOverride All
+	Order deny,allow
+	Allow from all
+&lt;/Directory&gt;
+&nbsp;
+&lt;IfModule mod_userdir.c&gt;
+    UserDir disabled
+&lt;/IfModule&gt;
+#
+# DirectoryIndex: sets the file that Apache will serve if a directory
+# is requested.
+#
+DirectoryIndex index.html index.html.var index.php
+&nbsp;
+#
+# AccessFileName: The name of the file to look for in each directory
+# for additional configuration directives.  See also the AllowOverride
+# directive.
+#
+AccessFileName .htaccess
+&nbsp;
+#
+# The following lines prevent .htaccess and .htpasswd files from being 
+# viewed by Web clients. 
+#
+&lt;Files ~ &quot;^\.ht&quot;&gt;
+    Order allow,deny
+    Deny from all
+    Satisfy All
+&lt;/Files&gt;
+#
+TypesConfig /etc/mime.types
+DefaultType text/plain
+#
+&lt;IfModule mod_mime_magic.c&gt;
+#   MIMEMagicFile /usr/share/magic.mime
+    MIMEMagicFile conf/magic
+&lt;/IfModule&gt;
+#
+HostnameLookups Off
+#
+ErrorLog logs/error_log
+&nbsp;
+#LogLevel debug
+LogLevel error
+#LogLevel warn
+&nbsp;
+# The following directives define some format nicknames for use with
+# a CustomLog directive (see below).
+#
+LogFormat &quot;%h %l %u %t \&quot;%r\&quot; %&gt;s %b \&quot;%{Referer}i\&quot; \&quot;%{User-Agent}i\&quot;&quot; combined
+LogFormat &quot;%h %l %u %t \&quot;%r\&quot; %&gt;s %b&quot; common
+LogFormat &quot;%{Referer}i -&gt; %U&quot; referer
+LogFormat &quot;%{User-agent}i&quot; agent
+CustomLog logs/access_log combined
+#
+ServerSignature On
+#
+Alias /icons/ &quot;/var/www/icons/&quot;
+&nbsp;
+&lt;Directory &quot;/var/www/icons&quot;&gt;
+    Options Indexes MultiViews FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+&lt;/Directory&gt;
+&nbsp;
+#
+# WebDAV module configuration section.
+# 
+&lt;IfModule mod_dav_fs.c&gt;
+    # Location of the WebDAV lock database.
+    DAVLockDB /var/lib/dav/lockdb
+&lt;/IfModule&gt;
+&nbsp;
+#CGI-BIN
+&nbsp;
+ScriptAlias /cgi-bin/ &quot;/var/www/cgi-bin/&quot;
+&lt;Directory &quot;/var/www/cgi-bin&quot;&gt;
+    AllowOverride None
+    Options None
+    Order allow,deny
+    Allow from all
+&lt;/Directory&gt;
+&nbsp;
+#
+IndexOptions FancyIndexing VersionSort NameWidth=* HTMLTable Charset=UTF-8
+#
+AddIconByEncoding (CMP,/icons/compressed.gif) x-compress x-gzip
+AddIconByType (TXT,/icons/text.gif) text/*
+AddIconByType (IMG,/icons/image2.gif) image/*
+AddIconByType (SND,/icons/sound2.gif) audio/*
+AddIconByType (VID,/icons/movie.gif) video/*
+AddIcon /icons/binary.gif .bin .exe
+AddIcon /icons/binhex.gif .hqx
+AddIcon /icons/tar.gif .tar
+AddIcon /icons/world2.gif .wrl .wrl.gz .vrml .vrm .iv
+AddIcon /icons/compressed.gif .Z .z .tgz .gz .zip
+AddIcon /icons/a.gif .ps .ai .eps
+AddIcon /icons/layout.gif .html .shtml .htm .pdf
+AddIcon /icons/text.gif .txt
+AddIcon /icons/c.gif .c
+AddIcon /icons/p.gif .pl .py
+AddIcon /icons/f.gif .for
+AddIcon /icons/dvi.gif .dvi
+AddIcon /icons/uuencoded.gif .uu
+AddIcon /icons/script.gif .conf .sh .shar .csh .ksh .tcl
+AddIcon /icons/tex.gif .tex
+AddIcon /icons/bomb.gif core
+AddIcon /icons/back.gif ..
+AddIcon /icons/hand.right.gif README
+AddIcon /icons/folder.gif ^^DIRECTORY^^
+AddIcon /icons/blank.gif ^^BLANKICON^^
+DefaultIcon /icons/unknown.gif
+ReadmeName README.html
+HeaderName HEADER.html
+IndexIgnore .??* *~ *# HEADER* README* RCS CVS *,v *,t
+&nbsp;
+DefaultLanguage pt-BR
+AddLanguage ca .ca
+AddLanguage cs .cz .cs
+AddLanguage da .dk
+AddLanguage de .de
+AddLanguage el .el
+AddLanguage en .en
+AddLanguage eo .eo
+AddLanguage es .es
+AddLanguage et .et
+AddLanguage fr .fr
+AddLanguage he .he
+AddLanguage hr .hr
+AddLanguage it .it
+AddLanguage ja .ja
+AddLanguage ko .ko
+AddLanguage ltz .ltz
+AddLanguage nl .nl
+AddLanguage nn .nn
+AddLanguage no .no
+AddLanguage pl .po
+AddLanguage pt .pt
+AddLanguage pt-BR .pt-br
+AddLanguage ru .ru
+AddLanguage sv .sv
+AddLanguage zh-CN .zh-cn
+AddLanguage zh-TW .zh-tw
+LanguagePriority pt-BR en ca cs da de el eo es et fr he hr it ja ko ltz nl nn no pl pt ru sv zh-CN zh-TW
+#
+ForceLanguagePriority Prefer Fallback
+AddDefaultCharset UTF-8
+AddType application/x-compress .Z
+AddType application/x-gzip .gz .tgz
+AddType application/x-x509-ca-cert .crt
+AddType application/x-pkcs7-crl    .crl
+&nbsp;
+AddHandler type-map var
+AddType text/html .shtml
+AddOutputFilter INCLUDES .shtml
+#
+Alias /error/ &quot;/var/www/error/&quot;
+&nbsp;
+&lt;IfModule mod_negotiation.c&gt;
+&lt;IfModule mod_include.c&gt;
+    &lt;Directory &quot;/var/www/error&quot;&gt;
+        AllowOverride None
+        Options IncludesNoExec
+        AddOutputFilter Includes html
+        AddHandler type-map var
+        Order allow,deny
+        Allow from all
+        LanguagePriority en es de fr
+        ForceLanguagePriority Prefer Fallback
+    &lt;/Directory&gt;
+&lt;/IfModule&gt;
+&lt;/IfModule&gt;
+# The following directives modify normal HTTP response behavior to
+# handle known problems with browser implementations.
+#
+BrowserMatch &quot;Mozilla/2&quot; nokeepalive
+BrowserMatch &quot;MSIE 4\.0b2;&quot; nokeepalive downgrade-1.0 force-response-1.0
+BrowserMatch &quot;RealPlayer 4\.0&quot; force-response-1.0
+BrowserMatch &quot;Java/1\.0&quot; force-response-1.0
+BrowserMatch &quot;JDK/1\.0&quot; force-response-1.0
+BrowserMatch &quot;Microsoft Data Access Internet Publishing Provider&quot; redirect-carefully
+BrowserMatch &quot;MS FrontPage&quot; redirect-carefully
+BrowserMatch &quot;^WebDrive&quot; redirect-carefully
+BrowserMatch &quot;^WebDAVFS/1.[0123]&quot; redirect-carefully
+BrowserMatch &quot;^gnome-vfs/1.0&quot; redirect-carefully
+BrowserMatch &quot;^XML Spy&quot; redirect-carefully
+&nbsp;
+&nbsp;
+NameVirtualHost *:80
+&lt;VirtualHost *:80&gt;
+		DocumentRoot /var/www/sites/www/html
+                ServerName www.ifce.edu.br
+		ServerAlias www.cefetce.br
+		ServerAlias www.cefet-ce.br
+		ServerAlias www.etfce.br
+		ServerAlias ifce.edu.br
+		ServerAlias cefetce.br
+		ServerAlias cefet-ce.br
+		ServerAlias etfce.br
+	ErrorLog /var/www/sites/www/error.log
+	Alias /bvu/ /var/www/sites/www/html/fw-bvu/	
+	Alias /boletim_servico /var/www/sites/boletim_servico/html
+	&lt;Directory /var/www/sites/boletim_servico/html&gt;
+             Options +FollowSymLinks   
+	     Order allow,deny
+	     allow from all
+        &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:apache&amp;codeblock=9" title="Download Snippet" class="mediafile mf_">site</a></dt>
+<dd><pre class="code file bash"><span class="co0">#!/bin/bash</span>
+<span class="re2">usuario</span>=<span class="re4">$1</span>
+<span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">clear</span>
+&nbsp;
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="re5">-n</span> <span class="st0">&quot;Digite o nome do USUARIO a ser criado: &quot;</span>
+<span class="kw2">read</span> usuario
+<span class="sy0">/</span>usr<span class="sy0">/</span>sbin<span class="sy0">/</span>adduser <span class="re5">-g</span> apache <span class="re5">-d</span> <span class="sy0">/</span>var<span class="sy0">/</span>www<span class="sy0">/</span>sites<span class="sy0">/</span><span class="re1">$usuario</span> <span class="re5">-s</span> <span class="sy0">/</span>sbin<span class="sy0">/</span>nologin <span class="re1">$usuario</span>
+&nbsp;
+<span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">clear</span>
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;Now, passwords&quot;</span>
+<span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">passwd</span> <span class="re1">$usuario</span>
+&nbsp;
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">chmod</span> <span class="nu0">770</span> <span class="sy0">/</span>var<span class="sy0">/</span>www<span class="sy0">/</span>sites<span class="sy0">/</span><span class="re1">$usuario</span>
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">chmod</span> <span class="nu0">770</span> <span class="sy0">/</span>var<span class="sy0">/</span>www<span class="sy0">/</span>sites<span class="sy0">/</span><span class="re1">$usuario</span><span class="sy0">/</span>html
+<span class="sy0">/</span>usr<span class="sy0">/</span>bin<span class="sy0">/</span>chcon <span class="re5">-R</span> <span class="re5">-t</span> httpd_sys_content_t <span class="sy0">/</span>var<span class="sy0">/</span>www<span class="sy0">/</span>sites<span class="sy0">/</span><span class="re1">$usuario</span>
+&nbsp;
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;Criando arquivo de configuração&quot;</span>
+&nbsp;
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">touch</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+&nbsp;
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;# Arquivo de configuracao do site <span class="es2">$usuario</span>&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;#&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;#Aliases&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;Alias /<span class="es2">$usuario</span> /var/www/sites/<span class="es2">$usuario</span>/html&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;#&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;#VirtualHost&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;&lt;VirtualHost *:80&gt;&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;  DocumentRoot /var/www/sites/<span class="es2">$usuario</span>/html&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;  ServerName <span class="es2">$usuario</span>.ifce.edu.br&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;  ServerAlias www.<span class="es2">$usuario</span>.ifce.edu.br&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;  ServerAlias <span class="es2">$usuario</span>.cefetce.br&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;  ServerAlias www.<span class="es2">$usuario</span>.cefetce.br&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;  ServerAlias <span class="es2">$usuario</span>.cefet-ce.br&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;  ServerAlias www.<span class="es2">$usuario</span>.cefet-ce.br&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;  ServerAlias <span class="es2">$usuario</span>.etfce.br&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;  ServerAlias www.<span class="es2">$usuario</span>.etfce.br&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;&lt;/VirtualHost&gt;&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>httpd<span class="sy0">/</span>conf.d<span class="sy0">/</span><span class="re1">$usuario</span>.conf
+&nbsp;
+&nbsp;
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw3">echo</span> <span class="st0">&quot;&lt;? phpinfo(); ?&gt;&quot;</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>var<span class="sy0">/</span>www<span class="sy0">/</span>sites<span class="sy0">/</span><span class="re1">$usuario</span><span class="sy0">/</span>html<span class="sy0">/</span>index.php
+<span class="sy0">/</span>bin<span class="sy0">/</span><span class="kw2">chown</span> <span class="re5">-R</span> <span class="re1">$usuario</span>:apache <span class="sy0">/</span>var<span class="sy0">/</span>www<span class="sy0">/</span>sites<span class="sy0">/</span><span class="re1">$usuario</span><span class="sy0">/</span>
+&nbsp;
+<span class="sy0">/</span>sbin<span class="sy0">/</span>service httpd reload</pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [2743-18559] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="https://en.wikipedia.org/wiki/Web_server" class="urlextern" title="https://en.wikipedia.org/wiki/Web_server"  rel="nofollow">wikipedia.org</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://httpd.apache.org/docs/" class="urlextern" title="http://httpd.apache.org/docs/"  rel="nofollow">apache.org</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://php.net/docs.php" class="urlextern" title="http://php.net/docs.php"  rel="nofollow">php.net</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [18560-18736] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Lucas do Amaral Saboya</a> 2015/04/06 13:42</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [18737-] -->

@@ -1,0 +1,255 @@
+
+<h1 class="sectionedit1" id="nginx">NGiNX</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor web com Virtual Hosts.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "NGiNX" [1-189] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: nginx.ifce.edu.br
+IPv4:200.17.33.47
+OS: 14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; nginx
+vCPU&#039;s: 8
+RAM: 8GiB
+HDD: 100GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [190-430] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">newrelic-php5-4.17.0.83
+newrelic-php5-common-4.17.0.83
+nginx-common-1.4.6-1ubuntu3.1
+nginx-extras-1.4.6-1ubuntu3.1
+php-apc-4.0.2-2build1
+php-pear-5.5.9+dfsg-1ubuntu4.7
+php5-5.5.9+dfsg-1ubuntu4.7
+php5-apcu-4.0.2-2build1
+php5-cli-5.5.9+dfsg-1ubuntu4.7
+php5-common-5.5.9+dfsg-1ubuntu4.7
+php5-curl-5.5.9+dfsg-1ubuntu4.7
+php5-dev-5.5.9+dfsg-1ubuntu4.7
+php5-fpm-5.5.9+dfsg-1ubuntu4.7
+php5-gd-5.5.9+dfsg-1ubuntu4.7
+php5-gmp-5.5.9+dfsg-1ubuntu4.7
+php5-intl-5.5.9+dfsg-1ubuntu4.7
+php5-json-1.3.2-2build1
+php5-ldap-5.5.9+dfsg-1ubuntu4.7
+php5-mcrypt-5.4.6-0ubuntu5
+php5-mysql-5.5.9+dfsg-1ubuntu4.7
+php5-pgsql-5.5.9+dfsg-1ubuntu4.7
+php5-readline-5.5.9+dfsg-1ubuntu4.7
+php5-sybase-5.5.9+dfsg-1ubuntu4.7
+php5-xmlrpc-5.5.9+dfsg-1ubuntu4.7
+pkg-php-tools-1.11</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [431-1235] -->
+<h2 class="sectionedit4" id="importante">Importante</h2>
+<div class="level2">
+
+<p>
+O modelo adotado do NGiNX com php5-fpm difere um pouco do modelo implementado no Apache2. O NGiNX age primeiramente como um servidor web convencional com grandes capacidades de <code>caching</code> de conteúdo estático - O que eventualmente significa consomir mais recursos do que o Apache2, mas apresentando ganho de performace excepcional.
+<a href="/lib/exe/detail.php?id=infraestrutura%3Anginx&amp;media=infraestrutura:nginx.png" class="media" title="infraestrutura:nginx.png"><img src="/lib/exe/fetch.php?media=infraestrutura:nginx.png" class="mediaright" title=" " alt=" " /></a>
+Estas métricas se dão apenas para conteúdo estático. Ao se deparar com conteúdos dinâmicos, o NGiNX passará a servidor como <a href="http://pt.wikipedia.org/wiki/Proxy_reverso" class="urlextern" title="http://pt.wikipedia.org/wiki/Proxy_reverso"  rel="nofollow">proxy reverso</a> para o php5-fpm.
+O php5-FPM - <em>FastCGI Process Manager</em> é uma implementação alternativa ao PHP FastCGI com algumas funcionalidades adicionais muito úteis para altas cargas de tráfego. Algumas destas funcionalidades são:
+</p>
+<ul>
+<li class="level1"><div class="li"> Gerência de processos avançada com graceful stop/start;</div>
+</li>
+<li class="level1"><div class="li"> Possibilidade de iniciar workers com uid&#039;s/gid&#039;s/chroot&#039;s/env&#039;s, escutando diferentes portas e utilizando php.ini&#039;s diferentes;</div>
+</li>
+<li class="level1"><div class="li"> “Registros de stdout e stderr;</div>
+</li>
+<li class="level1"><div class="li"> Reinicio emergencial em caso de destruição/remoção de cache&#039;s acidental;</div>
+</li>
+<li class="level1"><div class="li"> Suporte a upload acelerado;</div>
+</li>
+<li class="level1"><div class="li"> Scripts de <code>slowlog</code> (não somente registrando seus nomes, seus parâmetros do PHP também, utilizando <code>ptrace</code> e softwares similares para leitura de processos remotos como <code>execute_data</code>);</div>
+</li>
+<li class="level1"><div class="li"> Função especial <code>fastcgi_finish_request()</code>para findar requisições e eliminar todos os dados enquanto ainda executa outras tarefas que consumam mais tempo;</div>
+</li>
+<li class="level1"><div class="li"> Suporte a child spawning Dinâmico/Estático;</div>
+</li>
+<li class="level1"><div class="li"> Informações básicas de status SAPI (similar ao Apache <code>mod_status</code>);</div>
+</li>
+<li class="level1"><div class="li"> Arquivos de configuração baseados no <code>php.ini</code>;</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT4 SECTION "Importante" [1236-2938] -->
+<h2 class="sectionedit5" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O NGiNX e o php5-fpm podem ser instalados via apt-get:
+</p>
+<pre class="code">operador@nginx:~$ sudo apt-get update; sudo apt-get install newrelic-php5 newrelic-php5-common nginx-common nginx-extras php-apc php-pear php5 php5-apcu php5-cli php5-common php5-curl php5-dev php5-fpm php5-gd php5-gmp php5-intl php5-json php5-ldap php5-mcrypt php5-mysql php5-pgsql php5-readline php5-sybase php5-xmlrpc pkg-php-tools vim </pre>
+
+</div>
+<!-- EDIT5 SECTION "Instalação" [2939-3374] -->
+<h2 class="sectionedit6" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/etc/php5/fpm</code> - Arquivos de configuração do php5-fpm</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/nginx</code> - Arquivos de configuração do NGiNX</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/www</code> - Fontes dos Virtual Hosts servidos pelo NGiNX</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>etc/php5/fpm/pool.d</code> e <code>/etc/nginx/sites-available</code>, os arquivos de configuração dos Virtual Hosts servidos pelo NGiNX
+</p>
+
+</div>
+<!-- EDIT6 SECTION "Estrutura de diretórios" [3375-3824] -->
+<h3 class="sectionedit7" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do NGiNX através do comando:
+</p>
+<pre class="code">operador@nginx:~$ sudo service nginx start</pre>
+
+<p>
+Inicia-se o serviço do php5-fpm através do comando:
+</p>
+<pre class="code">sudo service php5-fpm start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do NGiNX através do comando:
+</p>
+<pre class="code">operador@nginx:~$ sudo service nginx stop</pre>
+
+<p>
+Para-se o serviço do php5-fpm através do comando:
+</p>
+<pre class="code">sudo service php5-fpm stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do NGiNX através do comando:
+</p>
+<pre class="code">operador@nginx:~$ sudo service nginx restart</pre>
+
+<p>
+Reincia-se o serviço do php5-fpm através do comando:
+</p>
+<pre class="code">sudo service php5-fpm restart</pre>
+
+</div>
+<!-- EDIT7 SECTION "Operando o serviço" [3825-4549] -->
+<h3 class="sectionedit8" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+
+<p>
+Os arquivos de configuração referêntes a cada Virtual Host, encontram-se em:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/etc/php5/fpm/pool.d</code></div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/nginx/sites-available</code></div>
+</li>
+</ul>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:nginx&amp;codeblock=9" title="Download Snippet" class="mediafile mf_conf">nginx.conf</a></dt>
+<dd><pre class="code file conf">user www-data;
+worker_processes 4;
+pid /var/run/nginx.pid;
+&nbsp;
+events {
+	worker_connections 768;
+	# multi_accept on;
+}
+&nbsp;
+http {
+	sendfile on;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 65;
+	types_hash_max_size 2048;
+	server_names_hash_bucket_size 1024;
+	variables_hash_bucket_size 1024;
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+	access_log /var/log/nginx/access.log;
+	error_log /var/log/nginx/error.log;
+	gzip on;
+	gzip_disable &quot;msie6&quot;;
+	client_max_body_size 500M;
+	include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+}</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:nginx&amp;codeblock=10" title="Download Snippet" class="mediafile mf_conf">php-fpm.conf</a></dt>
+<dd><pre class="code file ini"><span class="co0">;;;;;;;;;;;;;;;;;;</span>
+<span class="co0">; Global Options ;</span>
+<span class="co0">;;;;;;;;;;;;;;;;;;</span>
+&nbsp;
+<span class="re0"><span class="br0">&#91;</span>global<span class="br0">&#93;</span></span>
+<span class="re1">pid</span> <span class="sy0">=</span><span class="re2"> /var/run/php5-fpm.pid</span>
+<span class="re1">error_log</span> <span class="sy0">=</span><span class="re2"> /var/log/php5-fpm.log</span>
+&nbsp;
+<span class="co0">;;;;;;;;;;;;;;;;;;;;</span>
+<span class="co0">; Pool Definitions ; </span>
+<span class="co0">;;;;;;;;;;;;;;;;;;;;</span>
+<span class="re1">include</span><span class="sy0">=</span><span class="re2">/etc/php5/fpm/pool.d/*.conf</span></pre>
+</dd></dl>
+
+</div>
+<!-- EDIT8 SECTION "Arquivos de configuração" [4550-5598] -->
+<h2 class="sectionedit9" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="http://wiki.nginx.org/PHPFcgiExample" class="urlextern" title="http://wiki.nginx.org/PHPFcgiExample"  rel="nofollow">nginx.org</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://php.net/manual/en/install.fpm.php" class="urlextern" title="http://php.net/manual/en/install.fpm.php"  rel="nofollow">php.net</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://techwatch.keeward.com/geeks-and-nerds/testing-and-benchmarking-nginx/" class="urlextern" title="http://techwatch.keeward.com/geeks-and-nerds/testing-and-benchmarking-nginx/"  rel="nofollow">keeward.com</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT9 SECTION "Referências" [5599-5832] -->
+<h2 class="sectionedit10" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Lucas do Amaral Saboya</a> 2015/04/07 07:04</em>
+</p>
+
+</div>
+<!-- EDIT10 SECTION "Assinatura" [5833-] -->

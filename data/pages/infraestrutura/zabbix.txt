@@ -1,0 +1,56 @@
+====== Zabbix ======
+Breve descrição da função do serviço a ser documentado; 
+
+===== Configurações da VPS =====
+<code>
+Hostname: hostname.domain.tld
+IPv4: CIDR/32
+OS: VersaoDeOSUtilizadaPeloServico
+Username: usuariopadrao
+Passwd: 1Password @ Dominios -> dominio.tld -> pasta -> subpasta
+vCPU's: x
+RAM: xxGiB
+HDD: xxGiB
+</code>
+
+===== Software utilizados pelo serviço =====
+<code>
+listar pacotes c/ build number
+</code>
+
+===== Instalação =====
+O xxxxx pode ser instalado via:
+<code>
+nononoon
+</code>
+
+===== Estrutura de diretórios =====
+Listar a estrutura de diretórios aqui:
+  * ''/path/absoluto/para/arquivos'' - Arquivos de configuração
+  * ''/path/absoluto/para/arquivos'' - Arquivos de configuração
+  * ''/path/absoluto/para/arquivos'' - Arquivos de configuração
+
+=== Arquivos de configuração ===
+Encontram-se no diretório ''/path/absoluto/para/arquivos'', os arquivos de configuração do serviço
+==== Operando o serviço ====
+
+=== Iniciando o serviço ===
+Inicia-se o serviço do xxxx através do comando:
+<code>commando</code>
+
+=== Parando o serviço ===
+Para-se o serviço do xxxx através do comando:
+<code>commando</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do xxxx através do comando:
+<code>commando</code>
+==== Arquivos de configuração ====
+<file conf arquivo.conf>
+// Exemplo de arquivo de configuração
+</file>
+
+===== Referências =====
+  * nononononono
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Luca do Amaral Saboya]] 2015/03/23 17:48//

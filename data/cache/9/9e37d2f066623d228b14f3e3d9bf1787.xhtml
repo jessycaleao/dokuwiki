@@ -1,0 +1,391 @@
+
+<h2 class="sectionedit1" id="configurando_a_plataforma_pfsense_para_uso_no_cinturao_digital_do_ceara_-_cdc">Configurando a plataforma PfSense para uso no Cinturão Digital do Ceará - CDC</h2>
+<div class="level2">
+
+<p>
+Neste artigo descreveremos como deve ser feita a configuração de uma instância de firewall de borda para acesso a Internet via CDC. Para fins demonstrativos, estaremos utilizando configurações definidas ao Campus Ubajara, <em>não esqueça de substituir as configurações de endereçamento IPv4 para as que lhe foram enviadas.</em>
+</p>
+
+<p>
+<strong>Antes de tudo, a homologação do enlace deve ser feita perante o PoP-CE, seguindo o tutorial disponibilizado por eles <a href="http://goo.gl/FeHUZt" class="urlextern" title="http://goo.gl/FeHUZt"  rel="nofollow">(Clique aqui para fazer o download)</a>.</strong>
+</p>
+
+<p>
+<strong>Coordenador Tecnico do PoP-CE - Marcos Frota</strong>, já deve ter lhe enviado um email com o título: “Ativacao Roteamento Final - [RNP-NOC #NUMERO_DO_TICKET] IFCE-[NOME_DO_SEU_CAMPUS]\Veredas Novas/2013/ETICE”
+No referido email, foram informados o endereçamento IPv4 público/roteável para a rede de seu Campus bem como o endereçamento IPv4 reservado/não roteável para a rede dos roteadores utilizada no CDC.
+</p>
+
+<p>
+No caso do email que endereçado ao técnico do Campus Ubajara, temos a seguinte configuração:
+</p>
+<div class="table sectionedit2"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0"> Endereçamento </th><th class="col1">CIDR</th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0"> Rede Campus IFCE - IPv4 Público/Roteável</td><td class="col1"> 200.129.25.64/28 </td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"> Rede CDC - IPv4 Reservado/Não Roteável</td><td class="col1"> 192.168.1.1/30 </td>
+	</tr>
+</table></div>
+<!-- EDIT2 TABLE [1123-1272] -->
+<p>
+Tais informações podem ser encontradas neste trecho do referido email:
+</p>
+<blockquote><div class="no">
+ - Sobre a configuração  para a sua rede, é o seguinte:<br/>
+ Porta 0/0 (RJ-45) do Juniper - 192.168.1.1/30. Note que agora mudamos a rede. Agora é um /30. Antes, durante os testes, era um /24. Se aquela maquina (PC) dos testes possuir 2 placas de rede, já pode utilizar como firewall, mas lembre de mudar a mascara do IP da porta para /30.<br/>
+ Porta “externa” do seu firewall (também conhecida como WAN) - 192.168.1.2/30. Essa porta do seu farewall dever ser conectada com a porta 0/0 (RJ-45) do Juniper.<br/>
+ Porta “interna” do seu firewall (também conhecida como <abbr title="Local Area Network">LAN</abbr>) - Range: 200.129.25.64/28 . Qualquer um IP desse range.  De preferência, o 1o. IP da rede. <br/>
+ Gateway default a ser configurado no seu firewall - 192.168.1.1/30<br/>
+ Gateway default a ser configurado na sua rede interna - 200.129.25.65/28 , se voce utilizar esse IP na porta &gt;“interna” do seu firewall.</div></blockquote>
+
+</div>
+<!-- EDIT1 SECTION "Configurando a plataforma PfSense para uso no Cinturão Digital do Ceará - CDC" [1-2218] -->
+<h3 class="sectionedit3" id="enderecamento_ipv4">Endereçamento IPv4</h3>
+<div class="level3">
+
+<p>
+O endereçamento IPv4 deve ser feito da seguinte maneira:
+</p>
+
+</div>
+
+<h4 id="na_interface_wan">Na interface WAN</h4>
+<div class="level4">
+
+<p>
+Endereçamento IPv4 da rede 192.168.1.1/30 definido pela RNP (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:enderecamento-ipv4-wan.png" class="media wikilink2" title="pfsense:enderecamento-ipv4-wan.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=731a7d&amp;media=pfsense:enderecamento-ipv4-wan.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+</div>
+
+<h4 id="na_interface_lan">Na interface LAN</h4>
+<div class="level4">
+
+<p>
+Endereçamento IPv4 da rede 10/8 definido pela DGTI para sua rede local. Se você não recebeu um bloco de endereçamento IPv4 reservado alocado pela DGTI, solicite-o enviando um email para <a href="mailto:&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;" class="mail" title="&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;">&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;</a>. A não adoção de um bloco IPv4 reservado alocado pela DGTI para o campus, implicará na ativação da VPN (IPSEC) entre os <em>Campi</em>. 
+</p>
+
+<p>
+Como informado no inicio deste tutorial, para que a rede de seu campus possa ser integrada com a rede dos outros campi do IFCE, precisamos que os endereçamentos de rede dos campi sejam únicos, evitando assim, entradas ambiguas nas tabelas de rotas do IPSEC.
+Se você ainda não recebeu um bloco IPv4 reservado/privado (EX: 10.100.100.0/24) para atribuir a sua rede local. Peça-o abrindo um ticket junto a DGTI enviando um email para <a href="mailto:&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;" class="mail" title="&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;">&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;</a>.
+</p>
+
+<p>
+De posse do bloco reservado/privado da rede de seu campus, passemos então a configuração do servidor DHCP da rede:
+</p>
+
+<p>
+No caso do Campus Ubajara, temos a seguinte rede delegada:
+</p>
+<div class="table sectionedit4"><table class="inline">
+	<thead>
+	<tr class="row0">
+		<th class="col0"> Rede </th><th class="col1">CIDR</th>
+	</tr>
+	</thead>
+	<tr class="row1">
+		<td class="col0"> Rede Campus Ubajara - IPv4 Privado/Reservado </td><td class="col1"> 10.100.101.0/24 </td>
+	</tr>
+</table></div>
+<!-- EDIT4 TABLE [3496-3576] -->
+<p>
+Devemos então, configurar o primeiro endereço IPv4 da rede do Campus para a interface <abbr title="Local Area Network">LAN</abbr> do PfSense. Para fazer isto, clique em Interfaces → <abbr title="Local Area Network">LAN</abbr> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:screen_shot_2014-09-03_at_4.33.45_pm.png" class="media wikilink2" title="pfsense:screen_shot_2014-09-03_at_4.33.45_pm.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=6f7eea&amp;media=pfsense:screen_shot_2014-09-03_at_4.33.45_pm.png" class="mediacenter" alt="" width="400" /></a>
+Na interface de configuração da interface <abbr title="Local Area Network">LAN</abbr>, defina (Clique para ampliar):
+</p>
+<ol>
+<li class="level1"><div class="li"> No campo Endereço IPv4: o primeiro endereço da rede privada, no caso do Campus Ubajara: &#039;10.100.101.1&#039; e defina a mascara, no caso &#039;24&#039;;</div>
+</li>
+<li class="level1"><div class="li"> Na seção &#039;Redes privadas&#039;, marque a opção &#039;Bloquear redes bogon&#039;;</div>
+</li>
+<li class="level1"><div class="li"> Clique em salvar;</div>
+</li>
+</ol>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:screen_shot_2014-09-03_at_4.34.05_pm.png" class="media wikilink2" title="pfsense:screen_shot_2014-09-03_at_4.34.05_pm.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=0e3301&amp;media=pfsense:screen_shot_2014-09-03_at_4.34.05_pm.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+</div>
+
+<h4 id="configuracao_de_dhcp">Configuração de DHCP</h4>
+<div class="level4">
+
+<p>
+Após a configuração do novo endereço da rede <abbr title="Local Area Network">LAN</abbr>, passemos as configurações do serviço de DHCP propriamente dito:
+</p>
+
+<p>
+Clique em Serviços → Servidor DHCP (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:screen_shot_2014-09-03_at_3.26.31_pm.png" class="media wikilink2" title="pfsense:screen_shot_2014-09-03_at_3.26.31_pm.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=ac96f8&amp;media=pfsense:screen_shot_2014-09-03_at_3.26.31_pm.png" class="mediacenter" alt="" width="400" /></a>
+E em seguida clique aba <abbr title="Local Area Network">LAN</abbr> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:screen_shot_2014-09-03_at_3.26.39_pm.png" class="media wikilink2" title="pfsense:screen_shot_2014-09-03_at_3.26.39_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=75b080&amp;media=pfsense:screen_shot_2014-09-03_at_3.26.39_pm.png" class="mediacenter" alt="" width="200" /></a>
+Na interface de configuração do servidor DHCP (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:screen_shot_2014-09-03_at_4.43.17_pm.png" class="media wikilink2" title="pfsense:screen_shot_2014-09-03_at_4.43.17_pm.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=acc256&amp;media=pfsense:screen_shot_2014-09-03_at_4.43.17_pm.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+<ol>
+<li class="level1"><div class="li"> No campo Intervalo, defina o interfavo de endereços que serão entregues aos clientes da rede. (A DGTI recomenda que sejam alocados ao início ou final da rede em questão, um pool de IP&#039;s para que seja possível “DHCP Static Mappings”), no caso do Campus Ubajara: 10.100.101.2 para 10.100.101.200;</div>
+</li>
+<li class="level1"><div class="li"> No campo Servidores de <abbr title="Domain Name System">DNS</abbr>: deixe em branco (O PfSense distribuirá os 4 servidores de <abbr title="Domain Name System">DNS</abbr> nele configurados se nenhum for especificado neste campo).</div>
+</li>
+<li class="level1"><div class="li"> No campo Gateway, defina o endereço IPv4 atribuído a interface <abbr title="Local Area Network">LAN</abbr> do firewall anteriormente, no caso do Campus Ubajara: 10.100.101.1</div>
+</li>
+<li class="level1"><div class="li"> No campo Nome de domínio, defina o dominio de seu campus. No caso: ubajara.ifce.edu.br;</div>
+</li>
+<li class="level1"><div class="li"> No campo Lista de busca de domínio, defina o dominio de seu campus, no caso: ubajara.ifce.edu.br;</div>
+</li>
+<li class="level1"><div class="li"> Clique em Salvar;</div>
+</li>
+</ol>
+
+</div>
+<!-- EDIT3 SECTION "Endereçamento IPv4" [2219-5527] -->
+<h3 class="sectionedit5" id="configuracao_do_nat_outbound">Configuração do NAT Outbound</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="ip_alias">IP Alias</h4>
+<div class="level4">
+
+<p>
+De posse das informações levantadas, podemos agora, seguir com a configuração de nosso firewall. Clicando em Firewall → Aliases (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:menu-firewall-aliases.png" class="media wikilink2" title="pfsense:menu-firewall-aliases.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=ab9d67&amp;media=pfsense:menu-firewall-aliases.png" class="mediacenter" alt="" width="400" /></a>
+Podemos ver a interface de configuração de Aliases do PfSense (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:firewall-aliases.png" class="media wikilink2" title="pfsense:firewall-aliases.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=5c6a40&amp;media=pfsense:firewall-aliases.png" class="mediacenter" alt="" width="400" /></a>
+Nesta seção do pfsense, definiremos o Pool de saída - Os endereços que serão utilizados pelo PfSense na saída da rede local para a Internet. Para fazer tal tarefa, mudaremos para a aba IP e criaremos um novo alias, clicando no icone  que aparece no inicio e no final da lista de aliases (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:firewall-aliases-clicando-botao-add.png" class="media wikilink2" title="pfsense:firewall-aliases-clicando-botao-add.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=46d70b&amp;media=pfsense:firewall-aliases-clicando-botao-add.png" class="mediacenter" alt="" width="400" /></a>
+Neste Alias, colocaremos TODOS os endereços IPv4 públicos alocados pela RNP ao Campus e iremos removendo deste pool para aplicações específicas (processo descrito em outro artigo ), <strong>MENOS</strong> o primeiro endereço da rede. Este será o endereço que atribuiremos ao proprio PfSense para fins administrativos. Preencha o campo IP, colocamos os endereços de IP da rede pública. O campo Descrição pode ser deixado em branco, ele será automaticamente preenchido pelo Pfsense com o timestamp da criação desde Alias (Clique para ampliar):
+ <a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:pool-saida-ipv4.png" class="media wikilink2" title="pfsense:pool-saida-ipv4.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=2ee062&amp;media=pfsense:pool-saida-ipv4.png" class="mediacenter" alt="" width="400" /></a>
+O primeiro endereço IPv4 público que deixamos de fora do Pool de saída, configuraremos na seção IP&#039;s virtuais clicando em Firewall → IPs Virtuais (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:menu-ips-virtuais.png" class="media wikilink2" title="pfsense:menu-ips-virtuais.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=ac5e6d&amp;media=pfsense:menu-ips-virtuais.png" class="mediacenter" alt="" width="400" /></a>
+Para fazer tal tarefa, apenas clicamos no icone  que aparece no inicio e no final da lista de aliases (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:virtual-ipv4-botao-add.png" class="media wikilink2" title="pfsense:virtual-ipv4-botao-add.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=c86b3e&amp;media=pfsense:virtual-ipv4-botao-add.png" class="mediacenter" alt="" width="400" /></a>
+No Tipo de IP Virtual, definimos &#039;IP Alias&#039; ou &#039;Alias do IP&#039;, na interface, definina como WAN, no campo Endereçamento, coloque o endereço IPv4 público que separamos do Pool, com a mascara /32 e por fim, na descrição, coloque algo que lhe remeta a cronfiguração feita acima (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:ipv4-virtual-add.png" class="media wikilink2" title="pfsense:ipv4-virtual-add.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=eb8fa1&amp;media=pfsense:ipv4-virtual-add.png" class="mediacenter" alt="" width="400" /></a>
+Resultado final (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:virtual-ipv4.png" class="media wikilink2" title="pfsense:virtual-ipv4.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=8d2d1a&amp;media=pfsense:virtual-ipv4.png" class="mediacenter" alt="" width="400" /></a>
+Agora, com o endereço virtual IPv4 configurado para interface WAN de seu firewall e o Pool de endereçamento, configuraremos agora o NAT outbound propriamente dito. Clique em Firewall → NAT (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:menu-nat.png" class="media wikilink2" title="pfsense:menu-nat.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=6c8763&amp;media=pfsense:menu-nat.png" class="mediacenter" alt="" width="400" /></a>
+Em seguida, na seção Saída/Outbound (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:nat-aba-outbound.png" class="media wikilink2" title="pfsense:nat-aba-outbound.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=565c13&amp;media=pfsense:nat-aba-outbound.png" class="mediacenter" alt="" width="400" /></a>
+Aqui, faremos duas modificações importantes:
+</p>
+<ol>
+<li class="level1"><div class="li"> Configuraremos o modo de NAT para AON - Advanced Outbound NAT/ Outbound NAT Avançado</div>
+<ol>
+<li class="level2"><div class="li"> Remova todas as entradas que forem geradas</div>
+</li>
+</ol>
+</li>
+<li class="level1"><div class="li"> Criaremos uma regra específica para a saída da rede local e outra especifica para o endereço <strong>IPv4 reservado do CDC</strong> (Clique para ampliar):</div>
+</li>
+</ol>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:screen_shot_2014-09-03_at_4.49.40_pm.png" class="media wikilink2" title="pfsense:screen_shot_2014-09-03_at_4.49.40_pm.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=91a69d&amp;media=pfsense:screen_shot_2014-09-03_at_4.49.40_pm.png" class="mediacenter" alt="" width="400" /></a>
+Ao final, a tabela de NAT outbound deve exibir informações como estas (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:screen_shot_2014-09-03_at_4.53.05_pm.png" class="media wikilink2" title="pfsense:screen_shot_2014-09-03_at_4.53.05_pm.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=1c3e88&amp;media=pfsense:screen_shot_2014-09-03_at_4.53.05_pm.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Configuração do NAT Outbound" [5528-8588] -->
+<h3 class="sectionedit6" id="regras_de_fitrewall_para_homologacao">Regras de fitrewall para homologação</h3>
+<div class="level3">
+
+<p>
+Para fins de homologação da solução implementada neste passo-a-passo, NÃO APLICAREMOS regras de firewall. A DGTI reforça que esta <strong>NÃO DEVE SER A CONFIGURAÇÃO UTILIZADA EM PRODUÇÃO</strong>.
+Remova todas as regras que já implementandas e subistituia pelas seguintes regras.
+</p>
+
+<p>
+Tanto para WAN (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:firewall-rules-wan.png" class="media wikilink2" title="pfsense:firewall-rules-wan.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=428bcb&amp;media=pfsense:firewall-rules-wan.png" class="mediacenter" alt="" width="400" /></a>
+Quanto para <abbr title="Local Area Network">LAN</abbr> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:firewall-rules-lan.png" class="media wikilink2" title="pfsense:firewall-rules-lan.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=a2c2db&amp;media=pfsense:firewall-rules-lan.png" class="mediacenter" alt="" width="400" /></a>
+Após criadas as regras acima, clique em Aplicar configurações, a seguinte mensagem será exibida (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:firewall-rules-lan-changed.png" class="media wikilink2" title="pfsense:firewall-rules-lan-changed.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=98e199&amp;media=pfsense:firewall-rules-lan-changed.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+</div>
+<!-- EDIT6 SECTION "Regras de fitrewall para homologação" [8589-9255] -->
+<h3 class="sectionedit7" id="roteamento_ipv4">Roteamento IPv4</h3>
+<div class="level3">
+
+<p>
+Após configurados os aliases, o NAT e as regras de firewall, nos resta apenas configurar a rota padrão para a rede do Campus. Clicando em Sistema/System → Routing/Roteamento (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:menu-roteamento.png" class="media wikilink2" title="pfsense:menu-roteamento.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=e0f09c&amp;media=pfsense:menu-roteamento.png" class="mediacenter" alt="" width="400" /></a>
+Nos deparamos com a seção de roteamento, que em sua aba principal, nos traz os gateways de rede do Campus - Já preconfigurados ao setar o endereçamento das interfaces (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:gw-pfsense.png" class="media wikilink2" title="pfsense:gw-pfsense.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=a55751&amp;media=pfsense:gw-pfsense.png" class="mediacenter" alt="" width="400" /></a>
+Clique na aba Routes/Rotas. Nesta seção, só se faz nescessária uma única rota estática - portanto, remova quaisquer rotas que estiverem pre-configuradas. Adicione a rota da seguinte forma:
+</p>
+<ol>
+<li class="level1"><div class="li"> No campo Rede de destino: Defina a rede IPv4 reservada utilizada pelo CDC</div>
+<ol>
+<li class="level2"><div class="li"> No caso do campus Ubajara: 192.168.1.0/28</div>
+</li>
+</ol>
+</li>
+<li class="level1"><div class="li"> No campo Gateway: Defina o gateway da interface WAN</div>
+<ol>
+<li class="level2"><div class="li"> No caso do campus Ubajara: 192.168.1.1</div>
+</li>
+</ol>
+</li>
+<li class="level1"><div class="li"> No campo descrição: Ponha algo que lhe remeta a cronfiguração feita acima (Clique para ampliar):</div>
+</li>
+</ol>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:default-route.png" class="media wikilink2" title="pfsense:default-route.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=e498d7&amp;media=pfsense:default-route.png" class="mediacenter" alt="" width="400" /></a>
+Após a criação desta rota, sua tabela de rotas deverá constar algo semelhante ao que é exibido abaixo (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:roteamento-ipv4-cdc.png" class="media wikilink2" title="pfsense:roteamento-ipv4-cdc.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=44f119&amp;media=pfsense:roteamento-ipv4-cdc.png" class="mediacenter" alt="" width="400" /></a>
+Clicando em Status → Gateways, pode-se ter uma visão holística de todos os gateways (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:menu-gw.png" class="media wikilink2" title="pfsense:menu-gw.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=ac54b6&amp;media=pfsense:menu-gw.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:gw-status.png" class="media wikilink2" title="pfsense:gw-status.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=5016da&amp;media=pfsense:gw-status.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+</div>
+<!-- EDIT7 SECTION "Roteamento IPv4" [9256-10668] -->
+<h3 class="sectionedit8" id="ajuste_fino">Ajuste fino</h3>
+<div class="level3">
+
+<p>
+Agora, que temos internet sendo roteada pelo pfsense, deveremos agora, fazer alguns ajustes finos, para que a rede opere de uma maneira mais otimizada.
+</p>
+
+</div>
+
+<h4 id="configuracoes_gerais">Configurações gerais</h4>
+<div class="level4">
+
+<p>
+Clicando em Sistema → Configurações Gerais/General Configuration (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:menu-cfg-geral.png" class="media wikilink2" title="pfsense:menu-cfg-geral.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=922bd3&amp;media=pfsense:menu-cfg-geral.png" class="mediacenter" alt="" width="400" /></a>
+Defina (Clique para ampliar):
+</p>
+<ol>
+<li class="level1"><div class="li"> No campo Hostname: o hostname provido pela DGTI (Se não lhe foi enviado um, solicite-o enviando um email para <a href="mailto:&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;" class="mail" title="&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;">&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;</a></div>
+</li>
+<li class="level1"><div class="li"> No campo Domínio: o dominio de seu campus</div>
+</li>
+<li class="level1"><div class="li"> No campo Servidores de <abbr title="Domain Name System">DNS</abbr>:</div>
+<ol>
+<li class="level2"><div class="li"> Defina como <abbr title="Domain Name System">DNS</abbr> primário: 200.17.33.7 (IFCE <abbr title="Domain Name System">DNS</abbr>)</div>
+</li>
+<li class="level2"><div class="li"> Defina como <abbr title="Domain Name System">DNS</abbr> secundário : 200.129.0.33 (POP-CE/RNP <abbr title="Domain Name System">DNS</abbr>)</div>
+</li>
+<li class="level2"><div class="li"> Defina como <abbr title="Domain Name System">DNS</abbr> terciário : 8.8.8.8 (Google <abbr title="Domain Name System">DNS</abbr>)</div>
+</li>
+<li class="level2"><div class="li"> Defina como <abbr title="Domain Name System">DNS</abbr> quaternário : 200.67.222.222 (OpenDNS)</div>
+</li>
+</ol>
+</li>
+<li class="level1"><div class="li"> Marque a opção “Não utilize o <abbr title="Domain Name System">DNS</abbr> Forwarder como um servidor de <abbr title="Domain Name System">DNS</abbr> para o firewall</div>
+</li>
+<li class="level1"><div class="li"> No campo Fuso horário: defina America/Fortaleza</div>
+</li>
+<li class="level1"><div class="li"> No campo Servidor NTP: definal os servidor NTP.br: </div>
+<ol>
+<li class="level2"><div class="li"> <pre class="code">a.ntp.br b.ntp.br c.ntp.br gps.ntp.br </pre>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:configuracoes-gerais-pfsense.png" class="media wikilink2" title="pfsense:configuracoes-gerais-pfsense.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=9da550&amp;media=pfsense:configuracoes-gerais-pfsense.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+</div>
+
+<h4 id="configuracoes_avancadas">Configurações Avançadas</h4>
+<div class="level4">
+
+<p>
+Clicando em Sistema/System → Avançado/Advanced (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:screen_shot_2014-09-01_at_6.32.50_pm.png" class="media wikilink2" title="pfsense:screen_shot_2014-09-01_at_6.32.50_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=e15e87&amp;media=pfsense:screen_shot_2014-09-01_at_6.32.50_pm.png" class="mediacenter" alt="" width="200" /></a>
+</p>
+<ol>
+<li class="level1"><div class="li"> Na seção protocolo: defina “HTTPS”</div>
+</li>
+<li class="level1"><div class="li"> Na seção porta TCP: defina “9001”</div>
+</li>
+<li class="level1"><div class="li"> Número máximo de processos: defina “2”</div>
+</li>
+<li class="level1"><div class="li"> Na opção ExecuçAõ de HTTP_REFERER de navegação: Marque a opção “Desabilitar verificação de execução de HTTP_REFERER</div>
+</li>
+<li class="level1"><div class="li"> Na seção Secure Shell:</div>
+<ol>
+<li class="level2"><div class="li"> Marque a opção Habilitar Secure Shell</div>
+</li>
+<li class="level2"><div class="li"> No campo Porta SSH defina: 9000</div>
+</li>
+</ol>
+</li>
+<li class="level1"><div class="li"> Na seção Opções de Console:</div>
+<ol>
+<li class="level2"><div class="li"> Marque a opção “Protejer menu do console com senha”</div>
+</li>
+</ol>
+</li>
+</ol>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:configuracoes-avancada-pfsense.png" class="media wikilink2" title="pfsense:configuracoes-avancada-pfsense.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=863e09&amp;media=pfsense:configuracoes-avancada-pfsense.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:configuracoes-avancada-pfsense-2.png" class="media wikilink2" title="pfsense:configuracoes-avancada-pfsense-2.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=1548fe&amp;media=pfsense:configuracoes-avancada-pfsense-2.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+</div>
+
+<h4 id="desabilite_o_dns_forwarder">Desabilite o DNS Forwarder</h4>
+<div class="level4">
+
+<p>
+Clicando em Serviços/Services → <abbr title="Domain Name System">DNS</abbr> Forwarder (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:menu-dns-forwarder.png" class="media wikilink2" title="pfsense:menu-dns-forwarder.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=8c4e41&amp;media=pfsense:menu-dns-forwarder.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+<ol>
+<li class="level1"><div class="li"> Na seção Habilitar: desmarque a opção “Habilitar <abbr title="Domain Name System">DNS</abbr> Forwarder</div>
+</li>
+<li class="level1"><div class="li"> Na seção Interfaces: Desmarque todas as interfaces e clique marque a opção “Strict Interface Binding”</div>
+</li>
+</ol>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apfsense%3Aconfig-cdc&amp;media=pfsense:screen_shot_2014-09-01_at_6.42.04_pm.png" class="media wikilink2" title="pfsense:screen_shot_2014-09-01_at_6.42.04_pm.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=2f97bc&amp;media=pfsense:screen_shot_2014-09-01_at_6.42.04_pm.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+</div>
+
+<h4 id="filtro_de_portas">Filtro de portas</h4>
+<div class="level4">
+
+<p>
+Este procedimento é descrito no artigo <a href="/doku.php?id=pfsense:configuracao" class="wikilink2" title="pfsense:configuracao" rel="nofollow">Manual de configuração da Politica padrão na plataforma PfSense</a>
+</p>
+
+<p>
+Pronto! 
+Agora voce já tem tudo pronto para poder efetuar os testes que deseja antes de colocar o novo firewall de borda do campus em produção!
+</p>
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;">Lucas do Amaral Saboya</a> 2014/09/11 15:16</em>
+</p>
+
+</div>
+<!-- EDIT8 SECTION "Ajuste fino" [10669-] -->

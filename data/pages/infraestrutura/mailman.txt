@@ -1,0 +1,169 @@
+====== Mailman ======
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de listas de email.
+
+===== Configurações da VPS =====
+<code>
+Hostname: listas.ifce.edu.br
+IPv4: 200.17.33.8
+OS: Ubuntu 12.04.5-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> listas
+vCPU's: 2
+RAM: 2GiB
+HDD: 10GiB
+</code>
+
+===== Software utilizados pelo serviço =====
+<code>
+apache2-2.2.22-1ubuntu1.8
+apache2-mpm-prefork-2.2.22-1ubuntu1.8
+apache2-utils-2.2.22-1ubuntu1.8
+apache2.2-bin-2.2.22-1ubuntu1.8
+apache2.2-common-2.2.22-1ubuntu1.8
+libapache2-mod-php5-5.3.10-1ubuntu3.17
+mailman-1:2.1.14-3ubuntu0.1
+</code>
+
+===== Instalação =====
+O mailman pode ser instalado via apt-get:
+<code>
+operador@listas:~$ sudo apt-get update; sudo apt-get install apache2 apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common libapache2-mod-php5 mailman
+</code>
+
+===== Estrutura de diretórios =====
+Listar a estrutura de diretórios aqui:
+  * ''/var/lib/mailman'' - Arquivos referêntes as listas
+  * ''/etc/mailman'' - Arquivos de configuração do mailman
+  * ''/etc/apache2'' - Arquivos de configuração do Apache2
+
+=== Arquivos de configuração ===
+Encontram-se no diretório ''/etc/mailman'' e ''/etc/apache2'', os arquivos de configuração do serviço
+==== Operando o serviço ====
+
+=== Iniciando o serviço ===
+Inicia-se o serviço do mailman através do comando:
+<code>operador@listas:~$ sudo service mailman start
+</code>
+
+=== Parando o serviço ===
+Para-se o serviço do mailman através do comando:
+<code>operador@listas:~$ sudo service mailman stop
+</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do mailman através do comando:
+<code>operador@listas:~$ sudo service mailman restart
+</code>
+==== Arquivos de configuração ====
+<file conf arquivo.conf>
+# Sample configuration for Debian mailman with Apache
+
+# We can find mailman here:
+ScriptAlias /cgi-bin/mailman/ /usr/lib/cgi-bin/mailman/
+# And the public archives:
+Alias /pipermail/ /var/lib/mailman/archives/public/
+# Logos:
+Alias /images/mailman/ /usr/share/images/mailman/
+
+# Use this if you don't want the "cgi-bin" component in your URL:
+# In case you want to access mailman through a shorter URL you should enable
+# this:
+#ScriptAlias /mailman/ /usr/lib/cgi-bin/mailman/
+# In this case you need to set the DEFAULT_URL_PATTERN in
+# /etc/mailman/mm_cfg.py to http://%s/mailman/ for the cookie
+# authentication code to work.  Note that you need to change the base
+# URL for all the already-created lists as well.
+
+<Directory /usr/lib/cgi-bin/mailman/>
+    AllowOverride None
+    Options ExecCGI
+    AddHandler cgi-script .cgi
+    Order allow,deny
+    Allow from all
+</Directory>
+<Directory /var/lib/mailman/archives/public/>
+    Options FollowSymlinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+<Directory /usr/share/images/mailman/>
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+</file>
+
+<file python mm_cfg.py>
+# -*- python -*-
+
+"""This is the module which takes your site-specific settings.
+
+From a raw distribution it should be copied to mm_cfg.py.  If you
+already have an mm_cfg.py, be careful to add in only the new settings
+you want.  The complete set of distributed defaults, with annotation,
+are in ./Defaults.  In mm_cfg, override only those you want to
+change, after the
+
+  from Defaults import *
+
+line (see below).
+
+Note that these are just default settings - many can be overridden via the
+admin and user interfaces on a per-list or per-user basis.
+
+Note also that some of the settings are resolved against the active list
+setting by using the value as a format string against the
+list-instance-object's dictionary - see the distributed value of
+DEFAULT_MSG_FOOTER for an example."""
+
+
+#######################################################
+#    Here's where we get the distributed defaults.    #
+
+from Defaults import *
+
+##############################################################
+# Put YOUR site-specific configuration below, in mm_cfg.py . #
+# See Defaults.py for explanations of the values.            #
+
+#-------------------------------------------------------------
+# The name of the list Mailman uses to send password reminders
+# and similar. Don't change if you want mailman-owner to be
+# a valid local part.
+MAILMAN_SITE_LIST = 'mailman'
+
+#-------------------------------------------------------------
+# If you change these, you have to configure your http server
+# accordingly (Alias and ScriptAlias directives in most httpds)
+DEFAULT_URL_PATTERN = 'http://%s/cgi-bin/mailman/'
+PRIVATE_ARCHIVE_URL = '/cgi-bin/mailman/private'
+IMAGE_LOGOS         = '/images/mailman/'
+
+#-------------------------------------------------------------
+# Default domain for email addresses of newly created MLs
+DEFAULT_EMAIL_HOST = 'listas.ifce.edu.br'
+#-------------------------------------------------------------
+# Default host for web interface of newly created MLs
+DEFAULT_URL_HOST   = 'listas.ifce.edu.br'
+#-------------------------------------------------------------
+# Required when setting any of its arguments.
+add_virtualhost(DEFAULT_URL_HOST, DEFAULT_EMAIL_HOST)
+
+#-------------------------------------------------------------
+# The default language for this server.
+DEFAULT_SERVER_LANGUAGE = 'pt_BR'
+
+#-------------------------------------------------------------
+# Iirc this was used in pre 2.1, leave it for now
+USE_ENVELOPE_SENDER    = 0              # Still used?
+
+#-------------------------------------------------------------
+# Unset send_reminders on newly created lists
+DEFAULT_SEND_REMINDERS = 0
+</file>
+===== Referências =====
+  * [[http://www.gnu.org/software/mailman/docs.html|gnu.org]]
+  * [[http://www.gnu.org/software/mailman/site.html|gnu.org]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/07 10:25//

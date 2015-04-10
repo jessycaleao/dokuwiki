@@ -1,0 +1,15 @@
+====== Servidores Web ======
+Um servidor web é uma tecnologia da informação que processa requisições via HTTP, o protocolo de rede básico utilizado para distribuição de informação na rede World Wide Web (www). O termo refere-se a um computador, um //appliance// ou específicamente ao software que aceita e supervisiona requisições HTTP. A principal função de um servidor web é armazenas, processar e entregar páginas web para seus clientes. A comunicação entre cliente e servidor é feita utilizando o Hypertext Transfer Protocol - HTTP. Páginas entregues são geralemente documentos HTML, que podem incluir imagens, folhas de estilo e scripts além de texto plano. Um agente, comumente um navegador web ou crawler, inicia a comunicação fazendo uma requisição para  um servidor específico utilizando HTTP e o mesmo reposderá com o conteúdo referente ao recurso que lhe foi requisitado ou uma mensagem de erro se não o puder fazer. Enquanto a principal função é servir conteúdo, uma implementação completa do HTTP também inclui maneiras de receber conteúdo de clientes. Esta feature é utilizada para submissão de formulários web, incluindo upload de arquivos.
+eb forms, including uploading of files. Muitos servidores web genéricos também suportam server-side scripting utilizando tecnologias como Active Server Pages - ASP, PHP e muitas outas. Isto significa que o comportamento de um servidor web pode ser descrito por arquivos distintos, enquanto os fontes permanecem sem modificações.
+
+Geramente, esta funcionalidade é utilizada para gerar documentos HTML dinamicamente "on-the-fly", ao invés de retornar documentos estáticos. Servidores Web nem sempre são utilizados para servir a WWW. Eles podem também ser encontrados em sistemas embarcados, como impressoras, roteadores, webcams e servem seu conteúdo somente em rede local. O servidor Web pode ser então, utilizado para fins de monitoramento e gerência do dispositivo em questão. Isto geralmente signigica que nenhum software adicional precisa ser instalado no cliente para operar o dispositivo, já que hoje qualquer sistema operacional moderno contém um navegador web operacional.
+===== Servidores Web Utilizados pelo IFCE =====
+  * [[infraestrutura:apache|Apache]]
+  * [[infraestrutura:nginx|NGiNX]]
+  * [[infraestrutura:iis|IIS]]
+
+===== Referências =====
+  * [[https://en.wikipedia.org/wiki/Web_server|wikipedia.org]]
+  * [[https://tools.ietf.org/html/rfc2616|RFC2616]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/06 12:41//

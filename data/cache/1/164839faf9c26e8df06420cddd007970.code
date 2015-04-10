@@ -1,0 +1,8 @@
+&lt;VirtualHost *:80&gt;
+	ServerName interred.ifce.edu.br
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/html
+	LogLevel warn
+	ErrorLog /var/log/apache2/error.log
+	CustomLog /var/log/apache2/access.log combined
+&lt;/VirtualHost&gt;

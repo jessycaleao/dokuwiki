@@ -1,0 +1,25 @@
+==== OS X Yosemite ====
+Para configurar o cliente PPTP no OSX
+Clique no ícone da Apple no canto superior esquerdo e em seguida clique em ''Preferências do Sistema'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_2.04.17_pm.png?200 |}} 
+Clique em ''Rede'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_2.04.34_pm.png?200 |}}
+Clique no ícone de adicionar, no canto inferior esquerdo da janela (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_2.04.42_pm.png?200 |}}
+No campo Inteface, selecione ''VPN''
+No campo Tipo de VPN, selecione ''PPTP''
+No campo Nome do serviço, digite ''IFCE (PPTP)'' ou qualquer nome que lhe remeta a esta configuração.
+Em seguida, clique em ''Criar''
+{{ :infraestrutura:screen_shot_2015-03-21_at_2.04.51_pm.png?200 |}}
+Clique na conexão que acabamos de criar e em seguida entre com os seguintes dados (Clique para ampliar):
+<code>
+Endereço do servidor: pptp.ifce.edu.br
+Nome de usuário: NOME_DE_USUARIO_QUE_RECEBEU_DA_DGTI
+Criptografia: Automatica (128bit ou 40bit)
+</code>
+{{ :infraestrutura:screen_shot_2015-03-21_at_2.04.55_pm.png?200 |}}
+Clique em ''Avançado'' e em seguida, marque a opção ''Enviar todo o tráfego pela VPN'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_2.05.07_pm.png?200 |}}
+=== Conectando-se ===
+Para conectar-se, basta clicar em ''Conectar'':
+{{ :infraestrutura:output_phqssj.gif |}}

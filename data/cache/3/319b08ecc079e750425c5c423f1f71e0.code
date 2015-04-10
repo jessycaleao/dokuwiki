@@ -1,0 +1,43 @@
+#!/bin/bash
+usuario=$1
+/usr/bin/clear
+&nbsp;
+/bin/echo -n &quot;Digite o nome do USUARIO a ser criado: &quot;
+read usuario
+/usr/sbin/adduser -g apache -d /var/www/sites/$usuario -s /sbin/nologin $usuario
+&nbsp;
+/usr/bin/clear
+/bin/echo &quot;Now, passwords&quot;
+/usr/bin/passwd $usuario
+&nbsp;
+/bin/chmod 770 /var/www/sites/$usuario
+/bin/chmod 770 /var/www/sites/$usuario/html
+/usr/bin/chcon -R -t httpd_sys_content_t /var/www/sites/$usuario
+&nbsp;
+/bin/echo &quot;Criando arquivo de configuração&quot;
+&nbsp;
+/bin/touch /etc/httpd/conf.d/$usuario.conf
+&nbsp;
+/bin/echo &quot;# Arquivo de configuracao do site $usuario&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;#&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;#Aliases&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;Alias /$usuario /var/www/sites/$usuario/html&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;#&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;#VirtualHost&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;&lt;VirtualHost *:80&gt;&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;  DocumentRoot /var/www/sites/$usuario/html&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;  ServerName $usuario.ifce.edu.br&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;  ServerAlias www.$usuario.ifce.edu.br&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;  ServerAlias $usuario.cefetce.br&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;  ServerAlias www.$usuario.cefetce.br&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;  ServerAlias $usuario.cefet-ce.br&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;  ServerAlias www.$usuario.cefet-ce.br&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;  ServerAlias $usuario.etfce.br&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;  ServerAlias www.$usuario.etfce.br&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+/bin/echo &quot;&lt;/VirtualHost&gt;&quot; &gt;&gt; /etc/httpd/conf.d/$usuario.conf
+&nbsp;
+&nbsp;
+/bin/echo &quot;&lt;? phpinfo(); ?&gt;&quot; &gt;&gt; /var/www/sites/$usuario/html/index.php
+/bin/chown -R $usuario:apache /var/www/sites/$usuario/
+&nbsp;
+/sbin/service httpd reload

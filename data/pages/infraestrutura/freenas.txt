@@ -1,0 +1,47 @@
+====== FreeNAS ======
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de arquivos para setores do Campus Fortaleza e Reitoria.
+===== Configurações da VPS =====
+<code>
+Hostname: hostname.domain.tld
+IPv4: CIDR/32
+OS: FreeNAS-9.3-STABLE-201412091831-amd64
+Username: root
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> FreeNAS
+vCPU's: 4
+RAM: 4GiB
+HDD: 4GiB(root)+3x500GiB(zfs)
+</code>
+
+===== Software utilizados pelo serviço =====
+FreeNAS é um sistema operacional baseado em FreeBSD com todos os serviços embarcados sem a necessidade de instalação de novos pacotes. 
+
+===== Instalação =====
+O FreeNAS pode ser instalado diretamente no ''Bare Metal'' ou em um ''VPS'';
+
+===== Interface de Administração web =====
+Pode-se logar na interface de administração do FreeNAS acessando via http o seguinte endereço:
+  * http://freenas.ifce.edu.br
+==== Operando o serviço CIFS ====
+
+=== Iniciando o serviço CIFS ===
+Logado na interface de administração do FreeNAS, no menu lateral esquerdo, clique em ''Services'' -> ''Control Services'' e clique no interruptor referente ao serviço ''CIFS'' (Clique para ampliar):
+{{ :infraestrutura:output_eo1ndu.gif?200 |}}
+{{ :infraestrutura:screen_shot_2015-04-03_at_4.47.48_pm.png?200 |}}
+
+=== Parando o serviço CIFS ===
+Logado na interface de administração do FreeNAS, no menu lateral esquerdo, clique em ''Services'' -> ''Control Services'' e clique no interruptor referente ao serviço ''CIFS'' (Clique para ampliar):
+{{ :infraestrutura:output_eo1ndu.gif?200 |}}
+{{ :infraestrutura:screen_shot_2015-04-03_at_4.48.59_pm.png?200 |}}
+
+=== Reiniciando o serviço CIFS ===
+Logado na interface de administração do FreeNAS, no menu lateral esquerdo, clique em ''Services'' -> ''Control Services'' e clique no interruptor referente ao serviço ''CIFS'' uma vez para parar o serviço e em seguida clique novamente para incia-lo novamente. (Clique para ampliar):
+{{ :infraestrutura:output_eo1ndu.gif?200 |}}
+{{ :infraestrutura:screen_shot_2015-04-03_at_4.47.48_pm.png?200 |}}
+{{ :infraestrutura:screen_shot_2015-04-03_at_4.48.59_pm.png?200 |}}
+==== Arquivos de configuração ====
+Todas as configurações atuais do FreeNAS que encontra-se em produção encontram-se no arquivo abaixo:
+[[https://mega.co.nz/#!MoARCBAb!gmXFdRPeQ07o_gPTSeUHwOqx338wI6SYTt7uzkLxvkk|freenas-FreeNAS-9.3-STABLE-201412091831-20150403163542.db]]
+===== Referências =====
+  * [[http://doc.freenas.org/9.3/freenas.html|freenas.org]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Luca do Amaral Saboya]] 2015/03/23 17:48//

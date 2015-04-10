@@ -1,0 +1,38 @@
+===== Configurando cliente PPTP - Windows 8.1 =====
+Na tela inicial do Windows (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_11.41.04_am.png?200 |}}
+Digite ''Painel de Controle''ou ''Control Panel'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_11.41.08_am.png?200 |}}
+No Painel de controle, selecione a opção ''Rede e Internet'' ou ''Network and Internet'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_11.41.20_am.png?200 |}}
+Na seção Rede e Internet, Selecione ''Central de rede e compartilhamento'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_11.41.23_am.png?200 |}}
+Dentro da central de rede compartilhamento, selecione a opção ''Configurar uma nova conexão ou rede'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_11.41.37_am.png?200 |}}
+No wizzard de configuração de novas conexões, selecione a opção ''Conectar-se a um Local de Trabalho''(Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_11.41.42_am.png?200 |}}
+Clique em ''Usar minha conexão com a Internet (VPN)'' Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_11.41.52_am.png?200 |}}
+No próximo passo, entre com o nome ''pptp.ifce.edu.br'' na caixa de texto ''Endereço na Internet''. Do mesmo modo, entre com o nome ''VPN PPTP IFCE'' na caixa de texto ''Nome do destino''. Deixe o restante das opções conforme o exemplo abaixo. Em seguida, pressione o botão ''
+Criar''. Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_11.42.51_am.png?200 |}}
+Após criada a conexão pptp, precisamos agora configurar quais protocolos poderão ser usandos na conexão. Para isto, retorne a ''Central de rede e compartilhamento'' e clique em ''Alterar as configurações do adaptador'' Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_11.41.30_am.png?200 |}}
+Selecione com o botão direito do mouse, a conexão que criamos anteriormente ''VPN PPTP IFCE'':
+{{ :infraestrutura:screen_shot_2015-03-21_at_11.43.03_am.png?200 |}}
+E clique em ''Propriedades'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-21_at_11.43.05_am.png?200 |}}
+Nas propriedades da conexão pptp que criamos, clique na terceira aba, ''Segurança'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-10_at_2.17.11_pm.png?200 |}}
+Nesta seção, especifique:
+No tipo de VPN: ''Protocolo PPTP (Point to Point Tunnelling Protocol)''
+Em encriptação de dados, especifique ''Encriptação opcional (lig. efetuada mesmo sem encriptação)''
+Marque a opção ''Permitir estes protocolos'' e selecione os seguintes protocolos:
+<code>
+PAP
+CHAP
+MS-CHAP v2
+</code>
+=== Conectando-se ===
+Após configurada a conexão VPN, basta clicar no icone {{ :infraestrutura:screen_shot_2015-03-21_at_12.39.05_pm.png |}} e em seguida selecionar a conxão que configuramos:
+{{ :infraestrutura:screen_shot_2015-03-10_at_2.16.30_pm.png?200 |}}

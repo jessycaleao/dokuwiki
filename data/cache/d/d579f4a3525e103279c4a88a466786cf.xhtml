@@ -1,0 +1,137 @@
+
+<h1 class="sectionedit1" id="interred">Interred</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de repositório de Objetos de Aprendizagem, OA&#039;s para professores e alunos.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Interred" [1-244] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: interred.ifce.edu.br
+IPv4: 200.17.33.143
+OS: 14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSysten -&gt; interred
+vCPU&#039;s: 1
+RAM: 1GiB
+HDD: 20GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [245-492] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">apache2-2.4.7-1ubuntu4.4
+libapache2-mod-php5-5.5.9+dfsg-1ubuntu4.7
+php-pear-5.5.9+dfsg-1ubuntu4.7
+php5-5.5.9+dfsg-1ubuntu4.7
+php5-adodb-5.04-7ubuntu1
+php5-cgi-5.5.9+dfsg-1ubuntu4.7
+php5-cli-5.5.9+dfsg-1ubuntu4.7
+php5-common-5.5.9+dfsg-1ubuntu4.7
+php5-curl-5.5.9+dfsg-1ubuntu4.7
+php5-gd-5.5.9+dfsg-1ubuntu4.7
+php5-json-1.3.2-2build1
+php5-pgsql-5.5.9+dfsg-1ubuntu4.7
+php5-readline-5.5.9+dfsg-1ubuntu4.7</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [493-955] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O Apache2 e o PHP5.5 poden ser instalados via apt-get:
+</p>
+<pre class="code">operador@interred:~$ sudo apt-get install apache2 libapache2-mod-php5 php-pear php5 php5-adodb php5-cgi php5-cli php5-common php5-curl php5-gd php5-json php5-pgsql php5-readline                    </pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [956-1249] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/var/www/html</code> - Arquivos fonte da aplicação</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/log/apache2</code> - Arquivos de log do Apache2 &amp; php5</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>&#039;/etc/apache2</code> e <code>/etc/php5</code>, os arquivos de configuração do Apache2 e php5
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [1250-1588] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do Apache2 através do comando:
+</p>
+<pre class="code">operador@interred:~$ sudo service apache2 start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do Apache2 através do comando:
+</p>
+<pre class="code">operador@interred:~$ sudo service apache2 stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do Apache2 através do comando:
+</p>
+<pre class="code">operador@interred:~$ sudo service apache2 restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [1589-2050] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:interred&amp;codeblock=6" title="Download Snippet" class="mediafile mf_conf">arquivo.conf</a></dt>
+<dd><pre class="code file conf">// Exemplo de arquivo de configuração</pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [2051-2161] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> nononononono</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [2162-2203] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Luca do Amaral Saboya</a> 2015/03/23 17:48</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [2204-] -->

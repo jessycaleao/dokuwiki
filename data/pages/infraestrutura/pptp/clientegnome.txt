@@ -1,0 +1,24 @@
+==== Gnome3 ====
+Na tela inicial do gnome3, clique no menu canto superior direito e em seguida no icone destacado na imagem abaixo (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_3.45.05_pm.png?200 |}}
+Este atalho nos levará para interface de configuração ''Preferências de Sistema'' ou ''System Settings''. Nesta seção, clique em ''Rede'' ou ''Network'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_3.45.10_pm.png?200 |}}
+Na seção específica, clique no canto inferior esquerdo, no ícone ''+''para adicionarmos uma nova conexão (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_3.45.12_pm.png?200 |}}
+No campo ''Interface'' defina ''VPN'' e em seguida em ''Criar'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_3.45.17_pm.png?200 |}}
+No primeiro campo, defina  ''Point-to-Point Tunneling Protocol (PPTP)''. Se no seu utilitário de configuração, esta opção não estiver disponível, instale o com o comando (Clique para ampliar):
+<code>
+sudo apt-get install network-manager-pptp
+</code>
+{{ :infraestrutura:screen_shot_2015-03-23_at_3.45.20_pm.png?200 |}}
+Na seção geral, defina no campo ''Gateway'': pptp.ifce.edu.br e na seção ''Optional'', defina as credenciais que recebeu da DGTI e em seguida clique em ''Advanced'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_3.46.46_pm.png?200 |}}
+Na seção ''Security and Compression'', marque a opção ''Use Point-to-Point encryption (MPPE)''e em seguida clique em ''ok'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_3.46.54_pm.png?200 |}}
+De volta as configuraçõs principais da conexão que acabamos de criar, apenas clique em ''Save'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_3.47.10_pm.png?200 |}}
+Agora, escolha a conexão que criamos e clique no botão destacado na imagem para ativa-la (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_3.47.15_pm.png?200 |}}
+Para desconectar da VPN, basta clicar em ''Turn Off'' (Clique para ampliar):
+{{ :infraestrutura:screen_shot_2015-03-23_at_3.47.25_pm.png?200 |}}

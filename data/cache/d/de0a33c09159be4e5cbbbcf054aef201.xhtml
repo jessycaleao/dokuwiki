@@ -1,0 +1,134 @@
+
+<h1 class="sectionedit1" id="nfs">NFS</h1>
+<div class="level1">
+
+<p>
+Network File System (NFS) é um protocolo de sistema de arquivos distribuídos originalmente desenvolvido pela Sun Microsystems em 1984, permitindo um usuário em um computador cliente, acessar arquivos pela rede da mesma forma que o faz para arquivos armazenados em seu disco local. NFS, como muitos protocolos é construído com o sistema Open Network Computing Remote Procedure Call (ONC RPC). O NFS é um padrão aberto definido nas <abbr title="Request for Comments">RFC</abbr>&#039;s <a href="http://tools.ietf.org/html/rfc1094" class="urlextern" title="http://tools.ietf.org/html/rfc1094"  rel="nofollow">1094</a>, <a href="http://tools.ietf.org/html/rfc1813" class="urlextern" title="http://tools.ietf.org/html/rfc1813"  rel="nofollow">1813</a> e <a href="http://tools.ietf.org/html/rfc3530" class="urlextern" title="http://tools.ietf.org/html/rfc3530"  rel="nofollow">3530</a> permitindo qualquer um implementa-lo. Utilizamos o NFS na arquitetura da Diretoria de Ensino a Distância para receber todo o conteúdo submetido por alunos ao AVA de maneira rápida e escalável. O cluster PHP-FPM e o proxy reverso NGiNX, fazem uso deste compartilhamento NFS em seu filesystem de maneira transparente.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "NFS" [1-917] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: ul-virtual.ifce.edu.br
+IPv4: 200.17.33.55
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; ul-virtual
+vCPU&#039;s: 2
+RAM: 4GiB
+HDD: 2x100GiB (LVM)</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [918-1184] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">nfs-kernel-server-1:1.2.8-6ubuntu1.1
+nfs-common-1:1.2.8-6ubuntu1.1
+vim-2:7.4.052-1ubuntu3</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [1185-1336] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O NFS pode ser instalado via apt-get:
+</p>
+<pre class="code">sudo apt-get install nfs-kernel-server nfs-common</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [1337-1465] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/etc/exports </code> - Arquivos de configuração do NFS</div>
+</li>
+<li class="level1"><div class="li"> <code>/opt/moodledata</code> - Diretório onde encontram-se os arquivos servidos pelo NFS</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/etc</code>, os arquivos de configuração do serviço
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [1466-1801] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do NFS através do comando:
+</p>
+<pre class="code">sudo service nfs-kernel-server start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do NFS através do comando:
+</p>
+<pre class="code">sudo service nfs-kernel-server stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do NFS através do comando:
+</p>
+<pre class="code">sudo service nfs-kernel-server restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [1802-2219] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:nfs&amp;codeblock=6" title="Download Snippet" class="mediafile mf_">exports</a></dt>
+<dd><pre class="code file conf"># /etc/exports: the access control list for filesystems which may be exported
+#		to NFS clients.  See exports(5).
+#
+/opt/moodledata		200.17.33.50(rw,sync,no_subtree_check,no_root_squash)</pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [2220-2472] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="http://tools.ietf.org/html/rfc1094" class="urlextern" title="http://tools.ietf.org/html/rfc1094"  rel="nofollow">RFC1094</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://tools.ietf.org/html/rfc1813" class="urlextern" title="http://tools.ietf.org/html/rfc1813"  rel="nofollow">RFC1813</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://tools.ietf.org/html/rfc3530" class="urlextern" title="http://tools.ietf.org/html/rfc3530"  rel="nofollow">RFC3530</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [2473-2650] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Lucas do Amaral Saboya</a> 2015/03/24 14:24</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [2651-] -->

@@ -1,0 +1,134 @@
+====== Nomenclatura de Dispositivos de Rede ======
+
+===== Introdução =====
+Este documento define uma convenção formal de nomenclatura para auxiliar na gerência das redes do Instituto Federal do Ceará - IFCE. Nomear dispositivos é uma importante prática para gerência eficaz de uma grande rede de computadores, e deve refletir a função atual do dispositivo em questão, bem como sua posição física e lógica na rede.
+
+A DGTI desenhou uma hierarquia, utilizando uma camada central, uma camada de distribuição e uma camada de acesso. Dispositivos dentro da rede, cairão logicamente em uma destas três camadas. Funcionalmente, estes dispositvos são descritos como roteadores core, switches de distribuição, roteadores de distribuição ou de acesso e switchets de acesso. O desenho da rede é dado para que um dispositivo membro de uma árvore, atrelado a um roteadore core e é alimentado de um dispositivo em uma posição lógicamente superior nesta árvore.
+
+Um nome bem formado irá indicar a localização do dispositivo e seu papel nesta hierarquia. Esta convenção traz as mais úteis informações sobre um dispositivo dentro de seu nome enquanto minimiza o tamanho do hostname. Estas recomendações, seguem a convenção de DNS, da hierarquia mais específica para a menos específica.
+==== Hierarquia do IFCE ====
+
+A arquitetura de rede do IFCE segue uma hierarquia geral de elementos únicos em cada nível, como descrita a baixo: Nem todas as informações são úteis todas as horas, e podem trazer certa complexidade à convenção de nomes. Elementos mais baixos na hierarquia são facilmente emcapsulados em elementos mais alto, fazendo identificadores únicos em todos os níveis complexos e pesados. Nesta convenção, a árvore, prédios, salas, tipo de dispositivo e interfaces, são considerados siginificantes.
+  * Domínio
+  * Subdomínio
+  * Zona
+  * Árvore
+  * Prédio
+  * Sala 
+  * Tipo de Dispositivo
+  * Interface
+
+===== Mnemônicas ===== 
+
+==== Interfaces ====
+A convenção para mnemônicas utilizadas para nomes de interface será a abreviação do nome utilizado pelo Cisco IOS. O caractere '/' sera substituido pelo caractere '-'. ex:
+
+Uma interface de um roteador Fast Ethernet, denominado pelo IOS como "Ethernet0/0/0" seria traduzido para "e0-0-0" no campo referente a interface.
+
+^Interface Type ^Mnemônica ^
+| ATM | atm |
+| BRI | bri |
+| BVI | bvi |
+| Ethernet | E |
+| FastEthernet | Fe |
+| GigabitEthernet | Ge |
+| Group-Async | gro |
+| Hssi | Hs |
+| Loopback | Lo |
+| POS | pos |
+| Port-channel | pc |
+| SRP | srp |
+| Serial | Se |
+| Vlan | Vl|
+
+==== Dispositivos ====
+Há vários tipos lógicos de dispositivos utilizados em uma rede. Este mneumonicos são para este uso:
+^Nome do Dispositivo  ^ Mnemônica ^
+| Access Router | ar |
+| Access Switch | as |
+| Aggregation Router | gr |
+| Aggregation Switch | gs |
+| Core Router | cr |
+| Core Switch | cs |
+| Distribution Router | dr |
+| Distribution Switch | ds |
+| External router | er |
+| Service Router | sr |
+| Service Switch | ss |
+| Virtual Console | vc |
+| Network Service System | ns |
+| Bladesystem Chassi | bc |
+| Bladesystem Blade | bb |
+| Dell PowerEdge Server | pe |
+
+Dispositvos alocados sob a mesma funcão serão numerados: ''01'', ''02'', ''03'', etc. Quando alocando hostnames, o número mais baixo disponível deverá ser utilizado. Ex:
+Se há dois switches de acesso ''as01'' e ''as03'' em um local em particular, então, o proximo switch de acesso deverá receber o hostname ''as02''. 
+
+Na ocasião de um dispositvo apresentar defeito e sair de produção/operação, outros dispositivos não deverão ter sua nomenclatura alterada. Ex: 
+Em um ambiente onde encontram-se em produção os switches de acesso ''as01'', ''as02'' e ''as03'', e o switch ''as02'' apresenta defeito, é removido e não foi colocado outro em seu lugar, os nomes dos dispositivos ''as01'' e ''as03'' __NÃO__ deverão ser modificados.
+
+==== Árvore ====
+
+Existem aprocimadamente ''xx'' árvores hierárquicas nas redes do IFCE. Estas, baseadas no [[http://www.unece.org/fileadmin/DAM/cefact/locode/br.htm|locode]] e seus mneumônicos estão listados abaixo:
+
+^Campus ^Mneumônico ^
+| Reitoria | rei |
+| Acaraú | acu |
+| Aracati | art |
+| Baturité | btu |
+| Camocim | cmc |
+| Canindé | cad |
+| Caucaia | cuc |
+| Cedro | ced |
+| Crateús | cre |
+| Crato | ctu |
+| Fortaleza | for |
+| Guaramiranga | gua |
+| Iguatu | qig |
+| Itapipoca | iip |
+| Jaguaribe | jag |
+| Jaguaruana | jaa |
+| Juazeiro do Norte | jdo |
+| Limoeiro do Norte | ldn |
+| Maracanaú | mcn |
+| Morada Nova | mrv |
+| Quixadá | qxa |
+| São Gonçalo do Amarante | sde |
+| Sobral | qbx |
+| Tabuleiro do Norte | tno |
+| Tauá | tau |
+| Tianguá | tgn |
+| Ubajara | ubj |
+| Umirim | ubm |
+
+==== Guia para construção de nomes ====
+
+A definição formal para dispositivos de rede do IFCE segue os procedimentos abaixo:
+
+Nomes de dispositvo são construidos a partir de mneumônicos derivados de suas interfaces, tipo de dispositivo, prédio/sala e árvore.
+A interface de loopback ''loopback0'' é definida para indentificar um dispositivo gerenciável, e sua descrição será ominitda.
+Covencionalmente, os mneumônicos referentes a edificações farão referência a ''Sala de Equipamentos'', ''se'' localizada no prédio. Para outras salas deste prédio, o número/nome da sala deverá ser adicionado ao mneumônico.
+
+Nomes de dispositivo deverão ser restritos a visão interna de DNS apenas. Exceções a esta regra valem para roteadores externos, de borda e elementos de rede cuja função requira acesso a partir da internet.
+
+==== Exemplos ====
+Endereço de Loopback para um roteador ''core'' na cidade de Limoeiro do Norte:
+<code>cr01-ldn</code>
+
+Switch de distribuição localizado na cidade de Fortaleza, na Gerencia do Curso de Tecnologia em Processos Químicos: 
+<code>ds01-for-qui</code>
+
+Interface VLAN 1000 do roteador de acesso localizado no Campus Maracanáu, Bloco da Telemática:
+<code>Vl1000-ar01-mcn-tel</code>
+
+Três switches de acesso localizados na sala da Pro-Reitoria de Pesquisa, Pós-Graduação e Inovação:
+<code>
+as01-rei-prp
+as02-rei-prp
+as03-rei-prp
+</code>
+
+==== References ====
+  * [[http://www.unece.org/fileadmin/DAM/cefact/locode/br.htm|unece.org]]
+  * [[http://www.td.rutgers.edu/documentation/Reference/Network_Device_Name_Building_Codes/index.php|rutgers.edu]]
+  * [[http://www.zoobey.com/index.php/component/content/article?id=428|zoobey.com]]

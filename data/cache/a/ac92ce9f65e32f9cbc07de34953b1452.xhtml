@@ -1,0 +1,32 @@
+
+<h3 class="sectionedit1" id="gnome3">Gnome3</h3>
+<div class="level3">
+
+<p>
+Na tela inicial do gnome3, clique no menu canto superior direito e em seguida no icone destacado na imagem abaixo (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp%3Aclientegnome&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.45.05_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-23_at_3.45.05_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=a72b15&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.45.05_pm.png" class="mediacenter" alt="" width="200" /></a>
+Este atalho nos levará para interface de configuração <code>Preferências de Sistema</code> ou <code>System Settings</code>. Nesta seção, clique em <code>Rede</code> ou <code>Network</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp%3Aclientegnome&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.45.10_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-23_at_3.45.10_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=0f3b0d&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.45.10_pm.png" class="mediacenter" alt="" width="200" /></a>
+Na seção específica, clique no canto inferior esquerdo, no ícone <code>+</code>para adicionarmos uma nova conexão (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp%3Aclientegnome&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.45.12_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-23_at_3.45.12_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=48abb3&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.45.12_pm.png" class="mediacenter" alt="" width="200" /></a>
+No campo <code>Interface</code> defina <code>VPN</code> e em seguida em <code>Criar</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp%3Aclientegnome&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.45.17_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-23_at_3.45.17_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=7a2d21&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.45.17_pm.png" class="mediacenter" alt="" width="200" /></a>
+No primeiro campo, defina  <code>Point-to-Point Tunneling Protocol (PPTP)</code>. Se no seu utilitário de configuração, esta opção não estiver disponível, instale o com o comando (Clique para ampliar):
+</p>
+<pre class="code">sudo apt-get install network-manager-pptp</pre>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp%3Aclientegnome&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.45.20_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-23_at_3.45.20_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=123290&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.45.20_pm.png" class="mediacenter" alt="" width="200" /></a>
+Na seção geral, defina no campo <code>Gateway</code>: pptp.ifce.edu.br e na seção <code>Optional</code>, defina as credenciais que recebeu da DGTI e em seguida clique em <code>Advanced</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp%3Aclientegnome&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.46.46_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-23_at_3.46.46_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=a760d4&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.46.46_pm.png" class="mediacenter" alt="" width="200" /></a>
+Na seção <code>Security and Compression</code>, marque a opção <code>Use Point-to-Point encryption (MPPE)</code>e em seguida clique em <code>ok</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp%3Aclientegnome&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.46.54_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-23_at_3.46.54_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=1de982&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.46.54_pm.png" class="mediacenter" alt="" width="200" /></a>
+De volta as configuraçõs principais da conexão que acabamos de criar, apenas clique em <code>Save</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp%3Aclientegnome&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.47.10_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-23_at_3.47.10_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=07596c&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.47.10_pm.png" class="mediacenter" alt="" width="200" /></a>
+Agora, escolha a conexão que criamos e clique no botão destacado na imagem para ativa-la (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp%3Aclientegnome&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.47.15_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-23_at_3.47.15_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=a3bd7c&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.47.15_pm.png" class="mediacenter" alt="" width="200" /></a>
+Para desconectar da VPN, basta clicar em <code>Turn Off</code> (Clique para ampliar):
+<a href="/lib/exe/detail.php?id=infraestrutura%3Apptp%3Aclientegnome&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.47.25_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-23_at_3.47.25_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=f3e935&amp;media=infraestrutura:screen_shot_2015-03-23_at_3.47.25_pm.png" class="mediacenter" alt="" width="200" /></a>
+</p>
+
+</div>

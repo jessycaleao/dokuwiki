@@ -1,0 +1,239 @@
+
+<h1 class="sectionedit1" id="mailman">Mailman</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de listas de email.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Mailman" [1-188] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: listas.ifce.edu.br
+IPv4: 200.17.33.8
+OS: Ubuntu 12.04.5-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; listas
+vCPU&#039;s: 2
+RAM: 2GiB
+HDD: 10GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [189-437] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">apache2-2.2.22-1ubuntu1.8
+apache2-mpm-prefork-2.2.22-1ubuntu1.8
+apache2-utils-2.2.22-1ubuntu1.8
+apache2.2-bin-2.2.22-1ubuntu1.8
+apache2.2-common-2.2.22-1ubuntu1.8
+libapache2-mod-php5-5.3.10-1ubuntu3.17
+mailman-1:2.1.14-3ubuntu0.1</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [438-729] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O mailman pode ser instalado via apt-get:
+</p>
+<pre class="code">operador@listas:~$ sudo apt-get update; sudo apt-get install apache2 apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common libapache2-mod-php5 mailman</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [730-974] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/var/lib/mailman</code> - Arquivos referêntes as listas</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/mailman</code> - Arquivos de configuração do mailman</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/apache2</code> - Arquivos de configuração do Apache2</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/etc/mailman</code> e <code>/etc/apache2</code>, os arquivos de configuração do serviço
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [975-1373] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do mailman através do comando:
+</p>
+<pre class="code">operador@listas:~$ sudo service mailman start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do mailman através do comando:
+</p>
+<pre class="code">operador@listas:~$ sudo service mailman stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do mailman através do comando:
+</p>
+<pre class="code">operador@listas:~$ sudo service mailman restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [1374-1832] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:mailman&amp;codeblock=6" title="Download Snippet" class="mediafile mf_conf">arquivo.conf</a></dt>
+<dd><pre class="code file conf"># Sample configuration for Debian mailman with Apache
+&nbsp;
+# We can find mailman here:
+ScriptAlias /cgi-bin/mailman/ /usr/lib/cgi-bin/mailman/
+# And the public archives:
+Alias /pipermail/ /var/lib/mailman/archives/public/
+# Logos:
+Alias /images/mailman/ /usr/share/images/mailman/
+&nbsp;
+# Use this if you don't want the &quot;cgi-bin&quot; component in your URL:
+# In case you want to access mailman through a shorter URL you should enable
+# this:
+#ScriptAlias /mailman/ /usr/lib/cgi-bin/mailman/
+# In this case you need to set the DEFAULT_URL_PATTERN in
+# /etc/mailman/mm_cfg.py to http://%s/mailman/ for the cookie
+# authentication code to work.  Note that you need to change the base
+# URL for all the already-created lists as well.
+&nbsp;
+&lt;Directory /usr/lib/cgi-bin/mailman/&gt;
+    AllowOverride None
+    Options ExecCGI
+    AddHandler cgi-script .cgi
+    Order allow,deny
+    Allow from all
+&lt;/Directory&gt;
+&lt;Directory /var/lib/mailman/archives/public/&gt;
+    Options FollowSymlinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+&lt;/Directory&gt;
+&lt;Directory /usr/share/images/mailman/&gt;
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+&lt;/Directory&gt;</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:mailman&amp;codeblock=7" title="Download Snippet" class="mediafile mf_py">mm_cfg.py</a></dt>
+<dd><pre class="code file python"><span class="co1"># -*- python -*-</span>
+&nbsp;
+<span class="st0">&quot;&quot;&quot;This is the module which takes your site-specific settings.
+&nbsp;
+From a raw distribution it should be copied to mm_cfg.py.  If you
+already have an mm_cfg.py, be careful to add in only the new settings
+you want.  The complete set of distributed defaults, with annotation,
+are in ./Defaults.  In mm_cfg, override only those you want to
+change, after the
+&nbsp;
+  from Defaults import *
+&nbsp;
+line (see below).
+&nbsp;
+Note that these are just default settings - many can be overridden via the
+admin and user interfaces on a per-list or per-user basis.
+&nbsp;
+Note also that some of the settings are resolved against the active list
+setting by using the value as a format string against the
+list-instance-object's dictionary - see the distributed value of
+DEFAULT_MSG_FOOTER for an example.&quot;&quot;&quot;</span>
+&nbsp;
+&nbsp;
+<span class="co1">#######################################################</span>
+<span class="co1">#    Here's where we get the distributed defaults.    #</span>
+&nbsp;
+<span class="kw1">from</span> Defaults <span class="kw1">import</span> *
+&nbsp;
+<span class="co1">##############################################################</span>
+<span class="co1"># Put YOUR site-specific configuration below, in mm_cfg.py . #</span>
+<span class="co1"># See Defaults.py for explanations of the values.            #</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># The name of the list Mailman uses to send password reminders</span>
+<span class="co1"># and similar. Don't change if you want mailman-owner to be</span>
+<span class="co1"># a valid local part.</span>
+MAILMAN_SITE_LIST <span class="sy0">=</span> <span class="st0">'mailman'</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># If you change these, you have to configure your http server</span>
+<span class="co1"># accordingly (Alias and ScriptAlias directives in most httpds)</span>
+DEFAULT_URL_PATTERN <span class="sy0">=</span> <span class="st0">'http://%s/cgi-bin/mailman/'</span>
+PRIVATE_ARCHIVE_URL <span class="sy0">=</span> <span class="st0">'/cgi-bin/mailman/private'</span>
+IMAGE_LOGOS         <span class="sy0">=</span> <span class="st0">'/images/mailman/'</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Default domain for email addresses of newly created MLs</span>
+DEFAULT_EMAIL_HOST <span class="sy0">=</span> <span class="st0">'listas.ifce.edu.br'</span>
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Default host for web interface of newly created MLs</span>
+DEFAULT_URL_HOST   <span class="sy0">=</span> <span class="st0">'listas.ifce.edu.br'</span>
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Required when setting any of its arguments.</span>
+add_virtualhost<span class="br0">&#40;</span>DEFAULT_URL_HOST<span class="sy0">,</span> DEFAULT_EMAIL_HOST<span class="br0">&#41;</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># The default language for this server.</span>
+DEFAULT_SERVER_LANGUAGE <span class="sy0">=</span> <span class="st0">'pt_BR'</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Iirc this was used in pre 2.1, leave it for now</span>
+USE_ENVELOPE_SENDER    <span class="sy0">=</span> <span class="nu0">0</span>              <span class="co1"># Still used?</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Unset send_reminders on newly created lists</span>
+DEFAULT_SEND_REMINDERS <span class="sy0">=</span> <span class="nu0">0</span></pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [1833-5693] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.gnu.org/software/mailman/docs.html" class="urlextern" title="http://www.gnu.org/software/mailman/docs.html"  rel="nofollow">gnu.org</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.gnu.org/software/mailman/site.html" class="urlextern" title="http://www.gnu.org/software/mailman/site.html"  rel="nofollow">gnu.org</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [5694-5842] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Lucas do Amaral Saboya</a> 2015/04/07 10:25</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [5843-] -->

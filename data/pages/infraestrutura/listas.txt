@@ -1,0 +1,19 @@
+====== Listas de email ======
+Listas de email precedem os fórums na web e provêem funcionalidades similares. Quando utilizadas desta forma, listas de discussão ainda provêem algumas vantagens sobre foruns na web, tanto que, ainda são utlizadas em vários projetos, notadamente Git, Debian, Ubuntu, Fedora, FreeBSD e NIC.br. As vantagens em relação a foruns web incluem:
+  * A possibilidade de trabalhar off-line;
+  * A possibilidade de assinar/criptografar mensagens submetidas via GPG;
+  * A possibilidade de utilizar os filtros de um cliente de email convencional;
+  * A possibilidade de utilizar o serviço a partir de qualquer dispositivo compativel troca de emails;
+
+==== Tipos de listas de email ====
+Há pelo menos dois tipos de listas que podemos definir:
+  * Lista de anúncios globais - Mais proxima do sentido original, a lista é utilizada para que seus recipientes recebam anúncios e mensagens, apenas.
+  * Lista de de disscussão - Permitindo que todos os membros da lista transmitam para todos os membros da lista, criando uma espécie de comunidade virtual.
+===== Servidores Web Utilizados pelo IFCE =====
+  * [[infraestrutura:mailman]]
+
+===== Referências =====
+  * [[http://en.wikipedia.org/wiki/Mailing_list|wikipedia.org]]
+  * [[https://www.ietf.org/rfc/rfc2369.txt|RFC2369]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/07 07:03//

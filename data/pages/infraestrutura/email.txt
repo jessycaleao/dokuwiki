@@ -1,0 +1,12 @@
+====== Correio Eletrônico ======
+Um correio eletrônico (português brasileiro) ou e-mail, é um método que permite compor, enviar e receber mensagens através de sistemas eletrônicos de comunicação. O termo "e-mail" é aplicado tanto aos sistemas que utilizam a Internet e que são baseados nos protocolos POP3, IMAP e SMTP, como àqueles sistemas conhecidos como intranets, que permitem a troca de mensagens dentro de uma empresa ou organização e que são, normalmente, baseados em protocolos proprietários.
+
+O correio eletrônico é mais antigo que a internet,4 e foi, de fato, uma ferramenta crucial para criá-la,5 mas, na história moderna, os serviços de comunicação globais iniciaram no início da ARPANET. Padrões para codificação de mensagens de e-mail foram propostas em 1973 (RFC 561). A conversão da ARPANET à internet no início de 1980 produziu o núcleo dos serviços atuais. Um e-mail enviado no início de 1970 parece muito semelhante a uma mensagem de texto dos dias atuais.
+
+===== Sistema de gerenciamento de banco de dados =====
+  * [[infraestrutura:serpro|Serpro]]
+  * [[infraestrutura:zimbra|Zimbra]]
+===== Referências =====
+  * [[https://tools.ietf.org/html/rfc561|RFC 561]]
+==== Assinatura ====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/08 07:09//

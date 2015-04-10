@@ -1,0 +1,160 @@
+FONTDEFINE 100 docs/example/Vera.ttf 10
+&nbsp;
+WIDTH 1024
+HEIGHT 900
+HTMLSTYLE overlib
+KEYFONT 1
+TITLE IFCE-Campus-Benfica
+TIMEPOS 805 760 Criado em: %d de %b %Y %H:%M:%S
+KEYPOS DEFAULT 585 800 Utilizacao de Trafego
+KEYSTYLE  DEFAULT horizontal
+KEYTEXTCOLOR 0 0 0
+KEYOUTLINECOLOR 0 0 0
+KEYBGCOLOR 255 255 255
+BGCOLOR 255 255 255
+TITLECOLOR 0 0 0
+TIMECOLOR 0 0 0
+SCALE DEFAULT 0     0.01  0    0    0 
+SCALE DEFAULT 0.02  1	  160  240  75
+SCALE DEFAULT 1     25    160  240  75
+SCALE DEFAULT 25    75    90   160  25  
+SCALE DEFAULT 75    80    235  192  0  
+SCALE DEFAULT 80    90    255  192  0  
+SCALE DEFAULT 90    100   255  90   90  
+&nbsp;
+SET nowarn_clipping 1
+&nbsp;
+# End of global section
+&nbsp;
+&nbsp;
+# TEMPLATE-only NODEs:
+NODE DEFAULT
+	LABELOFFSET S
+	LABELFONT 1
+	MAXVALUE 100
+&nbsp;
+&nbsp;
+# TEMPLATE-only LINKs:
+LINK DEFAULT
+	WIDTH 3
+	ARROWSTYLE compact
+	BWFONT 1
+	BWLABEL none
+	COMMENTSTYLE center
+	VIASTYLE curved
+&nbsp;
+# regular NODEs:
+NODE Internet
+        LABEL Internet
+        INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=296
+        ICON 80 80 images/ifce-internet.png
+        POSITION 30 30
+&nbsp;
+NODE sw-core-ben
+	LABEL sw-core-ben
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=293
+	ICON 60 60 images/ifce-sw-core-extreme-networks.png
+	POSITION 240 165
+&nbsp;
+NODE sw-core-ensino
+	LABEL sw-core-ensino
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=298
+	ICON 60 60 images/ifce-sw-extreme-networks.png
+	POSITION 340 290
+&nbsp;
+NODE r11-sw-dst
+	LABEL r11-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=283
+	ICON 60 60 images/ifce-sw-generico.png
+	POSITION 100 420
+&nbsp;
+NODE dmz-ifce-ben
+	LABEL dmz-ifce-ben
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=299
+	ICON 60 60 images/ifce-sw-generico.png
+	POSITION 430 290
+&nbsp;
+NODE r1-sw-dst
+	LABEL r1-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=297
+	ICON 60 60 images/ifce-sw-generico.png
+	POSITION 165 290
+&nbsp;
+NODE r2-sw-dst
+	LABEL r2-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=253
+	ICON 60 60 images/ifce-sw-generico.png
+	POSITION 200 420
+&nbsp;
+NODE CPQT
+        LABEL CPQT
+        INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=301
+        ICON 60 60 images/ifce-radio.png
+        POSITION 245 290
+&nbsp;
+&nbsp;
+# regular LINKs:
+LINK sw-core-ben-Internet
+        INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=296
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=296
+        TARGET /var/lib/cacti/rra/16/388.rrd
+        NODES sw-core-ben Internet
+        BANDWIDTH 1G 1G
+	VIA 190 50
+&nbsp;
+LINK sw-core-ben-dmz-ifce-ben
+        INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=298
+        OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=298
+        TARGET /var/lib/cacti/rra/16/391.rrd
+        TARGET /var/lib/cacti/rra/16/391.rrd
+        NODES sw-core-ben dmz-ifce-ben
+        BANDWIDTH 1G 1G
+&nbsp;
+LINK sw-core-ben-sw-core-ensino
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=298
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=298
+	TARGET /var/lib/cacti/rra/16/390.rrd
+	NODES sw-core-ben sw-core-ensino
+	BANDWIDTH 1G 1G
+&nbsp;
+LINK sw-core-ben-CPQT
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=301
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=301
+	TARGET /var/lib/cacti/rra/16/393.rrd
+	NODES sw-core-ben CPQT
+	BANDWIDTH 50M 50M
+&nbsp;
+LINK sw-core-ben-r1-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=297
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=297
+	TARGET /var/lib/cacti/rra/16/389.rrd
+	NODES sw-core-ben r1-sw-dst
+	BANDWIDTH 1G 1G
+&nbsp;
+LINK r1-sw-dst-r11-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=283
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=283
+	TARGET /var/lib/cacti/rra/12/284.rrd
+	NODES r1-sw-dst r11-sw-dst
+	BANDWIDTH 300M 300M
+&nbsp;
+LINK r1-sw-dst-r2-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=253
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=253
+	TARGET /var/lib/cacti/rra/14/345.rrd
+	NODES r1-sw-dst r2-sw-dst
+	BANDWIDTH 1G 1G
+&nbsp;
+# r1: BBS
+# r2:  Telefonista
+# r3:  Telematica
+# r4:  Industria
+# r5:  Biblioteca
+# r6:  Poliesportivo
+# r7:  Construcao Civil
+# r8:  Quimica
+# r9:  Almoxarifado
+# r10: Artes
+# r11: DGTI
+# r12: CAET
+# r13: ppget

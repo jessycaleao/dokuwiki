@@ -1,0 +1,26 @@
+&lt;?php
+$CONFIG = array (
+  'instanceid' =&gt; 'oc49cfc91e57',
+  'passwordsalt' =&gt; '045ef77e6ef54eeb135a165a03a868',
+  'datadirectory' =&gt; '/usr/share/owncloud/data',
+  'dbtype' =&gt; 'sqlite3',
+  'version' =&gt; '6.0.0.16',
+  'appstoreenabled' =&gt; false,
+  'apps_paths' =&gt; 
+  array (
+    0 =&gt; 
+    array (
+      'path' =&gt; '/usr/share/owncloud/apps',
+      'url' =&gt; '/apps',
+      'writable' =&gt; false,
+    ),
+  ),
+  'dbname' =&gt; 'dl-virtual',
+  'dbhost' =&gt; 'mysql.ifce.edu.br',
+  'dbtableprefix' =&gt; 'oc_',
+  'dbuser' =&gt; 'dl-virtual',
+  'dbpassword' =&gt; 'senha_disponivel_no_1password',
+  'installed' =&gt; true,
+  'maxZipInputSize' =&gt; 0,
+  'allowZipDownload' =&gt; true,
+);

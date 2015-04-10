@@ -1,0 +1,136 @@
+====== PostgreSQL ======
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de banco de dados PostgreSQL.
+
+===== Configurações da VPS =====
+<code>
+Hostname: pgsql.ifce.edu.br
+IPv4: 200.17.33.33
+OS: ubuntu-12.04.5-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> pgsql
+vCPU's: 6
+RAM: 10GiB
+HDD: 250GiB
+</code>
+
+===== Software utilizados pelo serviço =====
+<code>
+postgresql-9.1+129ubuntu1
+postgresql-9.1-9.1.15-0ubuntu0.12.04
+postgresql-client-9.1-9.1.15-0ubuntu0.12.04
+postgresql-client-common-129ubuntu1
+postgresql-common-129ubuntu1
+</code>
+
+===== Instalação =====
+O PostgreSQL pode ser instalado via apt-get:
+<code>
+operador@postgresql:~$ sudo apt-get update; sudo apt-get install postgresql postgresql-9.1 postgresql-client-9.1 postgresql-client-common postgresql-common
+</code>
+
+===== Estrutura de diretórios =====
+Listar a estrutura de diretórios aqui:
+  * ''/etc/postgresql/9.1/main/'' - Arquivos de configuração do serviço PostgreSQL
+  * ''/etc/postgresql-common/'' - Arquivos de configuração do cliente ''psql''
+  * ''/var/lib/postgresql/9.1/main'' - Arquivos binários e de banco do PostreSQL
+  * ''/var/log/postgresql'' - Arquivos de log do PostgreSQL
+
+=== Arquivos de configuração ===
+Encontram-se no diretório ''/etc/postgresql/9.1/main/'', os arquivos de configuração do serviço
+==== Operando o serviço ====
+
+=== Iniciando o serviço ===
+Inicia-se o serviço do PostgreSQL através do comando:
+<code>operador@postgresql:~$ sudo service postgresql start</code>
+
+=== Parando o serviço ===
+Para-se o serviço do PostgreSQL através do comando:
+<code>operador@postgresql:~$ sudo service postgresql stop</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do PostgreSQL através do comando:
+<code>operador@postgresql:~$ sudo service postgresql restart</code>
+==== Arquivos de configuração ====
+<file conf pg_hba.conf>
+# PostgreSQL Client Authentication Configuration File
+# ===================================================
+#
+# Database administrative login by Unix domain socket
+local   all             postgres                                trust
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+host	all		all		10.0.0.0/8		md5
+host	all		all		200.17.33.0/24		md5
+host    all             all             201.20.97.250/30        md5
+host 	all		all		200.129.11.0/24		md5
+host	all		all		200.129.16.0/23		md5
+# IPv6 local connections:
+host    all             all             ::1/128                 md5
+</file>
+
+<file conf postgresql.conf>
+# -----------------------------
+# PostgreSQL configuration file
+# -----------------------------
+#------------------------------------------------------------------------------
+# FILE LOCATIONS
+#------------------------------------------------------------------------------
+data_directory = '/var/lib/postgresql/9.1/main'		# use data in another directory
+hba_file = '/etc/postgresql/9.1/main/pg_hba.conf'	# host-based authentication file
+ident_file = '/etc/postgresql/9.1/main/pg_ident.conf'	# ident configuration file
+external_pid_file = '/var/run/postgresql/9.1-main.pid'		# write an extra PID file
+
+#------------------------------------------------------------------------------
+# CONNECTIONS AND AUTHENTICATION
+#------------------------------------------------------------------------------
+# - Connection Settings -
+listen_addresses = '*'			# what IP address(es) to listen on;
+port = 5432				# (change requires restart)
+max_connections = 5000		# (change requires restart)
+unix_socket_directory = '/var/run/postgresql'		# (change requires restart)
+# - Security and Authentication -
+authentication_timeout = 1min		# 1s-600s
+ssl = true				# (change requires restart)
+ssl_ciphers = 'ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH'	# allowed SSL ciphers
+ssl_renegotiation_limit = 512MB	# amount of data between renegotiations
+password_encryption = on
+db_user_namespace = off
+
+#------------------------------------------------------------------------------
+# RESOURCE USAGE (except WAL)
+#------------------------------------------------------------------------------
+# - Memory -
+shared_buffers = 1024MB			# min 128kB
+temp_buffers = 512MB			# min 800kB
+work_mem = 5GB				# min 64kB
+
+#------------------------------------------------------------------------------
+# ERROR REPORTING AND LOGGING
+#------------------------------------------------------------------------------
+log_line_prefix = '%t '			# special values:
+
+#------------------------------------------------------------------------------
+# CLIENT CONNECTION DEFAULTS
+#------------------------------------------------------------------------------
+datestyle = 'iso, mdy'
+lc_messages = 'en_US.UTF-8'			# locale for system error message
+lc_monetary = 'en_US.UTF-8'			# locale for monetary formatting
+lc_numeric = 'en_US.UTF-8'			# locale for number formatting
+lc_time = 'en_US.UTF-8'				# locale for time formatting
+default_text_search_config = 'pg_catalog.english'
+
+#------------------------------------------------------------------------------
+# VERSION/PLATFORM COMPATIBILITY
+#------------------------------------------------------------------------------
+escape_string_warning = off
+standard_conforming_strings = off
+</file>
+===== Referências =====
+  * [[http://www.postgresql.org/docs/9.1/interactive/index.html|postgresql.org]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/08 06:38//

@@ -1,0 +1,10 @@
+====== pfSense ======
+O projeto pfSense consiste em um distribuição de um firewall de rede, baseado no sistema operacional FreeBSD com um Kernel customizado e incluindo outras peças importantes de software livre para funcionalidades adicionais. O software do pfSense, com a ajuda de um sistema pacotes é capaz de prover as mesmas funcionalidade - que sá mais - que temos em firewalls comerciais, sem nenhuma limitação artificial. O projeto tem tomado o espaço em inúmeras organizações de grandes //players// da indústria, incluindo Check Point, Cisco PIX, Cisco ASA, Juniper, Sonicwall, Netgear, Watchguard, Astaro e GRANDE ELENCO 8-). O pfSense conta com uma interface web para a configuração de todos os seus componentes. Não se faz necessário grandes conhecimentos de UNIX, interface linha de comando, nem edição manual de arquivos. Usuários familiarizados com firewalls comerciais conseguem adaptar-se a interface web rapidamente, podendo haver uma pequena curva de aprendizagem para aqueles não familiarizados com tais ferramentas.
+===== Operações documentadas  =====
+  * [[http://docs.dgti.ifce.edu.br/doku.php?id=pfsense:config-cdc|Configurando PfSense para uso no CDC]]
+  * [[http://docs.dgti.ifce.edu.br/doku.php?id=pfsense:configuracao|Denindo políticas política padrão com o FfSense]]
+
+===== Referências =====
+  * [[https://doc.pfsense.org/index.php/Main_Page|pfsense.org]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/09 13:01//

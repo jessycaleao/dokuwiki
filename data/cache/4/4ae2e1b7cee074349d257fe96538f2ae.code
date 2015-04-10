@@ -1,0 +1,4 @@
+# Secrets for authentication using CHAP
+# client          server  secret                  IP addresses
+NOME_DE_USUARIO   pptpd   SENHA_DE_ACESSO         *
+NOME_DE_USUARIO2  pptpd   SENHA_DE_ACESSO2        CIDR

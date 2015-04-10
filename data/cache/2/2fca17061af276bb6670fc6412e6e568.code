@@ -1,0 +1,55 @@
+# -----------------------------
+# PostgreSQL configuration file
+# -----------------------------
+#------------------------------------------------------------------------------
+# FILE LOCATIONS
+#------------------------------------------------------------------------------
+data_directory = '/var/lib/postgresql/9.1/main'		# use data in another directory
+hba_file = '/etc/postgresql/9.1/main/pg_hba.conf'	# host-based authentication file
+ident_file = '/etc/postgresql/9.1/main/pg_ident.conf'	# ident configuration file
+external_pid_file = '/var/run/postgresql/9.1-main.pid'		# write an extra PID file
+&nbsp;
+#------------------------------------------------------------------------------
+# CONNECTIONS AND AUTHENTICATION
+#------------------------------------------------------------------------------
+# - Connection Settings -
+listen_addresses = '*'			# what IP address(es) to listen on;
+port = 5432				# (change requires restart)
+max_connections = 5000		# (change requires restart)
+unix_socket_directory = '/var/run/postgresql'		# (change requires restart)
+# - Security and Authentication -
+authentication_timeout = 1min		# 1s-600s
+ssl = true				# (change requires restart)
+ssl_ciphers = 'ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH'	# allowed SSL ciphers
+ssl_renegotiation_limit = 512MB	# amount of data between renegotiations
+password_encryption = on
+db_user_namespace = off
+&nbsp;
+#------------------------------------------------------------------------------
+# RESOURCE USAGE (except WAL)
+#------------------------------------------------------------------------------
+# - Memory -
+shared_buffers = 1024MB			# min 128kB
+temp_buffers = 512MB			# min 800kB
+work_mem = 5GB				# min 64kB
+&nbsp;
+#------------------------------------------------------------------------------
+# ERROR REPORTING AND LOGGING
+#------------------------------------------------------------------------------
+log_line_prefix = '%t '			# special values:
+&nbsp;
+#------------------------------------------------------------------------------
+# CLIENT CONNECTION DEFAULTS
+#------------------------------------------------------------------------------
+datestyle = 'iso, mdy'
+lc_messages = 'en_US.UTF-8'			# locale for system error message
+lc_monetary = 'en_US.UTF-8'			# locale for monetary formatting
+lc_numeric = 'en_US.UTF-8'			# locale for number formatting
+lc_time = 'en_US.UTF-8'				# locale for time formatting
+default_text_search_config = 'pg_catalog.english'
+&nbsp;
+#------------------------------------------------------------------------------
+# VERSION/PLATFORM COMPATIBILITY
+#------------------------------------------------------------------------------
+escape_string_warning = off
+standard_conforming_strings = off

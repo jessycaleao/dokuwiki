@@ -1,0 +1,376 @@
+====== gForge ======
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de repositórios de código. O GForge é um fork livre do software de colaboração e gerência de projetos baseados na web criado para o SourceForge, o Savane. O gForge é licenciado sob a licença GNU/GPL e provê hospedagem de projetos, controle de versão (CVS/SVN/GIT/Mercurial), bug-tracking e troca de mensagens entre colaboradores dos projetos.
+
+===== Configurações da VPS =====
+<code>
+Hostname: gofrge.ifce.edu.br
+IPv4: 200.17.33.21
+OS: CentOS-release-6.6-amd64
+Username: root
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> gforge
+vCPU's: 2
+RAM: 2GiB
+HDD: 80GiB
+</code>
+
+===== Software utilizados pelo serviço =====
+Além dos fontes do gForge, disponiveis em seu repositório oficial, faz-se nescessária a instalação dos seguintes pacotes:
+<code>
+php-gd-5.3.3-40.el6_6.x86_64
+php-5.3.3-40.el6_6.x86_64
+php-ldap-5.3.3-40.el6_6.x86_64
+php-eaccelerator-0.9.6.1-6.el6.x86_64
+php-common-5.3.3-40.el6_6.x86_64
+php-cli-5.3.3-40.el6_6.x86_64
+php-pgsql-5.3.3-40.el6_6.x86_64
+php-xml-5.3.3-40.el6_6.x86_64
+php-process-5.3.3-40.el6_6.x86_64
+php-pdo-5.3.3-40.el6_6.x86_64
+php-pear-1.9.4-4.el6.noarch
+php-mbstring-5.3.3-40.el6_6.x86_64
+postfix-2.6.6-6.el6_5.x86_64
+mailman-2.1.12-18.el6.x86_64
+</code>
+
+===== Instalação =====
+O gForge e suas dependencias podem ser instalados via yum:
+Baixando as dependências:
+<code>
+[root@gforge ~]# yum install php-gd php php-ldap php-eaccelerator php-common php-cli php-pgsql php-xml php-process php-pdo php-pe php-mbstring postfix mailman unzip
+</code>
+Baixando os fontes do gForge:
+<code>
+[root@gforge ~]# cd /opt/
+[root@gforge ~]# wget https://gforgegroup.com/releases/gforge-as-current.zip
+[root@gforge ~]# unzip gforge-as-current.zip
+[root@gforge ~]# rm -f gforge-as-current.zip 
+[root@gforge ~]# mv gforge-as-* gforge
+</code>
+Executando o instalador do gForge:
+<code>
+[root@gforge ~]# cd /opt/gforge/
+[root@gforge ~]# chmod +x install_gforge; ./install_gforge
+[root@gforge ~]# crontab ./crontab.in
+[root@gforge ~]# service postfix start
+[root@gforge ~]# chkconfig --level 345 postfix on
+[root@gforge ~]# /usr/lib/mailman/bin/newlist mailman
+[root@gforge ~]# service mailman start
+[root@gforge ~]# cd /opt/gforge && php /opt/gforge/bin/create_config_cache.php
+[root@gforge ~]# php /opt/gforge/bin/create_config_cache.php
+</code>
+===== Estrutura de diretórios =====
+Listar a estrutura de diretórios aqui:
+  * ''/opt/gforge'' - Arquivos fonte do gForge
+  * ''/etc/gforge/s'' - Arquivos de configuração do gForge
+
+=== Arquivos de configuração ===
+Encontram-se no diretório ''/opt/gforge'', os arquivos de configuração do gforge
+==== Operando o serviço ====
+
+=== Iniciando o serviço ===
+Inicia-se o serviço do xxxx através do comando:
+<code>service httpd start</code>
+
+=== Parando o serviço ===
+Para-se o serviço do xxxx através do comando:
+<code>service httpd stop</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do xxxx através do comando:
+<code>service httpd restart</code>
+==== Arquivos de configuração ====
+<file php gforge.conf>
+<?php
+//where gforge php code will be
+$config['libDir']='/opt/gforge';
+//where gforge config will be
+$config['etcDir']='/etc/gforge';
+//where gforge data will be
+$config['varDir']='/var/lib/gforge';
+
+//homedir prefix
+$config['homeDir']='/home';
+
+//availability of the users tab
+$config['usersTabAvailable'] = false;
+
+//where language and config caches will be
+$config['cacheDir'] = $config['varDir'].'/caches';
+//where the gforge filesystem will store files
+$config['filesPath'] = $config['varDir'].'/filesystem';
+//where the plugins will exist
+$config['pluginsPath']=$config['libDir'].'/plugins';
+
+//session defaults
+$config['defaultLanguage'] = 'en';
+$config['defaultLanguageId'] = '1';
+$config['sessionTimeout'] = 60*60*24*7;
+$config['sessionKey']='I9M2SailaDmgGI3Y12is9dPjPeLof3AXbnY4ygoIULYAu2yv4R';
+$config['defaultTheme'] = 'gforge5';
+$config['defaultThemeId'] = '1';
+//Default time zone for new registered users
+$config['defaultTimeZone'] = 'UTC';
+
+$config['apacheUser']='apache';
+$config['apacheGroup']='apache';
+$config['name']='gForge';
+$config['hostName']='gforge.ifce.edu.br';
+$config['use_ssl']=false;
+$config['dbtype'] = 'postgres'; // postgres | mysql | oracle
+
+// Whether to use a full "from" address on emails sent by the server
+// (qmail may have problems with full addresses. If it doesn't like the addresses,
+// set this to true)
+$config['simpleFromEmail'] = false;
+
+//only site admin register projects?
+$config['projectRegRestricted'] = false;
+
+//trove configuration
+//enter the trove_cat_id of the root elements
+$config['troveDevStatus']=6;
+$config['troveLicense']=13;
+$config['troveOS']=199;
+$config['troveSpokenLanguage']=274;
+$config['troveProgrammingLanguage']=160;
+$config['troveTopic']=18;
+$config['troveIntendedAudience']=1;
+$config['extraTroveRootCategories']=array();
+
+//licensing enforcement
+$config['licenseType']='advanced';
+$config['licenseMaxUsers']=0;
+$config['licenseMaxMembers']=0;
+$config['licenseMaxProjects']=0;
+$config['licenseExpire']=0;
+$config['licenseKey']='da59598327230c408c7f4b74dc46ba5f47ce0310';
+
+$config['sendmailPath']='/usr/sbin/postfix';
+$config['trueTypeDir']='/usr/share/fonts/TrueType/'; // must end with "/"
+
+// ldap authentication
+$config['usesLdap']=false;
+
+// Whether to use more than one SCM server
+$config['splitScmServers'] = false;
+
+// New users need to be approved?
+$config['approveUsers'] = false;
+
+//text indexing path to "pdftotext" command
+$config['pdftotextPath']='/usr/bin/';
+
+// Path to the doxygen code indexer
+$config['doxygenPath'] = '/usr/bin';
+
+//text indexing path to "wvText" command
+$config['wvTextPath']='/usr/bin/';
+
+//NIS - if the machine has accounts created with NIS
+//if so, local users and passwords will not be created in /etc, 
+//but /etc/groups will be created
+$config['usesNis'] = false;
+
+//redirect downloads - all downloads will be redirected
+//to a separate vhost which will free up the php process and save memory
+//the download vhost should have /var/lib/gforge/filesystem as the / directory
+$config['redirectDownloads'] = false;
+$config['redirectDownloadHost'] = 'http://download.gforgedomain.com';
+
+//used to validate usernames - rules may vary by organization
+$config['usernameregex']='^[a-z0-9_.-]{3,15}$';
+
+//used to validate passwords - rules my vary by organization
+$config['passwordregex']='^.{6,30}$';
+
+//additional ftp directories
+
+$config['ftp_upload'] = false;
+$config['ftp_upload_dir'] = '/var/tmp/uploads/'; // must end with "/"
+
+$config['projectsVHostDir'] = '/home/groups/'; // must end with "/"
+
+//mandate that everyone must login except when viewing homepage
+$config['forceAllLogin']=false;
+
+// Export/Import configuration
+$config['exportProjects']=$config['varDir'] . '/exportProjects';
+
+//option to display a click-thru license on project registration page
+//the text for this license should be in /etc/gforge/PROJECT_LICENSE
+$config['projectRegClickLicense']=false;
+
+//option to display a click-thru license on user registration page
+//the text for this license should be in /etc/gforge/USER_LICENSE
+$config['userRegClickLicense']=false;
+
+//single sign-on options
+$config['useSSO']=false;
+//the name of the variable in $_SERVER
+$config['SSOServerVar']='REMOTE_USER';
+//in some cases, the server var is like an email address 
+//and you need only the first part
+$config['SSOServerVarSplitChar']='';
+//in some cases, SiteMinder does not present the HTTP_SM_USER var
+$config['SSOServerVarAlwaysPresent']=true;
+//the SSOServerVar can be in either user.unix_name or user.external_id
+$config['SSOIDMatchesUnixName']=true;
+//in many SSO configurations, no password is stored in the database
+$config['SSORequireStoredPassword']=false;
+
+$config['include_js_css']=true;
+
+//this value prevents search engines from indexing SCM full structure
+$config['indexSCM']=false;
+
+//Enable captcha on user registration form
+$config['useCaptcha'] = false;
+
+// Whether the system uses an external NSS (Name Service Switch) that interacts with GForge (e.g. nss-pgsql)
+$config['useNSS'] = false;
+
+//Enable site wide project join requests
+$config['allowProjectJoinRequests'] = true;
+
+//Show developers on each project summary page, default true
+$config['showDevelopersOnProjectSummary'] = true;
+?>
+</file>
+
+<file conf httpd.conf>
+LoadModule dav_module         modules/mod_dav.so
+LoadModule dav_svn_module     modules/mod_dav_svn.so
+LoadModule authz_svn_module   modules/mod_authz_svn.so
+#Uncomment this to load MAG, comment out the previous line (authz_svn module)
+#and make sure the authz_snv_module is not loaded in /etc/httpd/conf.d/subversion.conf
+
+#LoadModule auth_gforge_module modules/mod_auth_gforge.so
+
+# For Git repositories
+SetEnv GIT_PROJECT_ROOT "/gitroot"
+SetEnv GIT_HTTP_EXPORT_ALL
+
+<VirtualHost _default_:80>
+	ServerName	gforge.ifce.edu.br
+	DocumentRoot	/opt/gforge/www
+	ErrorDocument 404 /404.php
+	
+	<Directory "/opt/gforge/www">
+		Options	Indexes FollowSymLinks Multiviews
+		Order	allow,deny
+		allow from all
+	</Directory>
+
+	<Location "/gf">
+		ForceType application/x-httpd-php
+	</Location>
+
+	#
+	#       mailman settings - may have to adjust
+	#
+	ScriptAlias	/mailman	/usr/lib/mailman/cgi-bin
+	RewriteEngine on
+	RewriteRule ^/pipermail / [R=permanent]
+#	Alias	/pipermail	/var/lib/mailman/archives/public
+
+	<Directory "/usr/lib/mailman/cgi-bin">
+		Options	Indexes FollowSymLinks Multiviews
+		Order	allow,deny
+		allow from all
+	</Directory>
+
+	<Directory "/var/lib/mailman/archives/public">
+		Options	Indexes FollowSymLinks Multiviews
+		Order	allow,deny
+		allow from all
+	</Directory>
+
+	#
+	#	SVN Repository
+	#
+	<Location /svn>
+		ErrorDocument 404 default
+		DAV svn
+		SVNParentPath /var/lib/gforge/svnroot
+		#Uncomment the following lines to use MAG
+		#GforgeSysPath /var/lib/gforge
+		#GforgeGroupsRoot /svnroot
+      #Auth_PG_cache_passwords On
+
+		# how to authenticate a user
+		# comment out the following line when using MAG
+		AuthzSVNAccessFile /var/lib/gforge/svnroot-access
+		AuthType Basic
+		AuthName "Document repository"
+		# comment out the following line when using MAG
+		AuthUserFile /var/lib/gforge/svnroot-authfile
+		SVNIndexXSLT "/svnindex.xsl"
+	
+		# only authenticated users may access the repository
+		Require valid-user
+	</Location>
+
+
+	# Git Repositories
+	ScriptAlias /git/ "/usr/bin/git-http-backend/"
+	<LocationMatch "^/git/.*/git-receive-pack$">
+		ErrorDocument 404 default
+		AuthType Basic
+		AuthName "Git repositories"
+		AuthUserFile /var/lib/gforge/svnroot-authfile
+		Require valid-user
+	</LocationMatch>
+
+	<Location /git>
+		Options ExecCGI FollowSymLinks Indexes
+		ErrorDocument 404 default
+		AuthType Basic
+		AuthName "Git Repository"
+		AuthUserFile /var/lib/gforge/svnroot-authfile
+		Require valid-user
+	</Location>
+
+
+	php_value	include_path  ".:/opt/gforge/lib/external:/opt/gforge/lib:/opt/gforge"
+
+
+</VirtualHost>
+</file>
+
+<file php gforge5-db-conf.php>
+<?php
+// This file generated by Propel convert-props target on Mon Nov  7 22:43:12 2005
+// from XML runtime conf file /usr/share/pear/data/propel_generator/projects/gforge5/runtime-conf.xml
+return array (
+  'log' => 
+  array (
+    'ident' => 'propel-gforge5',
+    'level' => '7',
+  ),
+  'propel' => 
+  array (
+    'datasources' => 
+    array (
+      'gf5' => 
+      array (
+        'adapter' => 'pgsql',
+        'connection' => 
+        array (
+          'phptype' => 'pgsql',
+          'hostspec' => '',
+          'database' => 'gforge',
+          'username' => 'gforge',
+          'password' => '',
+        ),
+      ),
+      'default' => 'gf5',
+    ),
+  ),
+);
+</file>
+===== Referências =====
+  * [[https://gforge.com/gf/project/gforge5/wiki/?pagename=GForge+Knowledge+Base|gforge.com]]
+  * [[https://gforge.com/gf/project/gforge5/wiki/?pagename=GForge+Advanced+Server+Manual|gforge.com]]
+  * [[http://en.wikipedia.org/wiki/GForge|wikipedia.org]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/06 12:14//

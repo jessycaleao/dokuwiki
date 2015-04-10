@@ -1,0 +1,18 @@
+====== Infraestrutura de EaD ======
+A Diretoria de Ensino a Distância, conta com uma infraestrutura com características particulares para a prestação de seu serviço. O modelo de educação semi-presencial faz uso de um Ambiente Virtual de Aprendizagem - AVA, bem como de aulas presenciais nos pólos. A estrutura adotada pela diretoria já passou por mudanças e a arquitetura atual pode sofrer modificações para melhor atende-los a qualquer momento.
+
+===== Topologia de rede =====
+{{ :infraestrutura:ead.png |}}
+
+===== Serviços de uso comuns utilizados pela arquitetura =====
+  * **Firewall de borda:** ''fwpici.ifce.edu.br''
+  * **DNS Autoritativo:** ''ns1.ifce.edu.br'' e ''ns2.ifce.edu.br''
+  * **DNS Recursivo:** ''dns.ifce.edu.br''
+  * **MTA:** ''zimbra.ifce.edu.br''
+  * **Backup:** ''bacula.ifce.edu.br''
+  * **Banco de Dados:** ''pgsql.ifce.edu.br'' e ''mysql.ifce.edu.br''
+===== Serviços de uso exclusivo utilizados pela arquitetura =====
+  * **NGiNX Reverse Proxy:** ''virtual.ifce.edu.br''
+  * **PHP5-FPM Cluster:** ''virtual.ifce.edu.br''
+  * **Owncloud:** ''dl-virtual.ifce.edu.br''
+  * **NFS:** ''ul-virtual.ifce.edu.br''

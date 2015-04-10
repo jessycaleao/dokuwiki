@@ -1,0 +1,18 @@
+# Authentication
+name pptpd
+refuse-pap
+refuse-chap
+refuse-mschap
+require-mschap-v2
+require-mppe-128
+# Network and Routing
+ms-dns 200.17.33.7
+ms-dns 200.17.33.89
+proxyarp
+nodefaultroute
+# Miscellaneous
+lock
+nobsdcomp
+novj
+novjccomp
+nologfd

@@ -1,0 +1,326 @@
+====== DNS Autoritativo Secundário ======
+Virtual Private Server - VPS, hospedado no Hypervisor esxi18.ifce.edu.br localizado na sala de maquinas do IFCE Campus Fortaleza/Benfica. 
+Atua como servidor de DNS autoritativo secundário dos dominios:
+<code>
+ifce.edu.br
+cefet-ce.br
+cefetce.br
+etfce.br
+</code>
+===== Configurações da VPS =====
+<code>
+Hostname: ns2.ifce.edu.br
+IPv4: 200.129.46.60
+OS: FreeBSD-10.1-RELEASE-amd64
+Username: operador
+Passwd: 1Password @ Dominios -> ifce.edu.br -> esxi18.ifce.edu.br -> ns2
+vCPU's: 2
+RAM: 2GiB
+HDD: 20GiB
+</code>
+
+===== Software utilizados pelo serviço =====
+<code>
+nsd-4.1.0
+vim-7.4.657
+</code>
+
+==== Instalação ====
+Navegue até o port do NSD:
+<code>
+# cd /usr/ports/dns/nsd
+</code>
+
+Compile-o:
+<code>
+# make
+# make install clean
+</code>
+
+Crie a estrutura de diretórios que utilizaremos: 
+<code>
+# mkdir -p /usr/local/etc/nsd/var/db/nsd
+# mkdir -p /usr/local/etc/nsd/var/db/master
+# mkdir -p /usr/local/etc/nsd/var/db/slave
+# mkdir -p /usr/local/etc/nsd/var/db/view
+# mkdir -p /usr/local/etc/nsd/var/run/nsd
+# mkdir -p /usr/local/etc/nsd/var/log
+# mkdir /usr/local/etc/nsd/tmp
+</code>
+
+Configure o NSD para ser inicializado juntamente com o sistema:
+<code>
+# echo 'nsd_enable="YES"' >> /etc/rc.conf
+</code>
+
+Para que possamos gerar os certificados que o NSD precisa para permitir controle remoto, utilize o ''nsd-control''
+<code>
+nsd-control-setup
+</code>
+
+A saída deve mostrar algo do tipo:
+<code>
+setup in directory /usr/local/etc/nsd
+generating nsd_server.key
+Generating RSA private key, 1536 bit long modulus
+.++++
+.........................++++
+e is 65537 (0x10001)
+generating nsd_control.key
+Generating RSA private key, 1536 bit long modulus
+...........................................++++
+....................................++++
+e is 65537 (0x10001)
+create nsd_server.pem (self signed certificate)
+create nsd_control.pem (signed client certificate)
+Signature ok
+subject=/CN=nsd-control
+Getting CA Private Key
+Setup success. Certificates created. Enable in nsd.conf file to use
+</code>
+
+==== Estrutura de diretórios ====
+Todos os arquivos de zona, devem ser colocados em ''/usr/local/etc/nsd/var/db''. O diretório base contém todos os arquivos de configuração de zonas (ex: localhost, mapeamentos reversos, root.servers, etc) e com a seguinte estrutura:
+  * ''/usr/local/etc/nsd/var/db/master'' - master zone files
+  * ''/usr/local/etc/nsd/var/db/view'' - where views are used
+  * ''/usr/local/etc/nsd/var/db/slave'' - slave zones files
+  * ''/usr/local/etc/nsd/var/db/slave/reverse'' - reverse slave zones files
+
+=== Arquivos de configuração ===
+Encontram-se no diretório ''/usr/local/etc/nsd'', os arquivos de configuração do serviço e de suas zonas:
+  * ''nsd.conf'' - Arquivo de configuração do serviço
+  * ''conf.d/zones.conf'' - Arquivo de configuração de zonas
+  * ''conf.d/reverse.conf'' - Arquivo de configuração de zonas reversas
+==== Nomenclatura de arquivos de zona ====
+**Arquivos de zona master:** são nomeados ''domain.tld.zone'' (ou ''ifce.edu.br.zone''), se for um subdomínio, deverá então ser ''subdominio.domain.tld.zone'' (ou ''dgti.ifce.edu.br.zone'').
+
+**Arquivos de zona slave:** são nomeados ''domain.tld.zone'' (ou ''slave.ifce.edu.br.zone''), se for um subdomínio, deverá então ser ''subdominio.domain.tld.zone'' (ou ''slave.dgti.ifce.edu.br.zone'').
+
+**Root servers:** Se presentes na máquina (DNS Recursivo habilitado), são nomeados ''root.servers'' 
+
+**Arquivos de zona reversa** são nomeados a partir do número da subrede a qual se refere adicionado do sufíxo ".rev"ex: Um arquivo para a zona ''23.168.192.IN-ADDR.ARPA'' deverá se chamar: ''192.168.23.rev''
+<note important>Esta nomenclatura mais simples é adota a fim de evitar ter de se escrever digitos reversamente às 03:00am ofegante por que sua maquina não resolve queries para o mundo!</note>
+
+**Arquivos de zona localhost** são nomeados ''master.localhost'' e seu reverso nomeado ''localhost.rev''
+
+==== Operando o serviço ====
+
+=== Iniciando o serviço ===
+Reincia-se o serviço do NSD através do comando:
+<code>service nsd start</code>
+
+=== Parando o serviço ===
+Reincia-se o serviço do NSD através do comando:
+<code>service nsd stop</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do NSD através do comando:
+<code>service nsd restart</code>
+
+=== Forçano a transferencia de zonas ===
+Força-se a transferência de zonas do servidor ''Master''através do comando:
+<code>nsd-control transfer ifce.edu.br</code>
+
+=== Persistindo as zonas ===
+Persistem-se as zonas em seus respectivos arquivos (descritos em conf.d/zones.conf) através do comando:
+<code>nsd-control write</code>
+
+==== Arquivos de configuração ====
+<file conf nsd.conf>
+server:
+	hide-version: yes
+	database: "/usr/local/etc/nsd/var/db/nsd/nsd.db"
+	logfile: "/usr/local/etc/nsd/var/log/nsd.log"
+	server-count: 1
+	tcp-count: 10
+	pidfile: "/usr/local/etc/nsd/var/run/nsd/nsd.pid"
+	username: nsd
+	difffile: "/usr/local/etc/nsd/var/db/nsd/ixfr.db"
+	xfrdfile: "/usr/local/etc/nsd/var/db/nsd/xfrd.state"
+	verbosity: 2
+
+remote-control:
+	control-enable: yes
+
+key:
+	name: "rndc-key"
+	algorithm: hmac-md5
+	secret: "TROQUE_A_CHAVE"
+ 
+pattern:
+	name: "secundario"
+	allow-notify: 200.17.33.7/32 rndc-key
+	request-xfr: AXFR 200.17.33.7 rndc-key
+
+include: "/usr/local/etc/nsd/conf.d/zones.conf"
+include: "/usr/local/etc/nsd/conf.d/reverse.conf"
+</file>
+
+
+<file conf reverse.conf>
+zone:
+name: "33.17.200.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/200.17.33.rev"
+include-pattern: "secundario"
+
+zone:
+name: "32.17.200.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/200.17.32.rev"
+include-pattern: "secundario"
+
+zone:
+name: "46.129.200.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/200.129.46.rev"
+include-pattern: "secundario"
+
+zone:
+name: "128.129.200.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/200.129.128.rev"
+include-pattern: "secundario"
+
+zone:
+name: "48.128.200.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/200.129.48.rev"
+include-pattern: "secundario"
+
+zone:
+name: "176.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.176.rev"
+include-pattern: "secundario"
+
+zone:
+name: "177.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.177.rev"
+include-pattern: "secundario"
+
+zone:
+name: "178.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.178.rev"
+include-pattern: "secundario"
+
+zone:
+name: "179.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.179.rev"
+include-pattern: "secundario"
+
+zone:
+name: "180.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.180"
+include-pattern: "secundario"
+
+zone:
+name: "181.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.181.rev"
+include-pattern: "secundario"
+
+zone:
+name: "182.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.182.rev"
+include-pattern: "secundario"
+
+zone:
+name: "183.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.183.rev"
+include-pattern: "secundario"
+
+zone:
+name: "184.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.184.rev"
+include-pattern: "secundario"
+
+zone:
+name: "185.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.185.rev"
+include-pattern: "secundario"
+
+zone:
+name: "186.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.186.rev"
+include-pattern: "secundario"
+
+zone:
+name: "187.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.187.rev"
+include-pattern: "secundario"
+
+zone:
+name: "188.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.188.rev"
+include-pattern: "secundario"
+
+zone:
+name: "189.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.189.rev"
+include-pattern: "secundario"
+
+zone:
+name: "190.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.190.rev"
+include-pattern: "secundario"
+
+zone:
+name: "191.109.179.in-addr.arpa"
+zonefile: "/usr/local/etc/nsd/var/db/slave/reverse/179.109.191.rev"
+include-pattern: "secundario"
+</file>
+
+<file conf zones.conf>
+zone:
+name: "ifce.edu.br"
+zonefile: "/usr/local/etc/nsd/var/db/slave/slave.ifce.edu.br.zone"
+include-pattern: "secundario"
+
+zone:
+name: "cefetce.br"
+zonefile: "/usr/local/etc/nsd/var/db/slave/slave.cefetce.br.zone"
+include-pattern: "secundario"
+
+zone:
+name: "cefet-ce.br"
+zonefile: "/usr/local/etc/nsd/var/db/slave/slave.cefet-ce.br.zone"
+include-pattern: "secundario"
+
+zone:
+name: "etfce.br"
+zonefile: "/usr/local/etc/nsd/var/db/slave/slave.etfce.br.zone"
+include-pattern: "secundario"
+
+zone:
+name: "otrs.ifce.edu.br"
+zonefile: "/usr/local/etc/nsd/var/db/slave/slave.otrs.ifce.edu.br.zone"
+include-pattern: "secundario"
+
+zone:
+name: "listas.ifce.edu.br"
+zonefile: "/usr/local/etc/nsd/var/db/slave/slave.listas.ifce.edu.br.zone"
+include-pattern: "secundario"
+
+zone:
+name: "gdeste.ifce.edu.br"
+zonefile: "/usr/local/etc/nsd/var/db/slave/slave.gdeste.ifce.edu.br.zone"
+include-pattern: "secundario"
+
+zone:
+name: "lit.ifce.edu.br"
+zonefile: "/usr/local/etc/nsd/var/db/slave/slave.lit.ifce.edu.br.zone"
+include-pattern: "secundario"
+
+zone:
+name: "cppd.ifce.edu.br"
+zonefile: "/usr/local/etc/nsd/var/db/slave/slave.cppd.ifce.edu.br.zone"
+include-pattern: "secundario"
+
+zone:
+name: "lds.ifce.edu.br"
+zonefile: "/usr/local/etc/nsd/var/db/slave/slave.lds.ifce.edu.br.zone"
+include-pattern: "secundario"
+
+zone:
+name: "dgti.ifce.edu.br"
+zonefile: "/usr/local/etc/nsd/var/db/slave/slave.dgti.ifce.edu.br.zone"
+include-pattern: "secundario"
+</file>
+===== Referências =====
+  * [[https://www.freebsd.org/doc/handbook/pkgng-intro.html|freebsd.org]]
+  * [[https://www.prado.it/2014/08/20/how-to-run-master-nsd-on-freebsd-10-0/|prado.it]]
+  * [[http://www.zytrax.com/books/dns/|zyntrax.com]]

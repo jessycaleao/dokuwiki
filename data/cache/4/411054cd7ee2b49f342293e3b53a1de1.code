@@ -1,0 +1,104 @@
+zone:
+name: &quot;33.17.200.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/200.17.33.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;32.17.200.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/200.17.32.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;46.129.200.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/200.129.46.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;128.129.200.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/200.129.128.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;48.128.200.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/200.129.48.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;176.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.176.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;177.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.177.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;178.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.178.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;179.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.179.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;180.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.180&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;181.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.181.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;182.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.182.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;183.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.183.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;184.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.184.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;185.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.185.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;186.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.186.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;187.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.187.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;188.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.188.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;189.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.189.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;190.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.190.rev&quot;
+include-pattern: &quot;secundario&quot;
+&nbsp;
+zone:
+name: &quot;191.109.179.in-addr.arpa&quot;
+zonefile: &quot;/usr/local/etc/nsd/var/db/slave/reverse/179.109.191.rev&quot;
+include-pattern: &quot;secundario&quot;

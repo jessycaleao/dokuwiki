@@ -1,0 +1,97 @@
+LoadModule dav_module         modules/mod_dav.so
+LoadModule dav_svn_module     modules/mod_dav_svn.so
+LoadModule authz_svn_module   modules/mod_authz_svn.so
+#Uncomment this to load MAG, comment out the previous line (authz_svn module)
+#and make sure the authz_snv_module is not loaded in /etc/httpd/conf.d/subversion.conf
+&nbsp;
+#LoadModule auth_gforge_module modules/mod_auth_gforge.so
+&nbsp;
+# For Git repositories
+SetEnv GIT_PROJECT_ROOT &quot;/gitroot&quot;
+SetEnv GIT_HTTP_EXPORT_ALL
+&nbsp;
+&lt;VirtualHost _default_:80&gt;
+	ServerName	gforge.ifce.edu.br
+	DocumentRoot	/opt/gforge/www
+	ErrorDocument 404 /404.php
+&nbsp;
+	&lt;Directory &quot;/opt/gforge/www&quot;&gt;
+		Options	Indexes FollowSymLinks Multiviews
+		Order	allow,deny
+		allow from all
+	&lt;/Directory&gt;
+&nbsp;
+	&lt;Location &quot;/gf&quot;&gt;
+		ForceType application/x-httpd-php
+	&lt;/Location&gt;
+&nbsp;
+	#
+	#       mailman settings - may have to adjust
+	#
+	ScriptAlias	/mailman	/usr/lib/mailman/cgi-bin
+	RewriteEngine on
+	RewriteRule ^/pipermail / [R=permanent]
+#	Alias	/pipermail	/var/lib/mailman/archives/public
+&nbsp;
+	&lt;Directory &quot;/usr/lib/mailman/cgi-bin&quot;&gt;
+		Options	Indexes FollowSymLinks Multiviews
+		Order	allow,deny
+		allow from all
+	&lt;/Directory&gt;
+&nbsp;
+	&lt;Directory &quot;/var/lib/mailman/archives/public&quot;&gt;
+		Options	Indexes FollowSymLinks Multiviews
+		Order	allow,deny
+		allow from all
+	&lt;/Directory&gt;
+&nbsp;
+	#
+	#	SVN Repository
+	#
+	&lt;Location /svn&gt;
+		ErrorDocument 404 default
+		DAV svn
+		SVNParentPath /var/lib/gforge/svnroot
+		#Uncomment the following lines to use MAG
+		#GforgeSysPath /var/lib/gforge
+		#GforgeGroupsRoot /svnroot
+      #Auth_PG_cache_passwords On
+&nbsp;
+		# how to authenticate a user
+		# comment out the following line when using MAG
+		AuthzSVNAccessFile /var/lib/gforge/svnroot-access
+		AuthType Basic
+		AuthName &quot;Document repository&quot;
+		# comment out the following line when using MAG
+		AuthUserFile /var/lib/gforge/svnroot-authfile
+		SVNIndexXSLT &quot;/svnindex.xsl&quot;
+&nbsp;
+		# only authenticated users may access the repository
+		Require valid-user
+	&lt;/Location&gt;
+&nbsp;
+&nbsp;
+	# Git Repositories
+	ScriptAlias /git/ &quot;/usr/bin/git-http-backend/&quot;
+	&lt;LocationMatch &quot;^/git/.*/git-receive-pack$&quot;&gt;
+		ErrorDocument 404 default
+		AuthType Basic
+		AuthName &quot;Git repositories&quot;
+		AuthUserFile /var/lib/gforge/svnroot-authfile
+		Require valid-user
+	&lt;/LocationMatch&gt;
+&nbsp;
+	&lt;Location /git&gt;
+		Options ExecCGI FollowSymLinks Indexes
+		ErrorDocument 404 default
+		AuthType Basic
+		AuthName &quot;Git Repository&quot;
+		AuthUserFile /var/lib/gforge/svnroot-authfile
+		Require valid-user
+	&lt;/Location&gt;
+&nbsp;
+&nbsp;
+	php_value	include_path  &quot;.:/opt/gforge/lib/external:/opt/gforge/lib:/opt/gforge&quot;
+&nbsp;
+&nbsp;
+&lt;/VirtualHost&gt;

@@ -1,0 +1,508 @@
+
+<h1 class="sectionedit1" id="proxy_http_reverso">Proxy HTTP Reverso</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como proxy reverso e como primeiro nó do cluster php5-fpm na infraestrutura utilizada pela Diretoria de EaD.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Proxy HTTP Reverso" [1-275] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: virtual.ifce.edu.br
+IPv4: 200.129.11.242
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; virtual
+vCPU&#039;s: 8
+RAM: 6GiB
+HDD: 10GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [276-529] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">nginx-1.4.6-1ubuntu3.1
+nginx-common-1.4.6-1ubuntu3.1
+nginx-extras-1.4.6-1ubuntu3.1
+php-apc-4.0.2-2build1
+php-pear-5.5.9+dfsg-1ubuntu4.7
+php5-apcu-4.0.2-2build1
+php5-cli-5.5.9+dfsg-1ubuntu4.7
+php5-common-5.5.9+dfsg-1ubuntu4.7
+php5-curl-5.5.9+dfsg-1ubuntu4.7
+php5-dev-5.5.9+dfsg-1ubuntu4.7
+php5-fpm-5.5.9+dfsg-1ubuntu4.7
+php5-gd-5.5.9+dfsg-1ubuntu4.7
+php5-imagick-3.1.2-1build1
+php5-imap-5.4.6-0ubuntu5
+php5-intl-5.5.9+dfsg-1ubuntu4.7
+php5-json-1.3.2-2build1
+php5-ldap-5.5.9+dfsg-1ubuntu4.7
+php5-mcrypt-5.4.6-0ubuntu5
+php5-memcache-3.0.8-4build1
+php5-ming-1:0.4.5-1ubuntu5
+php5-mysql-5.5.9+dfsg-1ubuntu4.7
+php5-pgsql-5.5.9+dfsg-1ubuntu4.7
+php5-ps-1.3.7-1ubuntu1
+php5-pspell-5.5.9+dfsg-1ubuntu4.7
+php5-readline-5.5.9+dfsg-1ubuntu4.7
+php5-recode-5.5.9+dfsg-1ubuntu4.7
+php5-snmp-5.5.9+dfsg-1ubuntu4.7
+php5-sqlite-5.5.9+dfsg-1ubuntu4.7
+php5-tidy-5.5.9+dfsg-1ubuntu4.7
+php5-xmlrpc-5.5.9+dfsg-1ubuntu4.7
+php5-xsl-5.5.9+dfsg-1ubuntu4.7
+vim-2:7.4.052-1ubuntu3
+nfs-common-1:1.2.8-6ubuntu1.1</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [530-1571] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+Os pacotes referentes ao serviço de proxy reveço nginx, daemon php php5-fpm e cliente nfs podem ser instalado via apt-get:
+</p>
+<pre class="code">operador@virtual:~$ sudo apt-get install php-apc php-pear php5-apcu php5-cli php5-common php5-curl php5-dev php5-fpm php5-gd php5-imagick php5-imap php5-intl php5-json php5-ldap php5-mcrypt php5-memcache php5-ming php5-mysql php5-pgsql php5-ps php5-pspell php5-readline php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl nfs-common vim nginx nginx-common nginx-extras</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [1572-2119] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Os diretórios relevantes para o funcionamento do servicó são:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/var/moodledata</code> - Arquivos submetidos pelos usuários para a o AVA, são escritos neste diretório, que por sua vez é montado via <a href="/doku.php?id=infraestrutura:nfs" class="wikilink1" title="infraestrutura:nfs">NFS</a>;</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/www/moodle</code> - Arquivos fonte do AVA;</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/www/logs</code> - Arquivos de log;</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+<ul>
+<li class="level1"><div class="li"> Encontram-se no diretório <code>/etc/fstab</code>, os arquivos de configuração do ponto de montagem NFS;</div>
+</li>
+<li class="level1"><div class="li"> Encontram-se no diretório <code>/etc/nginx/</code>, os arquivos de configuração do proxy reverso;</div>
+</li>
+<li class="level1"><div class="li"> Encontram-se no diretório <code>/etc/php5/</code>, os arquivos de configuração do daemon php;</div>
+</li>
+<li class="level1"><div class="li"> Encontram-se no diretório <code>/var/www/moodle/</code>, os arquivos de configuração do AVA;</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [2120-2896] -->
+<h3 class="sectionedit6" id="operando_os_servicos">Operando os serviços</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do proxy reverso através do comando:
+</p>
+<pre class="code">operador@virtual:~$ sudo service nginx start</pre>
+
+<p>
+Inicia-se o daemon do php através do comando:
+</p>
+<pre class="code">operador@virtual:~$ sudo service php5-fpm start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do proxy reverso através do comando:
+</p>
+<pre class="code">operador@virtual:~$ sudo service nginx stop</pre>
+
+<p>
+Para-se o daemon do php através do comando:
+</p>
+<pre class="code">operador@virtual:~$ sudo service php5-fpm stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reinicia-se o serviço do proxy reverso através do comando:
+</p>
+<pre class="code">operador@virtual:~$ sudo service nginx restart</pre>
+
+<p>
+Reinicia-se o daemon do php através do comando:
+</p>
+<pre class="code">operador@virtual:~$ sudo service php5-fpm restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando os serviços" [2897-3696] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="nginx">NGiNX</h4>
+<div class="level4">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:eadnginx&amp;codeblock=9" title="Download Snippet" class="mediafile mf_">defaulf</a></dt>
+<dd><pre class="code file conf">server {
+        listen 80;
+        server_name virtual-novo.ifce.edu.br;
+        access_log /var/www/logs/access.log;
+        error_log /var/www/logs/error.log error;
+        root /var/www/moodle;
+        client_max_body_size 1G;
+&nbsp;
+        location / {
+                index index.php index.html index.htm;
+                try_files $uri $uri/ /index.html;
+        }
+&nbsp;
+        location ~ \.php {
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                fastcgi_param  PATH_INFO          $fastcgi_path_info;
+                fastcgi_param  PATH_TRANSLATED    $document_root$fastcgi_path_info;
+                fastcgi_param  QUERY_STRING       $query_string;
+                fastcgi_param  REQUEST_METHOD     $request_method;
+                fastcgi_param  CONTENT_TYPE       $content_type;
+                fastcgi_param  CONTENT_LENGTH     $content_length;
+                fastcgi_param  SCRIPT_NAME        $fastcgi_script_name;
+                fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+                fastcgi_param  REQUEST_URI        $request_uri;
+                fastcgi_param  DOCUMENT_URI       $document_uri;
+                fastcgi_param  DOCUMENT_ROOT      $document_root;
+                fastcgi_param  SERVER_PROTOCOL    $server_protocol;
+                fastcgi_param  GATEWAY_INTERFACE  CGI/1.1;
+                fastcgi_param  SERVER_SOFTWARE    nginx;
+                fastcgi_param  REMOTE_ADDR        $remote_addr;
+                fastcgi_param  REMOTE_PORT        $remote_port;
+                fastcgi_param  SERVER_ADDR        $server_addr;
+                fastcgi_param  SERVER_PORT        $server_port;
+                fastcgi_param  SERVER_NAME        $server_name;
+		fastcgi_read_timeout		  1800;
+                fastcgi_pass   127.0.0.1:9000;
+                fastcgi_index  index.php;
+}
+}</pre>
+</dd></dl>
+
+</div>
+
+<h4 id="php5-fpm">php5-fpm</h4>
+<div class="level4">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:eadnginx&amp;codeblock=10" title="Download Snippet" class="mediafile mf_conf">php-fpm.conf</a></dt>
+<dd><pre class="code file conf">;;;;;;;;;;;;;;;;;;;;;
+; FPM Configuration ;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+; Global Options ;
+;;;;;;;;;;;;;;;;;;
+&nbsp;
+[global]
+pid = /var/run/php5-fpm.pid
+error_log = /var/log/php5-fpm.log
+emergency_restart_threshold = 0
+emergency_restart_interval = 0
+&nbsp;
+;;;;;;;;;;;;;;;;;;;;
+; Pool Definitions ;
+;;;;;;;;;;;;;;;;;;;;
+include=/etc/php5/fpm/pool.d/*.conf</pre>
+</dd></dl>
+
+</div>
+
+<h4 id="php5-fpm_pool">php5-fpm pool</h4>
+<div class="level4">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:eadnginx&amp;codeblock=11" title="Download Snippet" class="mediafile mf_conf">www.conf</a></dt>
+<dd><pre class="code file conf">[virtual]
+user = www-data
+group = www-data
+listen = 127.0.0.1:9000
+pm = dynamic
+pm.max_children = 100
+pm.start_servers = 30
+pm.min_spare_servers = 20
+pm.max_spare_servers = 70
+pm.max_requests = 10000
+pm.process_idle_timeout = 3600s
+pm.max_requests = 100
+request_terminate_timeout = 1800s
+catch_workers_output = yes
+chdir = /</pre>
+</dd></dl>
+
+</div>
+
+<h4 id="php5">php5</h4>
+<div class="level4">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:eadnginx&amp;codeblock=12" title="Download Snippet" class="mediafile mf_ini">php.ini</a></dt>
+<dd><pre class="code file conf">[PHP]
+&nbsp;
+;;;;;;;;;;;;;;;;;;;;
+; Language Options ;
+;;;;;;;;;;;;;;;;;;;;
+engine = On
+short_open_tag = On
+asp_tags = Off
+precision = 14
+y2k_compliance = On
+output_buffering = 4096
+zlib.output_compression = Off
+implicit_flush = Off
+unserialize_callback_func =
+serialize_precision = 17
+allow_call_time_pass_reference = Off
+safe_mode = Off
+safe_mode_gid = Off
+safe_mode_include_dir =
+safe_mode_exec_dir =
+safe_mode_allowed_env_vars = PHP_
+safe_mode_protected_env_vars = LD_LIBRARY_PATH
+disable_functions = pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,
+disable_classes =
+zend.enable_gc = On
+&nbsp;
+;;;;;;;;;;;;;;;;;
+; Miscellaneous ;
+;;;;;;;;;;;;;;;;;
+expose_php = On
+&nbsp;
+;;;;;;;;;;;;;;;;;;;
+; Resource Limits ;
+;;;;;;;;;;;;;;;;;;;
+max_execution_time = 600
+max_input_time = 600
+memory_limit = 128M
+&nbsp;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Error handling and logging ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+error_reporting = E_ALL &amp; ~E_DEPRECATED
+display_errors = Off
+display_startup_errors = Off
+log_errors = On
+log_errors_max_len = 1024
+ignore_repeated_errors = Off
+ignore_repeated_source = Off
+report_memleaks = On
+track_errors = Off
+html_errors = Off
+&nbsp;
+;;;;;;;;;;;;;;;;;
+; Data Handling ;
+;;;;;;;;;;;;;;;;;
+variables_order = &quot;GPCS&quot;
+request_order = &quot;GP&quot;
+register_globals = Off
+register_long_arrays = Off
+register_argc_argv = Off
+auto_globals_jit = On
+post_max_size = 1G
+magic_quotes_gpc = Off
+magic_quotes_runtime = Off
+magic_quotes_sybase = Off
+auto_prepend_file =
+auto_append_file =
+default_mimetype = &quot;text/html&quot;
+&nbsp;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+; Paths and Directories ;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+doc_root =
+user_dir =
+enable_dl = Off
+&nbsp;
+;;;;;;;;;;;;;;;;
+; File Uploads ;
+;;;;;;;;;;;;;;;;
+file_uploads = On
+upload_tmp_dir = /tmp/
+upload_max_filesize = 1000M
+max_file_uploads = 100
+&nbsp;
+;;;;;;;;;;;;;;;;;;
+; Fopen wrappers ;
+;;;;;;;;;;;;;;;;;;
+allow_url_fopen = On
+allow_url_include = Off
+default_socket_timeout = 60
+&nbsp;
+;;;;;;;;;;;;;;;;;;;
+; Module Settings ;
+;;;;;;;;;;;;;;;;;;;
+&nbsp;
+[Date]
+date.timezone = America/Fortaleza
+&nbsp;
+[filter]
+[iconv]
+[intl]
+[sqlite]
+[sqlite3]
+[Pcre]
+[Pdo]
+[Pdo_mysql]
+pdo_mysql.cache_size = 2000
+pdo_mysql.default_socket=
+[Phar]
+[Syslog]
+define_syslog_variables  = Off
+[mail function]
+SMTP = localhost
+smtp_port = 25
+mail.add_x_header = On
+[SQL]
+sql.safe_mode = Off
+[ODBC]
+odbc.allow_persistent = On
+odbc.check_persistent = On
+odbc.max_persistent = -1
+odbc.max_links = -1
+odbc.defaultlrl = 4096
+odbc.defaultbinmode = 1
+[Interbase]
+ibase.allow_persistent = 1
+ibase.max_persistent = -1
+ibase.max_links = -1
+ibase.timestampformat = &quot;%Y-%m-%d %H:%M:%S&quot;
+ibase.dateformat = &quot;%Y-%m-%d&quot;
+ibase.timeformat = &quot;%H:%M:%S&quot;
+[MySQL]
+mysql.allow_local_infile = On
+mysql.allow_persistent = On
+mysql.cache_size = 2000
+mysql.max_persistent = -1
+mysql.max_links = -1
+mysql.default_port =
+mysql.default_socket =
+mysql.default_host =
+mysql.default_user =
+mysql.default_password =
+mysql.connect_timeout = 60
+mysql.trace_mode = Off
+[MySQLi]
+mysqli.max_persistent = -1
+mysqli.allow_persistent = On
+mysqli.max_links = -1
+mysqli.cache_size = 2000
+mysqli.default_port = 3306
+mysqli.default_socket =
+mysqli.default_host =
+mysqli.default_user =
+mysqli.default_pw =
+mysqli.reconnect = Off
+[mysqlnd]
+mysqlnd.collect_statistics = On
+mysqlnd.collect_memory_statistics = Off
+[OCI8]
+[PostgreSQL]
+pgsql.allow_persistent = On
+pgsql.auto_reset_persistent = Off
+pgsql.max_persistent = -1
+pgsql.max_links = -1
+pgsql.ignore_notice = 0
+pgsql.log_notice = 0
+[Sybase-CT]
+sybct.allow_persistent = On
+sybct.max_persistent = -1
+sybct.max_links = -1
+sybct.min_server_severity = 10
+sybct.min_client_severity = 10
+[bcmath]
+bcmath.scale = 0
+[browscap]
+[Session]
+session.save_handler = files
+session.use_cookies = 1
+session.use_only_cookies = 1
+session.name = PHPSESSID
+session.auto_start = 0
+session.cookie_lifetime = 0
+session.cookie_path = /
+session.cookie_domain =
+session.cookie_httponly =
+session.serialize_handler = php
+session.gc_probability = 0
+session.gc_divisor = 1000
+session.gc_maxlifetime = 1440
+session.bug_compat_42 = Off
+session.bug_compat_warn = Off
+session.referer_check =
+session.entropy_length = 0
+session.cache_limiter = nocache
+session.cache_expire = 180
+session.use_trans_sid = 0
+session.hash_function = 0
+session.hash_bits_per_character = 5
+url_rewriter.tags = &quot;a=href,area=href,frame=src,input=src,form=fakeentry&quot;
+[MSSQL]
+mssql.allow_persistent = On
+mssql.max_persistent = -1
+mssql.max_links = -1
+mssql.min_error_severity = 10
+mssql.min_message_severity = 10
+mssql.compatability_mode = Off
+mssql.secure_connection = Off
+[Assertion]
+[COM]
+[mbstring]
+[gd]
+[exif]
+[Tidy]
+tidy.clean_output = Off
+[soap]
+soap.wsdl_cache_enabled=1
+soap.wsdl_cache_dir=&quot;/tmp&quot;
+soap.wsdl_cache_ttl=86400
+soap.wsdl_cache_limit = 5
+[sysvshm]
+[ldap]
+ldap.max_links = -1
+[mcrypt]
+[dba]
+[xsl]</pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [3697-11446] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="http://nginx.org/en/docs/" class="urlextern" title="http://nginx.org/en/docs/"  rel="nofollow">nginx.org</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://php.net/manual/en/install.fpm.php" class="urlextern" title="http://php.net/manual/en/install.fpm.php"  rel="nofollow">php.net</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://php.net/docs.php" class="urlextern" title="http://php.net/docs.php"  rel="nofollow">php.net</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [11447-11612] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Luca do Amaral Saboya</a> 2015/03/23 17:48</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [11613-] -->

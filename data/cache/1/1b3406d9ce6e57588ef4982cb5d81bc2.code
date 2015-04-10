@@ -1,0 +1,184 @@
+zone &quot;otrs.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.otrs.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;listas.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.listas.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;gdeste.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.gdeste.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;lit.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.lit.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;cppd.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.cppd.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;lds.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.lds.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;dgti.ifce.edu.br&quot; {
+        type master;
+        file &quot;/var/cache/bind/db/db.dgti.ifce.edu.br&quot;;
+        allow-transfer { IFCE-xfer; };
+                };
+zone &quot;ifce.edu.br&quot; {
+	type master;
+	file &quot;/var/cache/bind/db/db.ifce.edu.br&quot;;
+	allow-transfer { IFCE-xfer; };
+		};
+&nbsp;
+zone &quot;cefetce.br&quot; {
+	type master;
+	file &quot;/var/cache/bind/db/db.cefetce.br&quot;;
+	allow-transfer { IFCE-xfer; };
+		};
+&nbsp;
+zone &quot;cefet-ce.br&quot; {
+	type master;
+	file &quot;/var/cache/bind/db/db.cefet-ce.br&quot;;
+	allow-transfer { IFCE-xfer; };
+		};
+&nbsp;
+zone &quot;etfce.br&quot; {
+	type master;
+	file &quot;/var/cache/bind/db/db.etfce.br&quot;;
+	allow-transfer { IFCE-xfer; };
+		};
+&nbsp;
+zone &quot;33.17.200.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.200.17.33&quot;;
+		};
+&nbsp;
+zone &quot;32.17.200.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.200.17.32&quot;;
+		};
+&nbsp;
+zone &quot;46.129.200.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.200.129.46&quot;;
+		};
+&nbsp;
+zone &quot;128.129.200.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.200.129.128&quot;;
+		};
+&nbsp;
+zone &quot;48.128.200.in-addr.arpa&quot; { 
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.200.129.48&quot;;
+		};
+&nbsp;
+zone &quot;176.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.176&quot;;
+		};
+&nbsp;
+zone &quot;177.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.177&quot;;
+		};
+&nbsp;
+zone &quot;178.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.178&quot;;
+		};
+&nbsp;
+zone &quot;179.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.179&quot;;
+		};
+&nbsp;
+zone &quot;180.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.180&quot;;
+		};
+&nbsp;
+zone &quot;181.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.181&quot;;
+		};
+&nbsp;
+zone &quot;182.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.182&quot;;
+		};
+&nbsp;
+zone &quot;183.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.183&quot;;
+		};
+&nbsp;
+zone &quot;184.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.184&quot;;
+		};
+&nbsp;
+zone &quot;185.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.185&quot;;
+		};
+&nbsp;
+zone &quot;186.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.186&quot;;
+		};
+&nbsp;
+zone &quot;187.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.187&quot;;
+		};
+&nbsp;
+zone &quot;188.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.188&quot;;
+		};
+&nbsp;
+zone &quot;189.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.189&quot;;
+		};
+&nbsp;
+zone &quot;190.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.190&quot;;
+		};
+&nbsp;
+zone &quot;191.109.179.in-addr.arpa&quot; {
+	type master;
+	notify yes;
+	file &quot;/var/cache/bind/db/db.179.109.191&quot;;
+		};

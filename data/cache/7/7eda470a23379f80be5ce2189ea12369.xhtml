@@ -1,0 +1,266 @@
+
+<h1 class="sectionedit1" id="dns_recursivo">DNS Recursivo</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no cluster VMware localizado na sala de maquinas do PoP-CE/RNP.
+Atua como servidor de <abbr title="Domain Name System">DNS</abbr> recursivo nas redes do IFCE:
+</p>
+
+</div>
+<!-- EDIT1 SECTION "DNS Recursivo" [1-188] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: dns.ifce.edu.br
+IPv4: 200.17.33.89
+OS: FreeBSD-10.1-RELEASE-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; dns
+vCPU&#039;s: 2
+RAM: 2GiB
+HDD: 8GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [189-433] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">unbound-1.5.3_1
+vim-7.4.657</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [434-523] -->
+<h3 class="sectionedit4" id="instalacao">Instalação</h3>
+<div class="level3">
+
+<p>
+A instalação do Unbound pode ser feita via PKG da seguinte forma:
+</p>
+<pre class="code">root@dns:~ # pkg install unbound</pre>
+
+<p>
+Configure o Unbound para ser inicializado juntamente com o sistema:
+</p>
+<pre class="code">root@dns:~ # echo &#039;unbound_enable=&quot;YES&quot;&#039; &gt;&gt; /etc/rc.conf</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [524-804] -->
+<h3 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h3>
+<div class="level3">
+
+<p>
+Todos os arquivos de zona, devem ser colocados em <code>/usr/local/etc/unbound</code>. O arquivo unbound.conf contém todas as configurações do serviço:
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:unbound&amp;codeblock=4" title="Download Snippet" class="mediafile mf_conf">unbound.conf</a></dt>
+<dd><pre class="code file conf"># The server clause sets the main parameters. 
+server:
+	verbosity: 1
+	statistics-interval: 0
+	statistics-cumulative: no
+	extended-statistics: no
+	num-threads: 4
+	interface: 200.17.33.89
+	interface-automatic: no
+	port: 53
+	outgoing-interface: 200.17.33.89
+	outgoing-range: 100
+	outgoing-num-tcp: 50
+	incoming-num-tcp: 50
+	so-reuseport: no
+	edns-buffer-size: 4096
+	max-udp-size: 4096
+	msg-buffer-size: 65552
+	msg-cache-size: 128m
+	do-ip4: yes
+	do-ip6: yes
+	do-udp: yes
+	do-tcp: yes
+	do-daemonize: yes
+	# control which clients are allowed to make (recursive) queries
+	# to this server. Specify classless netblocks with /size and action.
+	# By default everything is refused, except for localhost.
+	# Choose deny (drop message), refuse (polite error reply),
+	# allow (recursive ok), allow_snoop (recursive and nonrecursive ok)
+	# deny_non_local (drop queries unless can be answered from local-data)
+	# refuse_non_local (like deny_non_local but polite error reply).
+	access-control: 127.0.0.0/8 allow
+	access-control: 200.17.33.0/24 allow
+	access-control: 200.17.32.0/24 allow
+	access-control: 186.225.63.200/29 allow
+	access-control: 187.19.201.48/29 allow
+	access-control: 201.20.93.170/29 allow
+	access-control: 200.129.0.33/32 allow
+	access-control: 200.129.0.34/32 allow
+	access-control: 200.129.9.0/24 allow
+	access-control: 200.129.10.0/24 allow
+	access-control: 200.129.11.0/24 allow
+	access-control: 200.129.16.0/24 allow
+	access-control: 200.129.17.0/24 allow
+	access-control: 200.129.18.0/26 allow
+	access-control: 200.129.18.64/26 allow
+	access-control: 200.129.18.128/26 allow
+	access-control: 200.129.24.0/24 allow
+	access-control: 200.129.25.0/24 allow
+	access-control: 200.129.46.0/24 allow
+	access-control: 200.129.48.0/24 allow
+	access-control: 201.20.97.248/29 allow
+	access-control: 201.20.98.0/29 allow
+	chroot: &quot;/usr/local/etc/unbound&quot;
+	username: &quot;unbound&quot;
+	directory: &quot;/usr/local/etc/unbound&quot;
+	logfile: &quot;/usr/local/etc/unbound/unbound.log&quot;
+	use-syslog: no
+	log-time-ascii: no
+	log-queries: no
+	pidfile: &quot;/usr/local/etc/unbound/unbound.pid&quot;
+	root-hints: &quot;/usr/local/etc/unbound/root.hints&quot;
+	hide-identity: yes
+	hide-version: yes
+	identity: &quot;Servidor de DNS recursivo do IFCE&quot;
+&nbsp;
+remote-control:
+	control-enable: no
+	control-interface: 127.0.0.1</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:unbound&amp;codeblock=5" title="Download Snippet" class="mediafile mf_hints">root.hints</a></dt>
+<dd><pre class="code file conf">;       This file holds the information on root name servers needed to
+;       initialize cache of Internet domain name servers
+;       (e.g. reference this file in the &quot;cache  .  &lt;file&gt;&quot;
+;       configuration file of BIND domain name servers).
+;
+;       This file is made available by InterNIC 
+;       under anonymous FTP as
+;           file                /domain/named.cache
+;           on server           FTP.INTERNIC.NET
+;       -OR-                    RS.INTERNIC.NET
+;
+;       last update:    November 05, 2014
+;       related version of root zone:   2014110501
+;
+; formerly NS.INTERNIC.NET
+;
+.                        3600000      NS    A.ROOT-SERVERS.NET.
+A.ROOT-SERVERS.NET.      3600000      A     198.41.0.4
+A.ROOT-SERVERS.NET.      3600000      AAAA  2001:503:ba3e::2:30
+;
+; FORMERLY NS1.ISI.EDU
+;
+.                        3600000      NS    B.ROOT-SERVERS.NET.
+B.ROOT-SERVERS.NET.      3600000      A     192.228.79.201
+B.ROOT-SERVERS.NET.      3600000      AAAA  2001:500:84::b
+;
+; FORMERLY C.PSI.NET
+;
+.                        3600000      NS    C.ROOT-SERVERS.NET.
+C.ROOT-SERVERS.NET.      3600000      A     192.33.4.12
+C.ROOT-SERVERS.NET.      3600000      AAAA  2001:500:2::c
+;
+; FORMERLY TERP.UMD.EDU
+;
+.                        3600000      NS    D.ROOT-SERVERS.NET.
+D.ROOT-SERVERS.NET.      3600000      A     199.7.91.13
+D.ROOT-SERVERS.NET.      3600000      AAAA  2001:500:2d::d
+;
+; FORMERLY NS.NASA.GOV
+;
+.                        3600000      NS    E.ROOT-SERVERS.NET.
+E.ROOT-SERVERS.NET.      3600000      A     192.203.230.10
+;
+; FORMERLY NS.ISC.ORG
+;
+.                        3600000      NS    F.ROOT-SERVERS.NET.
+F.ROOT-SERVERS.NET.      3600000      A     192.5.5.241
+F.ROOT-SERVERS.NET.      3600000      AAAA  2001:500:2f::f
+;
+; FORMERLY NS.NIC.DDN.MIL
+;
+.                        3600000      NS    G.ROOT-SERVERS.NET.
+G.ROOT-SERVERS.NET.      3600000      A     192.112.36.4
+;
+; FORMERLY AOS.ARL.ARMY.MIL
+;
+.                        3600000      NS    H.ROOT-SERVERS.NET.
+H.ROOT-SERVERS.NET.      3600000      A     128.63.2.53
+H.ROOT-SERVERS.NET.      3600000      AAAA  2001:500:1::803f:235
+;
+; FORMERLY NIC.NORDU.NET
+;
+.                        3600000      NS    I.ROOT-SERVERS.NET.
+I.ROOT-SERVERS.NET.      3600000      A     192.36.148.17
+I.ROOT-SERVERS.NET.      3600000      AAAA  2001:7fe::53
+;
+; OPERATED BY VERISIGN, INC.
+;
+.                        3600000      NS    J.ROOT-SERVERS.NET.
+J.ROOT-SERVERS.NET.      3600000      A     192.58.128.30
+J.ROOT-SERVERS.NET.      3600000      AAAA  2001:503:c27::2:30
+;
+; OPERATED BY RIPE NCC
+;
+.                        3600000      NS    K.ROOT-SERVERS.NET.
+K.ROOT-SERVERS.NET.      3600000      A     193.0.14.129
+K.ROOT-SERVERS.NET.      3600000      AAAA  2001:7fd::1
+;
+; OPERATED BY ICANN
+;
+.                        3600000      NS    L.ROOT-SERVERS.NET.
+L.ROOT-SERVERS.NET.      3600000      A     199.7.83.42
+L.ROOT-SERVERS.NET.      3600000      AAAA  2001:500:3::42
+;
+; OPERATED BY WIDE
+;
+.                        3600000      NS    M.ROOT-SERVERS.NET.
+M.ROOT-SERVERS.NET.      3600000      A     202.12.27.33
+M.ROOT-SERVERS.NET.      3600000      AAAA  2001:dc3::35
+; End of file</pre>
+</dd></dl>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [805-6488] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do Unbound através do comando:
+</p>
+<pre class="code">service unbound start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do Unbound através do comando:
+</p>
+<pre class="code">service unbound stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do Unbound através do comando:
+</p>
+<pre class="code">service unbound restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [6489-6877] -->
+<h2 class="sectionedit7" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="https://www.freebsd.org/doc/handbook/pkgng-intro.html" class="urlextern" title="https://www.freebsd.org/doc/handbook/pkgng-intro.html"  rel="nofollow">freebsd.org</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://unbound.net/documentation/unbound.conf.html" class="urlextern" title="https://unbound.net/documentation/unbound.conf.html"  rel="nofollow">unbound.net</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT7 SECTION "Referências" [6878-] -->

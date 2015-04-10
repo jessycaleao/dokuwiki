@@ -1,0 +1,132 @@
+====== MySQL ======
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de banco de dados MySQL.
+
+===== Configurações da VPS =====
+<code>
+Hostname: mysql.ifce.edu.br
+IPv4: 200.17.33.32
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> mysql
+vCPU's: 6
+RAM: 6GiB
+HDD: 10+100GiB
+</code>
+
+===== Software utilizados pelo serviço =====
+<code>
+libdbd-mysql-perl-4.025-1
+libmysqlclient18:amd64-5.5.41-0ubuntu0.14.04.1
+mysql-client-5.5-5.5.41-0ubuntu0.14.04.1
+mysql-client-core-5.5-5.5.41-0ubuntu0.14.04.1
+mysql-common-5.5.41-0ubuntu0.14.04.1
+mysql-server-5.5.41-0ubuntu0.14.04.1
+mysql-server-5.5-5.5.41-0ubuntu0.14.04.1
+mysql-server-core-5.5-5.5.41-0ubuntu0.14.04.1
+</code>
+
+===== Instalação =====
+O mysql pode ser instalado via apt-get:
+<code>
+operador@mysql:~$ sudo apt-get update; sudo apt-get install libdbd-mysql-perl libmysqlclient18:amd64 mysql-client-5.5 mysql-client-core-5.5 mysql-common mysql-server mysql-server-5.5 mysql-server-core-5.5
+</code>
+
+===== Estrutura de diretórios =====
+Listar a estrutura de diretórios aqui:
+  * ''/etc/mysql'' - Arquivos de configuração do MySQL
+  * ''/var/log/mysql'' - Arquivos de log do MySQL
+  * ''/var/lib/mysql/'' - Arquivos binários dos bancos de dados
+  * ''/usr/lib/mysql'' - Arquivos binários dos plugins do MySQL
+  * ''/usr/bin/mysql'' - Arquivos binários do daemon do MySQL
+
+=== Arquivos de configuração ===
+Encontram-se no diretório ''/etc/mysql'', os arquivos de configuração do MySQL
+==== Operando o serviço ====
+
+=== Iniciando o serviço ===
+Inicia-se o serviço do MySQL através do comando:
+<code>operador@mysql:~$ sudo service mysql start</code>
+
+=== Parando o serviço ===
+Para-se o serviço do MySQL através do comando:
+<code>operador@mysql:~$ sudo service mysql stop</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do MySQL através do comando:
+<code>operador@mysql:~$ sudo service mysql restart</code>
+==== Arquivos de configuração ====
+<file conf mysqld_safe_syslog.cnf>
+[mysqld_safe]
+syslog
+</file>
+
+<file conf my.conf>
+#
+# The MySQL database server configuration file.
+#
+[client]
+port		= 3306
+socket		= /var/run/mysqld/mysqld.sock
+
+[mysqld_safe]
+socket		= /var/run/mysqld/mysqld.sock
+nice		= 0
+
+[mysqld]
+user            = mysql
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+port            = 3306
+basedir         = /usr
+datadir         = /var/lib/mysql
+tmpdir          = /tmp
+lc-messages-dir = /usr/share/mysql
+skip-external-locking
+bind-address            = 200.17.33.32
+key_buffer              = 16M
+max_allowed_packet      = 1024M
+thread_stack            = 192K
+thread_cache_size       = 8
+myisam-recover         = BACKUP
+max_connections        = 1200
+max_connect_errors      = 500
+query_cache_limit       = 1M
+query_cache_size        = 16M
+
+# * Logging and Replication
+log_error = /var/log/mysql/error.log
+expire_logs_days	= 10
+max_binlog_size         = 100M
+# * InnoDB
+[mysqldump]
+quick
+quote-names
+max_allowed_packet	= 16M
+
+[mysql]
+
+[isamchk]
+key_buffer		= 16M
+
+!includedir /etc/mysql/conf.d/
+operador@mysql:~$ 
+</file>
+
+<file conf debian.conf>
+# Automatically generated for Debian scripts. DO NOT TOUCH!
+[client]
+host     = localhost
+user     = debian-sys-maint
+password = DISPONIVEL_NO_1PASSWORD
+socket   = /var/run/mysqld/mysqld.sock
+[mysql_upgrade]
+host     = localhost
+user     = debian-sys-maint
+password = DISPONIVEL_NO_1PASSWORD
+socket   = /var/run/mysqld/mysqld.sock
+basedir  = /usr
+</file>
+===== Referências =====
+  * [[https://dev.mysql.com/doc/refman/4.1/en/installation-layouts.html|mysql.com]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/08 06:25//

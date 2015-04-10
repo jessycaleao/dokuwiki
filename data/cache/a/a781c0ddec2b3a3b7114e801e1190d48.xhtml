@@ -1,0 +1,180 @@
+
+<h1 class="sectionedit1" id="modelo_de_documentacao_de_servico">Modelo de documentação de serviço</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de controle de chamados do IFCE .
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Modelo de documentação de serviço" [1-231] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: otrs.ifce.edu.br
+IPv4: 200.17.33.27
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; otrs
+vCPU&#039;s: 2
+RAM: 2GiB
+HDD: 10GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [232-477] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">otrs-3.3.5-1
+otrs2-3.3.5-1</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [478-566] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O otrs pode ser instalado via apt-get:
+</p>
+<pre class="code">operador@otrs:~$ sudo apt-get update; sudo apt-get install otrs otrs2</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [567-716] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/usr/share/otrs/</code> - Fontes do OTRS</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/lib/otrs/log/</code> - Arquivos de log do OTRS</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/apache2/conf-available/</code> - Arquivos de configuração do virtualhost referente a interface web do OTRS</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/otrs/Kernel/</code> - Arquivos de configuração do OTRS</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/lib/otrs/</code> - Arquivos binários do OTRS</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/etc/otrs/Kernel/</code>, os arquivos de configuração do OTRS
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [717-1242] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do OTRS através do comando:
+</p>
+<pre class="code">operador@otrs:~$ sudo service otrs2 start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do OTRS através do comando:
+</p>
+<pre class="code">operador@otrs:~$ sudo service otrs2 stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do OTRS através do comando:
+</p>
+<pre class="code">operador@otrs:~$ sudo service otrs2 restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [1243-1677] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:otrs&amp;codeblock=6" title="Download Snippet" class="mediafile mf_conf">arquivo.conf</a></dt>
+<dd><pre class="code file conf">// Exemplo de arquivo de configuração</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:otrs&amp;codeblock=7" title="Download Snippet" class="mediafile mf_pm">Config.pm</a></dt>
+<dd><pre class="code file conf"># --
+# Kernel/Config.pm - Config file for OTRS kernel
+package Kernel::Config;
+use warnings;
+use utf8;
+&nbsp;
+BEGIN {
+        if (-f '/etc/otrs/database.pm') {
+                require '/etc/otrs/database.pm';
+                if ($dbtype eq 'pgsql') {
+                        $dbport ||= '5432';
+                        our $dsn = &quot;DBI:Pg:dbname&quot;;
+                }
+                else {
+                        $dbport ||= '3306';
+                        our $dsn = &quot;DBI:mysql:database&quot;;
+                }
+        }
+}
+&nbsp;
+sub Load {
+    my $Self = shift;
+&nbsp;
+    # ---------------------------------------------------- #
+    # database settings                                    #
+    # ---------------------------------------------------- #
+    $Self-&gt;{DatabaseHost} = $dbserver || 'mysql.ifce.edu.br';
+    $Self-&gt;{Database} = $dbname || 'otrs2';
+    $Self-&gt;{DatabaseUser} = $dbuser || 'otrs2';
+    $Self-&gt;{DatabasePw} = $dbpass || 'DISPONIVEL_NO_1PASSWORD';
+    $Self-&gt;{DatabaseDSN} = &quot;$dsn=$Self-&gt;{Database};host=$Self-&gt;{DatabaseHost};port=$dbport;&quot;;
+    # ---------------------------------------------------- #
+    # fs root directory
+    # ---------------------------------------------------- #
+    $Self-&gt;{Home} = '/usr/share/otrs';
+    # switch off the web based installer for the Debian package
+    $Self-&gt;{SecureMode} = 1;
+}
+&nbsp;
+use base qw(Kernel::Config::Defaults);
+&nbsp;
+# -----------------------------------------------------#
+&nbsp;
+1;
+~    </pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [1678-3247] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="http://otrs.github.io/doc/" class="urlextern" title="http://otrs.github.io/doc/"  rel="nofollow"> otrs.github.io</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [3248-3324] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Lucas do Amaral Saboya</a> 2015/04/08 07:08</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [3325-] -->

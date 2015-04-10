@@ -1,0 +1,27 @@
+server:
+	hide-version: yes
+	database: &quot;/usr/local/etc/nsd/var/db/nsd/nsd.db&quot;
+	logfile: &quot;/usr/local/etc/nsd/var/log/nsd.log&quot;
+	server-count: 1
+	tcp-count: 10
+	pidfile: &quot;/usr/local/etc/nsd/var/run/nsd/nsd.pid&quot;
+	username: bind
+	difffile: &quot;/usr/local/etc/nsd/var/db/nsd/ixfr.db&quot;
+	xfrdfile: &quot;/usr/local/etc/nsd/var/db/nsd/xfrd.state&quot;
+	verbosity: 2
+&nbsp;
+remote-control:
+	control-enable: yes
+&nbsp;
+key:
+	name: &quot;rndc-key&quot;
+	algorithm: hmac-md5
+	secret: &quot;TROQUE_A_CHAVE&quot;
+&nbsp;
+pattern:
+	name: &quot;secundario&quot;
+	allow-notify: 200.17.33.7/32 rndc-key
+	request-xfr: AXFR 200.17.33.7 rndc-key
+&nbsp;
+include: &quot;/usr/local/etc/nsd/conf.d/zones.conf&quot;
+include: &quot;/usr/local/etc/nsd/conf.d/reverse.conf&quot;

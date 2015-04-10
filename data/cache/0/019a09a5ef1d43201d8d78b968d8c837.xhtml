@@ -1,0 +1,531 @@
+
+<h2 class="sectionedit1" id="indice">Índice</h2>
+<div class="level2">
+<ol>
+<li class="level1"><div class="li"> Gerência deste documento</div>
+<ol>
+<li class="level2"><div class="li"> <a href="#contribuidores" title="infraestrura:bacula ↵" class="wikilink1">Contribuidores</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="#controle_de_versao" title="infraestrura:bacula ↵" class="wikilink1">Controle de versão</a></div>
+</li>
+</ol>
+</li>
+<li class="level1"><div class="li"> Visão geral</div>
+<ol>
+<li class="level2"><div class="li"> <a href="#sobre_o_servico" title="infraestrura:bacula ↵" class="wikilink1">Sobre o serviço</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="#arquitetura_do_bacula" title="infraestrura:bacula ↵" class="wikilink1">Arquitetura do  Bacula</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="#tecnologias_utilizadas" title="infraestrura:bacula ↵" class="wikilink1">Tecnologias utilizadas</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="#ferramentas_de_desenvolvimento" title="infraestrura:bacula ↵" class="wikilink1">Ferramentas de desenvolvimento</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="#monitoramento" title="infraestrura:bacula ↵" class="wikilink1">Monitoramento</a></div>
+</li>
+<li class="level2"><div class="li"> <a href="#acesso_autenticacao_e_autorizacao" title="infraestrura:bacula ↵" class="wikilink1">Acesso, Autenticação e Autorização</a></div>
+</li>
+</ol>
+</li>
+<li class="level1"><div class="li"> Detalhes técnicos</div>
+<ol>
+<li class="level2"><div class="li"> <a href="#como_fazer_determinada_tarefa" title="infraestrura:bacula ↵" class="wikilink1">Como fazer determinada tarefa</a></div>
+</li>
+</ol>
+</li>
+<li class="level1"><div class="li"> <a href="#referencias" title="infraestrura:bacula ↵" class="wikilink1">Referências</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="#assinatura" title="infraestrura:bacula ↵" class="wikilink1">Assinatura</a></div>
+</li>
+</ol>
+
+</div>
+
+<h4 id="contribuidores">Contribuidores</h4>
+<div class="level4">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;">Lucas do Amaral Saboya</a></em>
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Índice" [1-758] -->
+<h2 class="sectionedit2" id="controle_de_versao">Controle de versão</h2>
+<div class="level2">
+<pre class="code">Revisão: 0.1a (Validação não agendada)</pre>
+
+</div>
+<!-- EDIT2 SECTION "Controle de versão" [759-850] -->
+<h3 class="sectionedit3" id="sobre_o_servico">Sobre o serviço</h3>
+<div class="level3">
+
+<p>
+Bacula é uma suíte de aplicativos de código fonte aberto que permitem a você (ou ao Administrador de Sistemas) gerenciar copias de segurança, recuperações e verificações de dados em uma rede de computadores dos mais variados tipos. Ele é de relativa fácil utilização e eficiente, oferecendo várias funcionalidades de gerenciamento de espaço para armazenamento facilitando assim, a busca e recuperação de arquivos perdidos ou danificados. Em termos mais técnicos, é uma ferramenta open source de cópia de segurança via rede. Utilizamos o Bacula em nossos servidores Linux e Unix.
+</p>
+
+</div>
+<!-- EDIT3 SECTION "Sobre o serviço" [851-1478] -->
+<h3 class="sectionedit4" id="arquitetura_do_bacula">Arquitetura do  Bacula</h3>
+<div class="level3">
+
+<p>
+A arquitetura da solução implementada nada rede do IFCE consite em:
+</p>
+<ul>
+<li class="level1"><div class="li"> 1 VPS: bacula-director</div>
+</li>
+<li class="level1"><div class="li"> 1 VPS: bacula-storage daemon</div>
+</li>
+<li class="level1"><div class="li"> 1 Banco de dados MySQL: Catalogo</div>
+</li>
+<li class="level1"><div class="li"> 1 Servidor Web: bacula-web</div>
+</li>
+<li class="level1"><div class="li"> 1 Daemon em cada host: bacula-filedaemon</div>
+</li>
+</ul>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrura%3Abacula&amp;media=infraestrutura:arquitetura-bacula_.png" class="media wikilink2" title="infraestrutura:arquitetura-bacula_.png"><img src="/lib/exe/fetch.php?w=400&amp;tok=48db83&amp;media=infraestrutura:arquitetura-bacula_.png" class="mediacenter" alt="" width="400" /></a>
+</p>
+
+</div>
+
+<h5 id="tecnologias_utilizadas">Tecnologias utilizadas</h5>
+<div class="level5">
+
+<p>
+Para o completo funcionamento da solução, os seguintes serviços precisam estar operacionais:
+</p>
+<pre class="code">Internet/Rede Local - RNP
+Firewall - fwpici.ifce.edu.br e fwbenfica.ifce.edu.br
+Bind9 (DNS) - ns1.ifce.edu.br
+Servidor Web (bacula-web) - nginx.ifce.edu.br
+Mailman - listas.ifce.edu.br
+Bacula Director - bacula.ifce.edu.br ou bacula-dir.ifce.edu.br
+Bacula Storage Daemoon - bacula-sd0.ifce.edu.br e ufc.ifce.edu.br 
+Servidor de Banco dedados (Catálogo) - mysql.ifce.edu.br
+Bacula File Daemon - Em cada host a ser feita cópia de segurança</pre>
+
+</div>
+<!-- EDIT4 SECTION "Arquitetura do  Bacula" [1479-2390] -->
+<h3 class="sectionedit5" id="ferramentas_de_desenvolvimento">Ferramentas de desenvolvimento</h3>
+<div class="level3">
+
+<p>
+A solução implementada no IFCE segue os upstreams da Canonical e bacula-web.org:
+</p>
+<pre class="code">bacula (5.2.6+dfsg-9.1ubuntu3)
+Bacula-Web 7.0.2 </pre>
+
+<p>
+Seu desenvolvimento não é feito por analistas do IFCE.
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Ferramentas de desenvolvimento" [2391-2636] -->
+<h3 class="sectionedit6" id="monitoramento">Monitoramento</h3>
+<div class="level3">
+
+<p>
+Para monitorar o serviço prestado, pode-se:
+</p>
+<ul>
+<li class="level1"><div class="li"> Incluir seu endereço de email na lista pio5ias345dy0gf9uj90jj@listas.ifce.edu.br <a href="http://listas.ifce.edu.br/cgi-bin/mailman/listinfo/pio5ias345dy0gf9uj90jj" class="urlextern" title="http://listas.ifce.edu.br/cgi-bin/mailman/listinfo/pio5ias345dy0gf9uj90jj"  rel="nofollow">clicando aqui</a>;</div>
+</li>
+<li class="level1"><div class="li"> Acessar de dentro das <a href="/doku.php?id=infraestrutura:authorized_networks" class="wikilink2" title="infraestrutura:authorized_networks" rel="nofollow">redes autorizadas</a> no <a href="http://fwpici.ifce.edu.br" class="urlextern" title="http://fwpici.ifce.edu.br"  rel="nofollow">fwpici</a> o <a href="http://bacula-web.ifce.edu.br" class="urlextern" title="http://bacula-web.ifce.edu.br"  rel="nofollow">bacula-web</a>;</div>
+</li>
+<li class="level1"><div class="li"> Acessar pelo bconsole o bacula-director e rodar o comando:</div>
+</li>
+</ul>
+<pre class="code">list jobs</pre>
+
+</div>
+<!-- EDIT6 SECTION "Monitoramento" [2637-3143] -->
+<h3 class="sectionedit7" id="acesso_autenticacao_e_autorizacao">Acesso, Autenticação e Autorização</h3>
+<div class="level3">
+
+<p>
+Para acessar o painel de controle do Backup, pode-ser utilizar o comando 
+</p>
+<pre class="code">bconsole</pre>
+
+<p>
+ou utilizar a ferramenta gráfica (Linux) <a href="http://www.baculasystems.com/bat-the-bacula-administration-tool" class="urlextern" title="http://www.baculasystems.com/bat-the-bacula-administration-tool"  rel="nofollow">bat</a>.
+</p>
+
+<p>
+Ao configurar ambas, deve-se apontar o cliente para conectar-se com o servidor <code>bacula-dir.ifce.edu.br</code> utilizando a senha salva no 1Password dentro do diretório:
+</p>
+
+<p>
+<code>Dominios → ifce.edu.br → HP BladeSystem → Bacula Director</code>
+</p>
+
+</div>
+<!-- EDIT7 SECTION "Acesso, Autenticação e Autorização" [3144-3637] -->
+<h3 class="sectionedit8" id="como_adicionar_um_novo_host_as_rotinas_de_backup">Como adicionar um novo host as rotinas de backup</h3>
+<div class="level3">
+
+<p>
+Modificamos um pouco o modelo descrito na documentação oficial para dar um pouco mais de modularidade a nossa solução de backup.
+</p>
+
+<p>
+O arquivo de configuração do Bacula Director, localizado em: <code>/etc/bacula/bacula-dir.conf</code> inclui agora, todos os aquivos que estiverem dentro do diretório: <code>/etc/bacula/conf.d</code>
+</p>
+<pre class="code">JobDefs {
+  Name = &quot;apache&quot;
+  Type = Backup
+  Level = Incremental
+  Client = apache
+  FileSet = &quot;apache&quot;
+  Schedule = &quot;DefaultCycle&quot;
+  Storage = bacula-sd0
+  Messages = Standard
+  Pool = File
+  Priority = 10
+  Write Bootstrap = &quot;/var/lib/bacula/%c.bsr&quot;
+}
+
+Job {
+  Name = &quot;Backup: apache&quot;
+  JobDefs = &quot;apache&quot;
+  Client = apache
+  Schedule = &quot;DefaultCycle&quot;
+  Maximum Concurrent Jobs = 20
+}
+
+Job {
+  Name = &quot;Restore: apache&quot;
+  Type = Restore
+  Client = bacula-sd0
+  Storage = bacula-sd0
+  Pool = Default
+  FileSet = apache
+  Messages = Standard
+  Where = /opt/bacula/restores
+  Maximum Concurrent Jobs = 10
+}
+
+FileSet {
+  Name = &quot;apache&quot;
+  Include {
+    Options {
+      signature = MD5
+      compression = GZIP
+    }
+    File = /var/www/sites
+  }
+}
+
+Client {
+  Name = apache
+  Address = www.ifce.edu.br
+  FDPort = 9102
+  Catalog = MyCatalog
+  Password = &quot;1HjDs_xuaJhTbji9-jvmdn7g7hepUH_Fdxdas3H&quot;
+  File Retention = 1 day
+  Job Retention = 1 day
+  AutoPrune = yes
+  Maximum Concurrent Jobs = 20
+}
+</pre>
+
+</div>
+<!-- EDIT8 SECTION "Como adicionar um novo host as rotinas de backup" [3638-5023] -->
+<h3 class="sectionedit9" id="restaurando_um_backup">Restaurando um Backup</h3>
+<div class="level3">
+
+<p>
+Para restaurar um backup feito pelo Bacula, precisamos apenas de acesso ao Bacula Director e de espaço em disco suficiente para receber as informações a serem geradas.
+</p>
+
+<p>
+Logando-se como usário padrão <code>operador</code> no host <code>bacula-dir.ifce.edu.br</code>:
+</p>
+<pre class="code">ssh operador@bacula-dir.ifce.edu.br</pre>
+
+<p>
+Execute o comando <code>bconsole</code>:
+</p>
+<pre class="code">operador@bacula-dir:~$ sudo bconsole </pre>
+
+<p>
+Você entrará na interface de linha de comando do bconsole:
+</p>
+<pre class="code">Connecting to Director bacula.ifce.edu.br:9101
+1000 OK: bacula-dir Version: 5.2.6 (21 February 2012)
+Enter a period to cancel a command.
+*</pre>
+
+<p>
+Nesta interface, digite o comando <code>restore</code>:
+</p>
+<pre class="code">*restore </pre>
+
+<p>
+Por padrão, o Bacula fará uso de seu catálogo principal e dará início ao wizzard de recuperação de dados:
+</p>
+<pre class="code">Automatically selected Catalog: MyCatalog
+Using Catalog &quot;MyCatalog&quot;
+
+First you select one or more JobIds that contain files
+to be restored. You will be presented several methods
+of specifying the JobIds. Then you will be allowed to
+select which files from those JobIds are to be restored.
+
+To select the JobIds, you have the following choices:
+     1: List last 20 Jobs run
+     2: List Jobs where a given File is saved
+     3: Enter list of comma separated JobIds to select
+     4: Enter SQL list command
+     5: Select the most recent backup for a client
+     6: Select backup for a client before a specified time
+     7: Enter a list of files to restore
+     8: Enter a list of files to restore before a specified time
+     9: Find the JobIds of the most recent backup for a client
+    10: Find the JobIds for a backup for a client before a specified time
+    11: Enter a list of directories to restore for found JobIds
+    12: Select full restore to a specified Job date
+    13: Cancel
+Select item:  (1-13): </pre>
+
+<p>
+Você aqui, pode escolher como deseja especificar qual backup deseja recuperar. Para restaurar a última cópia válida, selecione a opção 
+</p>
+
+<p>
+<code>5: Select the most recent backup for a client</code>.
+</p>
+
+<p>
+Selecione agora, o host que deseja efetuar a recuperação a partir da lista de hosts configurados:
+</p>
+<pre class="code">Defined Clients:
+     1: apache
+     2: bacula
+     3: bacula-sd0
+     4: dl-virtual
+     5: gforge
+     6: gitlab
+     7: h-apache
+     8: h-mysql
+     9: interred
+    10: listas
+    11: mysql
+    12: nginx
+    13: ns1
+    14: pgsql
+    15: sisae
+    16: sisdoc
+    17: siseve
+    18: suap
+    19: ufc
+    20: ul-virtual
+    21: virtual
+    22: zimbra
+Select the Client (1-22): </pre>
+
+<p>
+No caso deste artigo, efetuaremos um restore do apache, logo, selecione a opção <code>1: apache</code>.
+</p>
+
+<p>
+O wizzard irá agora procurar no catálogo, a localização dos arquivos nescessários para efetuar a documentação, descompacta-lo e lhe solicitar quais arquivos você deseja recuperar:
+</p>
+<pre class="code">Automatically selected FileSet: apache
++-------+-------+----------+----------------+---------------------+------------+
+| JobId | Level | JobFiles | JobBytes       | StartTime           | VolumeName |
++-------+-------+----------+----------------+---------------------+------------+
+| 1,987 | F     |  777,850 | 42,869,552,661 | 2015-03-17 23:55:00 | Local-0004 |
+| 1,987 | F     |  777,850 | 42,869,552,661 | 2015-03-17 23:55:00 | Local-0005 |
+| 1,987 | F     |  777,850 | 42,869,552,661 | 2015-03-17 23:55:00 | Local-0006 |
+| 1,987 | F     |  777,850 | 42,869,552,661 | 2015-03-17 23:55:00 | Local-0007 |
+| 1,987 | F     |  777,850 | 42,869,552,661 | 2015-03-17 23:55:00 | Local-0008 |
++-------+-------+----------+----------------+---------------------+------------+
+You have selected the following JobId: 1987
+
+Building directory tree for JobId(s) 1987 ...  ++++++++++++++++++++++++++++++++++++++++++
+661,547 files inserted into the tree.
+
+You are now entering file selection mode where you add (mark) and
+remove (unmark) files to be restored. No files are initially added, unless
+you used the &quot;all&quot; keyword on the command line.
+Enter &quot;done&quot; to leave this mode.
+
+cwd is: /
+$ </pre>
+
+<p>
+Para selecionar um arquivo, utilize o comando <code>mark</code>, podendo-se fazer o uso de expressões regulares. Logo, para efetuar o restore de todos os arquivos, basta digitar <code>mark *</code> e em seguida encere a seleção de arquivos:
+</p>
+<pre class="code">$mark *
+777,850 files marked.
+$done</pre>
+
+<p>
+Agora, iremos especificar em que host devemos escrever as informações recuperadas. Pode-se restaurar os arquivos diretamente no servidor de origem ou em qualquer outro host:
+</p>
+<pre class="code">$ done
+Bootstrap records written to /var/lib/bacula/bacula-dir.restore.1.bsr
+
+The job will require the following
+   Volume(s)                 Storage(s)                SD Device(s)
+===========================================================================
+   
+    Local-0004                bacula-sd0                FileStorage              
+    Local-0005                bacula-sd0                FileStorage              
+    Local-0006                bacula-sd0                FileStorage              
+    Local-0007                bacula-sd0                FileStorage              
+    Local-0008                bacula-sd0                FileStorage              
+
+Volumes marked with &quot;*&quot; are online.
+
+
+777,850 files selected to be restored.
+
+The defined Restore Job resources are:
+     1: Restore: apache
+     2: Restore: dl-virtual
+     3: Restore: gforge
+     4: Restore: gitlab
+     5: Restore: h-apache
+     6: Restore: h-mysql
+     7: Restore: interred
+     8: Restore: listas
+     9: Restore: mysql
+    10: Restore: nginx
+    11: Restore: ns1
+    12: Restore: pgsql
+    13: Restore: sisae
+    14: Restore: sisdoc
+    15: Restore: siseve
+    16: Restore: suap
+    17: Restore: ul-virtual
+    18: Restore: virtual
+    19: Restore: Zimbra
+Select Restore Job (1-19): </pre>
+
+<p>
+No caso deste artigo, iremos efetuar a recuperação das informações no host <code>ufc.ifce.edu.br</code>, o conjunto de arquivos salvos descrito pelo job <code>Restore: apache</code>, selecionando a opção <code>1</code>:
+</p>
+<pre class="code">Select Restore Job (1-19): 1
+Run Restore job
+JobName:         Restore: apache
+Bootstrap:       /var/lib/bacula/bacula-dir.restore.1.bsr
+Where:           /opt/bacula/restores
+Replace:         always
+FileSet:         apache
+Backup Client:   apache
+Restore Client:  apache
+Storage:         bacula-sd0
+When:            2015-03-18 20:44:21
+Catalog:         MyCatalog
+Priority:        10
+Plugin Options:  *None*
+OK to run? (yes/mod/no): </pre>
+
+<p>
+Para recuperar as informações em um host diferente do host em questão, modifique com o comando <code>mod</code> o Job a ser executado, a opção Restore Client :
+</p>
+<pre class="code">OK to run? (yes/mod/no): mod
+Parameters to modify:
+     1: Level
+     2: Storage
+     3: Job
+     4: FileSet
+     5: Restore Client
+     6: When
+     7: Priority
+     8: Bootstrap
+     9: Where
+    10: File Relocation
+    11: Replace
+    12: JobId
+    13: Plugin Options
+Select parameter to modify (1-13): 5
+The defined Client resources are:
+     1: bacula
+     2: ufc
+     3: bacula-sd0
+     4: apache
+     5: dl-virtual
+     6: gforge
+     7: gitlab
+     8: h-apache
+     9: h-mysql
+    10: interred
+    11: listas
+    12: mysql
+    13: nginx
+    14: ns1
+    15: pgsql
+    16: sisae
+    17: sisdoc
+    18: siseve
+    19: suap
+    20: ul-virtual
+    21: virtual
+    22: zimbra
+Select Client (File daemon) resource (1-22): 2</pre>
+
+<p>
+Após a modificação descrita acima, chega a hora de inciar o Job:
+</p>
+<pre class="code">Run Restore job
+JobName:         Restore: apache
+Bootstrap:       /var/lib/bacula/bacula-dir.restore.1.bsr
+Where:           /opt/bacula/restores
+Replace:         always
+FileSet:         apache
+Backup Client:   apache
+Restore Client:  ufc
+Storage:         bacula-sd0
+When:            2015-03-18 20:44:21
+Catalog:         MyCatalog
+Priority:        10
+Plugin Options:  *None*
+OK to run? (yes/mod/no): yes</pre>
+
+<p>
+Pode-se acompanhar o andamento do <code>Job</code> autenticado em nossa VPN <code>pptp.ifce.edu.br</code> via <a href="http://bacula-web.ifce.edu.br/jobs.php" class="urlextern" title="http://bacula-web.ifce.edu.br/jobs.php"  rel="nofollow">bacula-web</a>:
+<a href="/lib/exe/detail.php?id=infraestrura%3Abacula&amp;media=undefined:screen_shot_2015-03-18_at_8.57.48_pm.png" class="media" title="undefined:screen_shot_2015-03-18_at_8.57.48_pm.png"><img src="/lib/exe/fetch.php?w=500&amp;tok=d4d81b&amp;media=undefined:screen_shot_2015-03-18_at_8.57.48_pm.png" class="mediacenter" alt="" width="500" /></a>
+</p>
+
+<p>
+Quando a recuperação terminar, os arquivos estarão disponíveis no host de destino apontado como <code>Restore Client</code> logo acima:
+</p>
+<pre class="code">root@ufc:~# ls -lah /opt/bacula/restores/var/www/sites
+total 344K
+drwxr-xr-x. 86 root                  root   4.0K Mar 18 20:54 .
+drwxr-xr-x.  7 root                  root   4.0K Mar 18 20:54 ..
+drwxrwx---.  3 acarau                apache 4.0K Sep 20  2012 acarau
+[...]
+drwxrwx---.  3 www                   apache 4.0K Sep 26  2013 www
+drwxr-xr-x.  3 root                  root   4.0K Dec  8 11:15 www2</pre>
+
+</div>
+<!-- EDIT9 SECTION "Restaurando um Backup" [5024-13577] -->
+<h3 class="sectionedit10" id="referencias">Referências</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> <a href="http://blog.bacula.org/documentation/" class="urlextern" title="http://blog.bacula.org/documentation/"  rel="nofollow">http://blog.bacula.org/documentation/</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.bacula-web.org/docs.html" class="urlextern" title="http://www.bacula-web.org/docs.html"  rel="nofollow">http://www.bacula-web.org/docs.html</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://help.ubuntu.com/community/Bacula" class="urlextern" title="https://help.ubuntu.com/community/Bacula"  rel="nofollow">https://help.ubuntu.com/community/Bacula</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://packages.ubuntu.com/trusty/bacula" class="urlextern" title="http://packages.ubuntu.com/trusty/bacula"  rel="nofollow">http://packages.ubuntu.com/trusty/bacula</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT10 SECTION "Referências" [13578-13773] -->
+<h3 class="sectionedit11" id="assinatura">Assinatura</h3>
+<div class="level3">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Luca do Amaral Saboya</a> 2015/03/18 17:24</em>
+</p>
+
+</div>
+<!-- EDIT11 SECTION "Assinatura" [13774-] -->

@@ -1,0 +1,163 @@
+
+<h1 class="sectionedit1" id="gitlab">Gitlab</h1>
+<div class="level1">
+
+<p>
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de repositórios de código. Gitlab é um repositório Git integrado com um motor de wiki e feramentas de rastreio de problemas baseado na web. O Gitlab é similar ao GitHub, porém fazendo uso de software livre e disponiblizado sob a mesma liçenca - ao contrário do GitHub. O gitlab foi escrito em Ruby pelos ucranianos Dmitriy Zaporozhets e Sytse Sijbrandij.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Gitlab" [1-532] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: gitlab.ifce.edu.br
+IPv4: 200.17.33.22
+OS: 14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; gitlab
+vCPU&#039;s: 4
+RAM: 4GiB
+HDD: 120GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [533-776] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">openssh-server-1:6.6p1-2ubuntu2
+sendmail-base-8.14.4-4.1ubuntu1
+sendmail-bin-8.14.4-4.1ubuntu1
+sendmail-cf-8.14.4-4.1ubuntu1</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [777-963] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O Gitlab pode ser instalado via dpkg e suas dependências resolvidas via apt-get:
+Resolvendo as dependências do Gitlab:
+</p>
+<pre class="code">operador@gitlab:~$ sudo apt-get update; sudo apt-get upgrade -y
+operador@gitlab:~$ sudo apt-get install openssh-server sendmail-base sendmail-bin sendmail-cf</pre>
+
+<p>
+Obtendo o pacote do Gitlab e instalando-o:
+</p>
+<pre class="code">operador@gitlab:~$ wget https://downloads-packages.s3.amazonaws.com/ubuntu-14.04/gitlab_7.9.2-omnibus-1_amd64.deb
+operador@gitlab:~$ sudo dpkg -i gitlab_7.9.2-omnibus-1_amd64.deb
+operador@gitlab:~$ sudo gitlab-ctl reconfigure</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [964-1566] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Listar a estrutura de diretórios aqui:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/opt/gitlab</code> - Arquivos fonte do Gitlab</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/gitlab</code> - Arquivos de configuração do Gitlab</div>
+</li>
+<li class="level1"><div class="li"> </div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/etc/gitlab</code>, os arquivos de configuração do Gitlab
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [1567-1873] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico">Iniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do Gitlab através do comando:
+</p>
+<pre class="code">operador@gitlab:~$/opt/gitlab/bin/./gitlab-ctl start</pre>
+
+</div>
+
+<h4 id="parando_o_servico">Parando o serviço</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do Gitlab através do comando:
+</p>
+<pre class="code">operador@gitlab:~$/opt/gitlab/bin/./gitlab-ctl stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico">Reiniciando o serviço</h4>
+<div class="level4">
+
+<p>
+Reincia-se o serviço do Gitlab através do comando:
+</p>
+<pre class="code">operador@gitlab:~$/opt/gitlab/bin/./gitlab-ctl restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [1874-2347] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:gitlab&amp;codeblock=7" title="Download Snippet" class="mediafile mf_rb">gitlab.rb</a></dt>
+<dd><pre class="code file ruby"><span class="co1"># Change the external_url to the address your users will type in their browser</span>
+external_url <span class="st0">'http://gitlab.ifce.edu.br'</span>
+&nbsp;
+<span class="co1"># LDAP</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_enabled'</span><span class="br0">&#93;</span> = <span class="kw2">true</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_host'</span><span class="br0">&#93;</span> = <span class="st0">&quot;200.17.33.66&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_base'</span><span class="br0">&#93;</span> = <span class="st0">&quot;OU=DGTI,OU=REITORIA,OU=IFCE,DC=adproducao,DC=ifce,DC=edu,DC=br&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_port'</span><span class="br0">&#93;</span> = <span class="st0">&quot;389&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_uid'</span><span class="br0">&#93;</span> = <span class="st0">&quot;sAMAccountName&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_method'</span><span class="br0">&#93;</span> = <span class="st0">&quot;plain&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_bind_dn'</span><span class="br0">&#93;</span> = <span class="st0">&quot;cn=gitlab1,cn=Users,dc=adproducao,dc=ifce,dc=edu,dc=br&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'ldap_password'</span><span class="br0">&#93;</span> = <span class="st0">&quot;5PNDi39SU84eeOF&quot;</span>
+<span class="co1">#gitlab_rails['ldap_use_filter']=&quot;OU=DGTI,OU=DIS,OU=REITORIA,OU=IFCE,DC=adproducao,DC=ifce,DC=edu,DC=br&quot;</span>
+&nbsp;
+<span class="co1"># SMTP</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_enable'</span><span class="br0">&#93;</span> = <span class="kw2">true</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_address'</span><span class="br0">&#93;</span> = <span class="st0">&quot;zimbra.ifce.edu.br&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_port'</span><span class="br0">&#93;</span> = <span class="nu0">587</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_user_name'</span><span class="br0">&#93;</span> = <span class="st0">&quot;gitlab.dgti@ifce.edu.br&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_password'</span><span class="br0">&#93;</span> = <span class="st0">&quot;SENHA_DISPONIVEL_NO_1PASSWORD&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_domain'</span><span class="br0">&#93;</span> = <span class="st0">&quot;ifce.edu.br&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_authentication'</span><span class="br0">&#93;</span> = <span class="st0">&quot;plain&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_enable_starttls_auto'</span><span class="br0">&#93;</span> = <span class="kw2">true</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'smtp_openssl_verify_mode'</span><span class="br0">&#93;</span>  = <span class="st0">&quot;none&quot;</span>
+gitlab_rails<span class="br0">&#91;</span><span class="st0">'gitlab_email_from'</span><span class="br0">&#93;</span> = <span class="st0">'gitlab.dgti@ifce.edu.br'</span></pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [2348-3576] -->
+<h2 class="sectionedit8" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="https://about.gitlab.com/downloads/" class="urlextern" title="https://about.gitlab.com/downloads/"  rel="nofollow">gitlab.com</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT8 SECTION "Referências" [3577-3656] -->
+<h2 class="sectionedit9" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Lucas do Amaral Saboya</a> 2015/04/06 12:27</em>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Assinatura" [3657-] -->

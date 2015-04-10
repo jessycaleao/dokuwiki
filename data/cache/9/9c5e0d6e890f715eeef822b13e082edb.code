@@ -1,0 +1,106 @@
+<span class="co1"># -*- python -*-</span>
+&nbsp;
+<span class="co1"># Copyright (C) 1998,1999,2000 by the Free Software Foundation, Inc.</span>
+<span class="co1">#</span>
+<span class="co1"># This program is free software; you can redistribute it and/or</span>
+<span class="co1"># modify it under the terms of the GNU General Public License</span>
+<span class="co1"># as published by the Free Software Foundation; either version 2</span>
+<span class="co1"># of the License, or (at your option) any later version.</span>
+<span class="co1"># </span>
+<span class="co1"># This program is distributed in the hope that it will be useful,</span>
+<span class="co1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="co1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="co1"># GNU General Public License for more details.</span>
+<span class="co1"># </span>
+<span class="co1"># You should have received a copy of the GNU General Public License</span>
+<span class="co1"># along with this program; if not, write to the Free Software </span>
+<span class="co1"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA</span>
+<span class="co1"># 02110-1301 USA</span>
+&nbsp;
+&nbsp;
+<span class="st0">&quot;&quot;&quot;This is the module which takes your site-specific settings.
+&nbsp;
+From a raw distribution it should be copied to mm_cfg.py.  If you
+already have an mm_cfg.py, be careful to add in only the new settings
+you want.  The complete set of distributed defaults, with annotation,
+are in ./Defaults.  In mm_cfg, override only those you want to
+change, after the
+&nbsp;
+  from Defaults import *
+&nbsp;
+line (see below).
+&nbsp;
+Note that these are just default settings - many can be overridden via the
+admin and user interfaces on a per-list or per-user basis.
+&nbsp;
+Note also that some of the settings are resolved against the active list
+setting by using the value as a format string against the
+list-instance-object's dictionary - see the distributed value of
+DEFAULT_MSG_FOOTER for an example.&quot;&quot;&quot;</span>
+&nbsp;
+&nbsp;
+<span class="co1">#######################################################</span>
+<span class="co1">#    Here's where we get the distributed defaults.    #</span>
+&nbsp;
+<span class="kw1">from</span> Defaults <span class="kw1">import</span> *
+&nbsp;
+<span class="co1">##############################################################</span>
+<span class="co1"># Put YOUR site-specific configuration below, in mm_cfg.py . #</span>
+<span class="co1"># See Defaults.py for explanations of the values.            #</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># The name of the list Mailman uses to send password reminders</span>
+<span class="co1"># and similar. Don't change if you want mailman-owner to be</span>
+<span class="co1"># a valid local part.</span>
+MAILMAN_SITE_LIST <span class="sy0">=</span> <span class="st0">'mailman'</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># If you change these, you have to configure your http server</span>
+<span class="co1"># accordingly (Alias and ScriptAlias directives in most httpds)</span>
+DEFAULT_URL_PATTERN <span class="sy0">=</span> <span class="st0">'http://%s/cgi-bin/mailman/'</span>
+PRIVATE_ARCHIVE_URL <span class="sy0">=</span> <span class="st0">'/cgi-bin/mailman/private'</span>
+IMAGE_LOGOS         <span class="sy0">=</span> <span class="st0">'/images/mailman/'</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Default domain for email addresses of newly created MLs</span>
+DEFAULT_EMAIL_HOST <span class="sy0">=</span> <span class="st0">'listas.ifce.edu.br'</span>
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Default host for web interface of newly created MLs</span>
+DEFAULT_URL_HOST   <span class="sy0">=</span> <span class="st0">'listas.ifce.edu.br'</span>
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Required when setting any of its arguments.</span>
+add_virtualhost<span class="br0">&#40;</span>DEFAULT_URL_HOST<span class="sy0">,</span> DEFAULT_EMAIL_HOST<span class="br0">&#41;</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># The default language for this server.</span>
+DEFAULT_SERVER_LANGUAGE <span class="sy0">=</span> <span class="st0">'pt_BR'</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Iirc this was used in pre 2.1, leave it for now</span>
+USE_ENVELOPE_SENDER    <span class="sy0">=</span> <span class="nu0">0</span>              <span class="co1"># Still used?</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Unset send_reminders on newly created lists</span>
+DEFAULT_SEND_REMINDERS <span class="sy0">=</span> <span class="nu0">0</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Uncomment this if you configured your MTA such that it</span>
+<span class="co1"># automatically recognizes newly created lists.</span>
+<span class="co1"># (see /usr/share/doc/mailman/README.Exim4.Debian or</span>
+<span class="co1"># /usr/share/mailman/postfix-to-mailman.py)</span>
+<span class="co1"># MTA=None   # Misnomer, suppresses alias output on newlist</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Uncomment if you use Postfix virtual domains (but not</span>
+<span class="co1"># postfix-to-mailman.py), but be sure to see</span>
+<span class="co1"># /usr/share/doc/mailman/README.Debian first.</span>
+<span class="co1"># MTA='Postfix'</span>
+&nbsp;
+<span class="co1">#-------------------------------------------------------------</span>
+<span class="co1"># Uncomment if you want to filter mail with SpamAssassin. For</span>
+<span class="co1"># more information please visit this website:</span>
+<span class="co1"># http://www.jamesh.id.au/articles/mailman-spamassassin/</span>
+<span class="co1"># GLOBAL_PIPELINE.insert(1, 'SpamAssassin')</span>
+&nbsp;
+<span class="co1"># Note - if you're looking for something that is imported from mm_cfg, but you</span>
+<span class="co1"># didn't find it above, it's probably in /usr/lib/mailman/Mailman/Defaults.py.</span>

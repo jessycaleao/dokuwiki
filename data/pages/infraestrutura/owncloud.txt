@@ -1,0 +1,115 @@
+====== ownCloud ======
+ownCloud é um serviço de sincronia de dados via ''WEBDAV'' que provê, clientes multiplataforma, interface web para gerência de configurações e de arquivos e controle de acesso. Utilizamos o ownCloud na arquitetura da Diretoria de Ensino a Distância para publicar as aulas geradas pelos diagramadores WEB de maneira rápida e escalável. O Moodle, faz uso do ownCloud como um repositório onde os arquivos submetidos via ownCloud, serão acessados pelos alunos de maneira transparente.
+
+===== Configurações da VPS =====
+<code>
+Hostname: dl-virtual.ifce.edu.br
+IPv4: 200.17.33.49
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> dl-virtual
+vCPU's: 2
+RAM: 4GiB
+HDD: 500GiB
+</code>
+
+===== Software utilizados pelo serviço =====
+<code>
+owncloud-7.0.4-3
+vim-2:7.4.052-1ubuntu3
+apache2-2.4.7-1ubuntu4.4
+php-aws-sdk-2.5.2-1
+php-dompdf-0.6.0~beta3+dfsg0-1
+php-pear-5.5.9+dfsg-1ubuntu4.7
+php-phpdocx-3.0+dfsg-1
+php-xml-parser-1.3.4-6
+php5-5.5.9+dfsg-1ubuntu4.7
+php5-apcu-4.0.2-2build1
+php5-cli-5.5.9+dfsg-1ubuntu4.7
+php5-common-5.5.9+dfsg-1ubuntu4.7
+php5-curl-5.5.9+dfsg-1ubuntu4.7
+php5-gd-5.5.9+dfsg-1ubuntu4.7
+php5-imagick-3.1.2-1build1
+php5-intl-5.5.9+dfsg-1ubuntu4.7
+php5-json-1.3.2-2build1
+php5-ldap-5.5.9+dfsg-1ubuntu4.5
+php5-mcrypt-5.4.6-0ubuntu5
+php5-mysql-5.5.9+dfsg-1ubuntu4.7
+php5-mysqlnd-5.3.10-1ubuntu3.9
+php5-oauth-1.2.3-1build1
+php5-pgsql-5.5.9+dfsg-1ubuntu4.7
+php5-readline-5.5.9+dfsg-1ubuntu4.7
+php5-sqlite-5.5.9+dfsg-1ubuntu4.7
+php5-tidy-5.5.9+dfsg-1ubuntu4.5
+php5-xsl-5.5.9+dfsg-1ubuntu4.5
+mysql-server (mysql.ifce.edu.br)
+</code>
+
+===== Instalação =====
+O ownCloud pode ser instalado via apt-get, com a adição de seu repositório oficial:
+<code>
+wget http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_12.04/Release.key
+sudo apt-key add - < Release.keyecho 'deb http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_12.04/ /' | sudo tee -a /etc/apt/sources.list.d/owncloud.list
+sudo apt-get update
+sudo apt-get install vim apache2 owncloud php-aws-sdk php-dompdf php-pear php-phpdocx php-xml-parser php5 php5-apcu php5-cli php5-common php5-curl php5-gd php5-imagick php5-intl php5-json php5-ldap php5-mcrypt php5-mysql php5-mysqlnd php5-oauth php5-pgsql php5-readline php5-sqlite php5-tidy php5-xsl
+</code>
+
+===== Estrutura de diretórios =====
+Listar a estrutura de diretórios aqui:
+  * ''/var/www/owncloud'' - Arquivos da interface web servidor pelo Apache2;
+  * ''/var/lib/owncloud/data'' - Arquivos submetidos pelos clientes;
+  * ''/etc/owncloud/'' - Arquivos de configuração do serviço ownCloud;
+  * ''/var/log/owncloud.log'' - Arquivo de log do serviço;
+  * ''/etc/logrotate.d/owncloud'' - Arquivo de configuração do logrotate para os logs gerados pelo serviço;
+
+=== Arquivos de configuração ===
+Encontram-se no diretório ''/etc/owncloud/'', os arquivos de configuração do serviço e symlinks para arquivos de configuração da interface web.
+==== Operando o serviço ====
+Por ser baseado em WEBDAV, o owncloud não necessita de daemon especifico rodando. Ele é uma aplicação web, por tanto, opera-se o serviço do Apache2. 
+=== Iniciando o serviço ===
+Incia-se o serviço do Apache2 através do comando:
+<code>sudo service apache2 start</code>
+
+=== Parando o serviço ===
+Para-se o serviço do Apache2 através do comando:
+<code>sudo service apache2 stop</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do Apache2 através do comando:
+<code>sudo service apache2 restart</code>
+
+==== Arquivos de configuração ====
+Arquivo de configuração do ownCloud web client:
+<file php owncloud.conf>
+<?php
+$CONFIG = array (
+  'instanceid' => 'oc49cfc91e57',
+  'passwordsalt' => '045ef77e6ef54eeb135a165a03a868',
+  'datadirectory' => '/usr/share/owncloud/data',
+  'dbtype' => 'sqlite3',
+  'version' => '6.0.0.16',
+  'appstoreenabled' => false,
+  'apps_paths' => 
+  array (
+    0 => 
+    array (
+      'path' => '/usr/share/owncloud/apps',
+      'url' => '/apps',
+      'writable' => false,
+    ),
+  ),
+  'dbname' => 'dl-virtual',
+  'dbhost' => 'mysql.ifce.edu.br',
+  'dbtableprefix' => 'oc_',
+  'dbuser' => 'dl-virtual',
+  'dbpassword' => 'senha_disponivel_no_1password',
+  'installed' => true,
+  'maxZipInputSize' => 0,
+  'allowZipDownload' => true,
+);
+</file>
+
+===== Referências =====
+  * [[https://doc.owncloud.org/server/8.0/admin_manual/|owncloud.org]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Luca do Amaral Saboya]] 2015/03/24 13:50//

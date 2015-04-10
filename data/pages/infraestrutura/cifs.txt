@@ -1,0 +1,28 @@
+====== Common Internet File System (CIFS) ======
+O Common Internet File System (CIFS) é o padrão para usários compartilharem arquivos através de redes corporativas e a Internet. Uma versão melhorada da versão de código fonte aberto do protocolo multiplataforma da Microsoft ''Server Message Block'' (SMB), o CIFS é o padrão nativo de compartilhamento de diretório desde o ''Windows 2000''.
+
+===== Plataforma Suportadas =====
+Algumas das plataformas suportadas pelo protocolo CIFS:
+  * Microsoft Windows 2000, Microsoft® Windows NT®, Microsoft® Windows® 98, Microsoft® Windows® 95
+  * Microsoft® OS/2 LAN Manager
+  * Microsoft® Windows® for Workgroups
+  * UNIX
+  * LINUX
+  * VMS
+  * Macintosh
+  * IBM LAN Server
+  * DEC PATHWORKS
+  * Microsoft® LAN Manager for UNIX
+  * 3Com 3+Open
+  * MS-Net
+
+===== Arquitetura da plataforma =====
+
+O CIFS complementa o Hypertext Transfer Protocol (HTTP) ao mesmo tempo que provê transferência e compartilhamento de arquivos de uma maneira mais sofisticada do que protocolos mais antigos, como o FTP. Como o CIFS serve uma requisição feita por um usuário para um servidor na rede pode ser visto na imagem abaixo (Clique para Ampliar):
+{{:infraestrutura:ic213243.gif|}}
+
+===== Referências =====
+  * [[https://technet.microsoft.com/en-us/library/cc939973.aspx|Microsoft.com]]
+
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/02 15:02//

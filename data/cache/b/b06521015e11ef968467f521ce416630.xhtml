@@ -1,0 +1,538 @@
+
+<h1 class="sectionedit1" id="cacti">Cacti</h1>
+<div class="level1">
+
+<p>
+Cacti é uma ferramenta de geração de gráficos desenhada para fazer uso da robustez do modelo de armazenamento de dados do RRDTool e plota-los de maneira funcional e elegante. Cacti provem um poller, modelos de gráficos avançados, multiplos métodos de aquisições de informação e gerenciamento de usuários por padrão. Tuda essa suíte vem embalada em uma intiuitiva e de fácil uso interface que faz sentido desde instalações mínimas as mais complexas.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Cacti" [1-487] -->
+<h2 class="sectionedit2" id="configuracoes_da_vps">Configurações da VPS</h2>
+<div class="level2">
+<pre class="code">Hostname: cacti.ifce.edu.br
+IPv4: 200.17.33.19
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -&gt; ifce.edu.br -&gt; HP BladeSystem -&gt; cacti
+vCPU&#039;s: 1
+RAM: 1GiB
+HDD: 10GiB</pre>
+
+</div>
+<!-- EDIT2 SECTION "Configurações da VPS" [488-735] -->
+<h2 class="sectionedit3" id="software_utilizados_pelo_servico">Software utilizados pelo serviço</h2>
+<div class="level2">
+<pre class="code">cacti-0.8.8b+dfsg-3
+cacti-spine-0.8.8a-3
+vim-2:7.4.000-1ubuntu2
+rrdtool-1.4.7-2ubuntu2
+php5-snmp-5.5.3+dfsg-1ubuntu2.6
+snmpd-5.7.2~dfsg-8ubuntu1.1
+snmp-mibs-downloader-1.1
+apache2-2.4.6-2ubuntu2.2
+ntp-1:4.2.6.p5+dfsg-3ubuntu2</pre>
+
+</div>
+<!-- EDIT3 SECTION "Software utilizados pelo serviço" [736-1023] -->
+<h2 class="sectionedit4" id="instalacao">Instalação</h2>
+<div class="level2">
+
+<p>
+O cacti pode ser instalado via apt-get com o comando:
+</p>
+<pre class="code">sudo apt-get install ntp cacti vim cacti-spine rrdtool php php5-snmp snmpd snmp-mibs-downloader apache2</pre>
+
+</div>
+<!-- EDIT4 SECTION "Instalação" [1024-1222] -->
+<h2 class="sectionedit5" id="estrutura_de_diretorios">Estrutura de diretórios</h2>
+<div class="level2">
+
+<p>
+Os diretórios relacionados ao serviço são:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>/var/lib/cacti/rra/</code> - Arquivos RRD referentes as informações obtidas</div>
+</li>
+<li class="level1"><div class="li"> <code>/usr/share/cacti/site</code> - Arquivos da interface web servidor pelo Apache2</div>
+</li>
+<li class="level1"><div class="li"> <code>/usr/share/cacti/cli</code> - Arquivos referentes a comandos que devem ser executados <em class="u">APENAS</em> pela interface de linha de comando - cli</div>
+</li>
+<li class="level1"><div class="li"> <code>/etc/cacti</code> - Arquivos de configuração do spine</div>
+</li>
+<li class="level1"><div class="li"> <code>/var/log/cacti/</code> - Arquivos de log</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="arquivos_de_configuracao">Arquivos de configuração</h4>
+<div class="level4">
+
+<p>
+Encontram-se no diretório <code>/etc/cacti</code> e <code>/etc/snmp</code>, os arquivos de configuração do cacti e do snmp.
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Estrutura de diretórios" [1223-1847] -->
+<h3 class="sectionedit6" id="operando_o_servico">Operando o serviço</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="iniciando_o_servico_snmp">Iniciando o serviço snmp</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do snmp através do comando:
+</p>
+<pre class="code">sudo service snmpd start</pre>
+
+</div>
+
+<h4 id="iniciando_o_servico_apache">Iniciando o serviço Apache</h4>
+<div class="level4">
+
+<p>
+Inicia-se o serviço do Apache através do comando:
+</p>
+<pre class="code">sudo service apache2 start</pre>
+
+</div>
+
+<h4 id="parando_o_servico_snmp">Parando o serviço snmp</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do snmp através do comando:
+</p>
+<pre class="code">sudo service snmpd stop</pre>
+
+</div>
+
+<h4 id="parando_o_servico_apache">Parando o serviço Apache</h4>
+<div class="level4">
+
+<p>
+Para-se o serviço do Apache através do comando:
+</p>
+<pre class="code">sudo service apache2 stop</pre>
+
+</div>
+
+<h4 id="reiniciando_o_servico_snmp">Reiniciando o serviço snmp</h4>
+<div class="level4">
+
+<p>
+Reinicia-se o serviço do snmp através do comando:
+</p>
+<pre class="code">sudo service snmpd restart</pre>
+
+</div>
+
+<h4 id="parando_o_servico_apache1">Parando o serviço Apache</h4>
+<div class="level4">
+
+<p>
+Reinicia-se o serviço do Apache através do comando:
+</p>
+<pre class="code">sudo service apache2 restart</pre>
+
+</div>
+<!-- EDIT6 SECTION "Operando o serviço" [1848-2628] -->
+<h3 class="sectionedit7" id="arquivos_de_configuracao1">Arquivos de configuração</h3>
+<div class="level3">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:cacti&amp;codeblock=9" title="Download Snippet" class="mediafile mf_conf">spine.conf</a></dt>
+<dd><pre class="code file conf">&nbsp;</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:cacti&amp;codeblock=10" title="Download Snippet" class="mediafile mf_conf">snmpd.conf</a></dt>
+<dd><pre class="code file conf">###############################################################################
+#
+#  AGENT BEHAVIOUR
+#  Listen for connections from the local system only
+agentAddress  udp:127.0.0.1:161
+#  Listen for connections on all interfaces (both IPv4 *and* IPv6)
+#agentAddress udp:161,udp6:[::1]:161
+&nbsp;
+&nbsp;
+###############################################################################
+#
+#  ACCESS CONTROL
+#
+view   systemonly  included   .1.3.6.1.2.1.1
+view   systemonly  included   .1.3.6.1.2.1.25.1
+rocommunity public  default    -V systemonly
+rouser   authOnlyUser
+&nbsp;
+###############################################################################
+#
+#  SYSTEM INFORMATION
+#
+sysLocation    Instituto Federal de Educacao Ciencia e Tecnologia do Ceara
+sysContact     DGTI &lt;suporte.devops@ifce.edu.br&gt;
+sysServices    72
+&nbsp;
+&nbsp;
+#
+#  Process Monitoring
+#
+proc  mountd
+proc  ntalkd    4
+proc  sendmail 10 1
+&nbsp;
+disk       /     10000
+disk       /var  5%
+includeAllDisks  10%
+load   12 10 5
+&nbsp;
+&nbsp;
+###############################################################################
+#
+#  ACTIVE MONITORING
+#
+&nbsp;
+ trapsink     localhost public
+###############################################################################
+#  Event MIB - automatically generate alerts
+#
+iquerySecName   internalUser       
+rouser          internalUser
+defaultMonitors          yes
+linkUpDownNotifications  yes
+&nbsp;
+###############################################################################
+#
+#  EXTENDING THE AGENT
+#  Arbitrary extension commands
+#
+ extend    test1   /bin/echo  Hello, world!
+ extend-sh test2   echo Hello, world! ; echo Hi there ; exit 35
+#
+#  AgentX Sub-agents
+#
+ master          agentx</pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:cacti&amp;codeblock=11" title="Download Snippet" class="mediafile mf_conf">spine.conf</a></dt>
+<dd><pre class="code file conf">DB_Host         mysql.ifce.edu.br
+DB_Database     cacti
+DB_User         cacti
+DB_Pass         senha-encontra-se-no-1password</pre>
+</dd></dl>
+
+</div>
+
+<h4 id="interface_web">Interface web</h4>
+<div class="level4">
+
+<p>
+A interface web do cacti, faz uso do seguinte arquivo:
+</p>
+<pre class="code">operador@cacti:~$ ls -lah /usr/share/cacti/site/include | grep config.php
+lrwxrwxrwx 1 root root   21 Aug 30  2013 config.php -&gt; /etc/cacti/debian.php
+operador@cacti:~$ </pre>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:cacti&amp;codeblock=13" title="Download Snippet" class="mediafile mf_php">debian.php</a></dt>
+<dd><pre class="code file php"><span class="kw2">&lt;?php</span>
+<span class="coMULTI">/*
+ Debian note:
+ This file is based on and replaces the include/config.php file normaly
+ found in the cacti source. Most cacti configuration is done via the
+ web-interface and stored in a mysql database, however, some things need
+ to be defined or can be overwritten here.
+&nbsp;
+ Database access settings are automatically generated from 
+ /etc/dbconfig-common/cacti.conf by /usr/sbin/dbconfig-generate-include
+&nbsp;
+ By default this file is managed via ucf, so you shouldn't have to
+ worry about manual changes being silently discarded.  *However*,
+ you'll probably also want to edit the configuration file mentioned
+ above too.
+*/</span>
+&nbsp;
+<span class="coMULTI">/* make sure these values refect your actual database/host/user/password */</span>
+<span class="re0">$database_type</span> <span class="sy0">=</span> <span class="st0">&quot;mysql&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_default</span> <span class="sy0">=</span> <span class="st0">&quot;cacti&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_hostname</span> <span class="sy0">=</span> <span class="st0">&quot;mysql.ifce.edu.br&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_username</span> <span class="sy0">=</span> <span class="st0">&quot;cacti&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_password</span> <span class="sy0">=</span> <span class="st0">&quot;senha-encontra-se-no-1password&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_port</span> <span class="sy0">=</span> <span class="st0">&quot;3306&quot;</span><span class="sy0">;</span>
+<span class="re0">$database_ssl</span> <span class="sy0">=</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+<span class="coMULTI">/*
+   Edit this to point to the default URL of your Cacti install
+   ex: if your cacti install as at http://serverip/cacti/ this
+   would be set to /cacti/
+&nbsp;
+   Debian addition:
+   If used together with a http deamon, it should be configured
+   consistently. Using an empty path makes all links relative.
+*/</span>
+<span class="co1">//$url_path = &quot;/cacti/&quot;;</span>
+&nbsp;
+<span class="coMULTI">/* Default session name - Session name must contain alpha characters */</span>
+<span class="co1">//$cacti_session_name = &quot;Cacti&quot;;</span>
+<span class="re0">$plugins</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$plugins</span><span class="br0">&#91;</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'weathermap'</span><span class="sy0">;</span>
+<span class="sy1">?&gt;</span></pre>
+</dd></dl>
+
+</div>
+<!-- EDIT7 SECTION "Arquivos de configuração" [2629-6249] -->
+<h1 class="sectionedit8" id="interface_web1">Interface web</h1>
+<div class="level1">
+
+<p>
+Utilizamos a interface web do cacti para gerar mapas no estio <code>Weathermap</code>, onde visualizamos de uma maneira holísitca toda a rede monitorada.
+</p>
+
+</div>
+<!-- EDIT8 SECTION "Interface web" [6250-6424] -->
+<h2 class="sectionedit9" id="criando_os_nos">Criando os nós</h2>
+<div class="level2">
+
+<p>
+Antes de mais nada, precisamos adicionar as rotinas do cacti, os nós os quais ele deve monitorar. Para tal tarefa, acesse a interface web do cacti:
+<a href="http://cacti.ifce.edu.br/" class="urlextern" title="http://cacti.ifce.edu.br/"  rel="nofollow">http://cacti.ifce.edu.br/</a>
+Uma vez autenticado - se não tiver credenciais de acesso, solicite-as via <a href="mailto:&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;" class="mail" title="&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;">&#x73;&#x75;&#x70;&#x6f;&#x72;&#x74;&#x65;&#x2e;&#x64;&#x65;&#x76;&#x6f;&#x70;&#x73;&#x40;&#x69;&#x66;&#x63;&#x65;&#x2e;&#x65;&#x64;&#x75;&#x2e;&#x62;&#x72;</a> - no menu lateral esquerdo, abra a interface de gerência de dispositivos: <code>Management</code> → <code>Devices</code>:
+</p>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Acacti&amp;media=infraestrutura:screen_shot_2015-03-24_at_11.57.21_am.png" class="media" title="infraestrutura:screen_shot_2015-03-24_at_11.57.21_am.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=d41b4d&amp;media=infraestrutura:screen_shot_2015-03-24_at_11.57.21_am.png" class="media" alt="" width="200" /></a>
+</p>
+
+<p>
+No canto superior direito, clique em <code>Add</code>:
+</p>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Acacti&amp;media=infraestrutura:screen_shot_2015-03-24_at_1.13.07_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-24_at_1.13.07_pm.png"><img src="/lib/exe/fetch.php?w=600&amp;tok=56f298&amp;media=infraestrutura:screen_shot_2015-03-24_at_1.13.07_pm.png" class="media" alt="" width="600" /></a>
+</p>
+<ul>
+<li class="level1"><div class="li"> No campo <code>Description</code> coloque uma breve descrição do nó a ser monitorado;</div>
+</li>
+<li class="level1"><div class="li"> No campo <code>Hostname</code> coloque o <code>FQDN</code> ou o endereço de IP do nó a ser monitorado;</div>
+</li>
+<li class="level1"><div class="li"> No campo <code>Host Template</code>, selecione o template que melhor se adequa ao nó a ser monitorado;</div>
+</li>
+<li class="level1"><div class="li"> No campo <code>SNMP Version</code>, selecione a opção <code>Version 2</code></div>
+</li>
+<li class="level1"><div class="li"> No campo <code>SNMP Community</code>, coloque a comunidade a qual o nó a ser monitorado pertence;</div>
+</li>
+<li class="level1"><div class="li"> No campo <code>SNMP Port</code>, coloque a porta padrão do protocolo: 161</div>
+</li>
+<li class="level1"><div class="li"> Em seguida clique em  <code>Create</code></div>
+</li>
+</ul>
+
+<p>
+<a href="/lib/exe/detail.php?id=infraestrutura%3Acacti&amp;media=infraestrutura:screen_shot_2015-03-24_at_1.19.47_pm.png" class="media" title="infraestrutura:screen_shot_2015-03-24_at_1.19.47_pm.png"><img src="/lib/exe/fetch.php?w=200&amp;tok=8c117b&amp;media=infraestrutura:screen_shot_2015-03-24_at_1.19.47_pm.png" class="media" alt="" width="200" /></a>
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Criando os nós" [6425-7629] -->
+<h2 class="sectionedit10" id="criando_os_mapas">Criando os mapas</h2>
+<div class="level2">
+
+<p>
+Dentro do diretóio <code>/usr/share/cacti/site/plugins/weathermap/configs</code> estão os arquivos de configuração dos mapas. Para cada arquivo aqui gerado, um novo mapa é gerado na interface web. Neste arquivo, instanciamos os NODES, fazeno referencia aos nós adicionados no passo anterior e em seguida, os LINKS entre os NODES, gerando assim os gráficos no modelo weathermap:
+<a href="/lib/exe/detail.php?id=infraestrutura%3Acacti&amp;media=infraestrutura:weathermap-cacti-plugin.png" class="media" title="infraestrutura:weathermap-cacti-plugin.png"><img src="/lib/exe/fetch.php?w=300&amp;tok=5971a0&amp;media=infraestrutura:weathermap-cacti-plugin.png" class="mediacenter" alt="" width="300" /></a>
+</p>
+
+</div>
+
+<h4 id="exemplo">Exemplo</h4>
+<div class="level4">
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=infraestrutura:cacti&amp;codeblock=14" title="Download Snippet" class="mediafile mf_conf">benfica.conf</a></dt>
+<dd><pre class="code file conf">FONTDEFINE 100 docs/example/Vera.ttf 10
+&nbsp;
+WIDTH 1024
+HEIGHT 900
+HTMLSTYLE overlib
+KEYFONT 1
+TITLE IFCE-Campus-Benfica
+TIMEPOS 805 760 Criado em: %d de %b %Y %H:%M:%S
+KEYPOS DEFAULT 585 800 Utilizacao de Trafego
+KEYSTYLE  DEFAULT horizontal
+KEYTEXTCOLOR 0 0 0
+KEYOUTLINECOLOR 0 0 0
+KEYBGCOLOR 255 255 255
+BGCOLOR 255 255 255
+TITLECOLOR 0 0 0
+TIMECOLOR 0 0 0
+SCALE DEFAULT 0     0.01  0    0    0 
+SCALE DEFAULT 0.02  1	  160  240  75
+SCALE DEFAULT 1     25    160  240  75
+SCALE DEFAULT 25    75    90   160  25  
+SCALE DEFAULT 75    80    235  192  0  
+SCALE DEFAULT 80    90    255  192  0  
+SCALE DEFAULT 90    100   255  90   90  
+&nbsp;
+SET nowarn_clipping 1
+&nbsp;
+# End of global section
+&nbsp;
+&nbsp;
+# TEMPLATE-only NODEs:
+NODE DEFAULT
+	LABELOFFSET S
+	LABELFONT 1
+	MAXVALUE 100
+&nbsp;
+&nbsp;
+# TEMPLATE-only LINKs:
+LINK DEFAULT
+	WIDTH 3
+	ARROWSTYLE compact
+	BWFONT 1
+	BWLABEL none
+	COMMENTSTYLE center
+	VIASTYLE curved
+&nbsp;
+# regular NODEs:
+NODE Internet
+        LABEL Internet
+        INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=296
+        ICON 80 80 images/ifce-internet.png
+        POSITION 30 30
+&nbsp;
+NODE sw-core-ben
+	LABEL sw-core-ben
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=293
+	ICON 60 60 images/ifce-sw-core-extreme-networks.png
+	POSITION 240 165
+&nbsp;
+NODE sw-core-ensino
+	LABEL sw-core-ensino
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=298
+	ICON 60 60 images/ifce-sw-extreme-networks.png
+	POSITION 340 290
+&nbsp;
+NODE r11-sw-dst
+	LABEL r11-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=283
+	ICON 60 60 images/ifce-sw-generico.png
+	POSITION 100 420
+&nbsp;
+NODE dmz-ifce-ben
+	LABEL dmz-ifce-ben
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=299
+	ICON 60 60 images/ifce-sw-generico.png
+	POSITION 430 290
+&nbsp;
+NODE r1-sw-dst
+	LABEL r1-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=297
+	ICON 60 60 images/ifce-sw-generico.png
+	POSITION 165 290
+&nbsp;
+NODE r2-sw-dst
+	LABEL r2-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=253
+	ICON 60 60 images/ifce-sw-generico.png
+	POSITION 200 420
+&nbsp;
+NODE CPQT
+        LABEL CPQT
+        INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=301
+        ICON 60 60 images/ifce-radio.png
+        POSITION 245 290
+&nbsp;
+&nbsp;
+# regular LINKs:
+LINK sw-core-ben-Internet
+        INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=296
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=296
+        TARGET /var/lib/cacti/rra/16/388.rrd
+        NODES sw-core-ben Internet
+        BANDWIDTH 1G 1G
+	VIA 190 50
+&nbsp;
+LINK sw-core-ben-dmz-ifce-ben
+        INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=298
+        OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=298
+        TARGET /var/lib/cacti/rra/16/391.rrd
+        TARGET /var/lib/cacti/rra/16/391.rrd
+        NODES sw-core-ben dmz-ifce-ben
+        BANDWIDTH 1G 1G
+&nbsp;
+LINK sw-core-ben-sw-core-ensino
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=298
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=298
+	TARGET /var/lib/cacti/rra/16/390.rrd
+	NODES sw-core-ben sw-core-ensino
+	BANDWIDTH 1G 1G
+&nbsp;
+LINK sw-core-ben-CPQT
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=301
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=301
+	TARGET /var/lib/cacti/rra/16/393.rrd
+	NODES sw-core-ben CPQT
+	BANDWIDTH 50M 50M
+&nbsp;
+LINK sw-core-ben-r1-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=297
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=297
+	TARGET /var/lib/cacti/rra/16/389.rrd
+	NODES sw-core-ben r1-sw-dst
+	BANDWIDTH 1G 1G
+&nbsp;
+LINK r1-sw-dst-r11-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=283
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=283
+	TARGET /var/lib/cacti/rra/12/284.rrd
+	NODES r1-sw-dst r11-sw-dst
+	BANDWIDTH 300M 300M
+&nbsp;
+LINK r1-sw-dst-r2-sw-dst
+	INFOURL /cacti/graph.php?rra_id=all&amp;local_graph_id=253
+	OVERLIBGRAPH /cacti/graph_image.php?local_graph_id=253
+	TARGET /var/lib/cacti/rra/14/345.rrd
+	NODES r1-sw-dst r2-sw-dst
+	BANDWIDTH 1G 1G
+&nbsp;
+# r1: BBS
+# r2:  Telefonista
+# r3:  Telematica
+# r4:  Industria
+# r5:  Biblioteca
+# r6:  Poliesportivo
+# r7:  Construcao Civil
+# r8:  Quimica
+# r9:  Almoxarifado
+# r10: Artes
+# r11: DGTI
+# r12: CAET
+# r13: ppget</pre>
+</dd></dl>
+
+</div>
+<!-- EDIT10 SECTION "Criando os mapas" [7630-12222] -->
+<h2 class="sectionedit11" id="visualizando_os_mapas">Visualizando os mapas</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT11 SECTION "Visualizando os mapas" [12223-12258] -->
+<h2 class="sectionedit12" id="referencias">Referências</h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.cacti.net/" class="urlextern" title="http://www.cacti.net/"  rel="nofollow">cacti.net</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://www.digitalocean.com/community/tutorials/installing-the-cacti-server-monitor-on-ubuntu-12-04-cloud-server" class="urlextern" title="https://www.digitalocean.com/community/tutorials/installing-the-cacti-server-monitor-on-ubuntu-12-04-cloud-server"  rel="nofollow">digitalocean.com</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT12 SECTION "Referências" [12259-12462] -->
+<h2 class="sectionedit13" id="assinatura">Assinatura</h2>
+<div class="level2">
+
+<p>
+ — <em><a href="mailto:&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;" class="mail" title="&#x6c;&#x75;&#x63;&#x61;&#x73;&#x2e;&#x73;&#x61;&#x62;&#x6f;&#x79;&#x61;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">Luca do Amaral Saboya</a> 2015/03/24 07:19</em>
+</p>
+
+</div>
+<!-- EDIT13 SECTION "Assinatura" [12463-] -->

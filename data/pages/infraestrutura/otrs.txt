@@ -1,0 +1,105 @@
+====== Modelo de documentação de serviço ======
+Virtual Private Server - VPS, hospedado no Cluster VMware localizado na sala de maquinas do Ponto de Presença da RNP/PoP-CE. Atua como servidor de controle de chamados do IFCE .
+
+===== Configurações da VPS =====
+<code>
+Hostname: otrs.ifce.edu.br
+IPv4: 200.17.33.27
+OS: Ubuntu-14.04.1-LTS-amd64
+Username: operador
+Passwd: 1Password @ Dominios -> ifce.edu.br -> HP BladeSystem -> otrs
+vCPU's: 2
+RAM: 2GiB
+HDD: 10GiB
+</code>
+
+===== Software utilizados pelo serviço =====
+<code>
+otrs-3.3.5-1
+otrs2-3.3.5-1
+</code>
+
+===== Instalação =====
+O otrs pode ser instalado via apt-get:
+<code>
+operador@otrs:~$ sudo apt-get update; sudo apt-get install otrs otrs2
+</code>
+
+===== Estrutura de diretórios =====
+Listar a estrutura de diretórios aqui:
+  * ''/usr/share/otrs/'' - Fontes do OTRS
+  * ''/var/lib/otrs/log/'' - Arquivos de log do OTRS
+  * ''/etc/apache2/conf-available/'' - Arquivos de configuração do virtualhost referente a interface web do OTRS
+  * ''/etc/otrs/Kernel/'' - Arquivos de configuração do OTRS
+  * ''/var/lib/otrs/'' - Arquivos binários do OTRS
+
+=== Arquivos de configuração ===
+Encontram-se no diretório ''/etc/otrs/Kernel/'', os arquivos de configuração do OTRS
+==== Operando o serviço ====
+
+=== Iniciando o serviço ===
+Inicia-se o serviço do OTRS através do comando:
+<code>operador@otrs:~$ sudo service otrs2 start</code>
+
+=== Parando o serviço ===
+Para-se o serviço do OTRS através do comando:
+<code>operador@otrs:~$ sudo service otrs2 stop</code>
+
+=== Reiniciando o serviço ===
+Reincia-se o serviço do OTRS através do comando:
+<code>operador@otrs:~$ sudo service otrs2 restart</code>
+==== Arquivos de configuração ====
+<file conf arquivo.conf>
+// Exemplo de arquivo de configuração
+</file>
+
+<file conf Config.pm>
+# --
+# Kernel/Config.pm - Config file for OTRS kernel
+package Kernel::Config;
+use warnings;
+use utf8;
+
+BEGIN {
+        if (-f '/etc/otrs/database.pm') {
+                require '/etc/otrs/database.pm';
+                if ($dbtype eq 'pgsql') {
+                        $dbport ||= '5432';
+                        our $dsn = "DBI:Pg:dbname";
+                }
+                else {
+                        $dbport ||= '3306';
+                        our $dsn = "DBI:mysql:database";
+                }
+        }
+}
+
+sub Load {
+    my $Self = shift;
+
+    # ---------------------------------------------------- #
+    # database settings                                    #
+    # ---------------------------------------------------- #
+    $Self->{DatabaseHost} = $dbserver || 'mysql.ifce.edu.br';
+    $Self->{Database} = $dbname || 'otrs2';
+    $Self->{DatabaseUser} = $dbuser || 'otrs2';
+    $Self->{DatabasePw} = $dbpass || 'DISPONIVEL_NO_1PASSWORD';
+    $Self->{DatabaseDSN} = "$dsn=$Self->{Database};host=$Self->{DatabaseHost};port=$dbport;";
+    # ---------------------------------------------------- #
+    # fs root directory
+    # ---------------------------------------------------- #
+    $Self->{Home} = '/usr/share/otrs';
+    # switch off the web based installer for the Debian package
+    $Self->{SecureMode} = 1;
+}
+
+use base qw(Kernel::Config::Defaults);
+
+# -----------------------------------------------------#
+
+1;
+~    </file>
+===== Referências =====
+  * [[http://otrs.github.io/doc/ | otrs.github.io]]
+===== Assinatura =====
+ --- //[[lucas.saboya@gmail.com|Lucas do Amaral Saboya]] 2015/04/08 07:08//
